@@ -6,7 +6,6 @@
 ///////////////////////////////////////////////////////////////////////////
 #include "images/logo.xpm"
 #include "BFrame.h"
-#include "event_enum.h"
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -52,18 +51,26 @@ BFrame::BFrame( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	CloseBoxbSizer = new wxBoxSizer( wxHORIZONTAL );
 	
 	Minimize_bpButton = new wxBitmapButton( this, ID_Minimize, wxBitmap( wxT("images/btn_minimize.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxSize( 20,20 ), wxBU_AUTODRAW|wxNO_BORDER );
+	Minimize_bpButton->SetToolTip( wxT("Minimize") );
+	
 	CloseBoxbSizer->Add( Minimize_bpButton, 0, wxALL, 3 );
 	
 	Maximize_bpButton = new wxBitmapButton( this, ID_Maximize, wxBitmap( wxT("images/btn_maximize.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxSize( 20,20 ), wxBU_AUTODRAW|wxNO_BORDER );
+	Maximize_bpButton->SetToolTip( wxT("Maximize") );
+	
 	CloseBoxbSizer->Add( Maximize_bpButton, 0, wxALL, 3 );
 	
 	Close_bpButton = new wxBitmapButton( this, wxID_EXIT, wxBitmap( wxT("images/btn_close.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxSize( 20,20 ), wxBU_AUTODRAW|wxNO_BORDER );
+	Close_bpButton->SetToolTip( wxT("Close") );
+	
 	CloseBoxbSizer->Add( Close_bpButton, 0, wxALIGN_RIGHT|wxALL, 3 );
 	
 	
 	HeaderRbSizer->Add( CloseBoxbSizer, 1, wxALIGN_RIGHT, 5 );
 	
 	Setting_bpButton = new wxBitmapButton( this, ID_Setting, wxBitmap( wxT("images/btn_setting.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxSize( 32,32 ), wxBU_AUTODRAW|wxNO_BORDER );
+	Setting_bpButton->SetToolTip( wxT("Settings") );
+	
 	HeaderRbSizer->Add( Setting_bpButton, 0, wxALIGN_RIGHT|wxALL, 5 );
 	
 	
@@ -75,18 +82,49 @@ BFrame::BFrame( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	wxBoxSizer* BodybSizer;
 	BodybSizer = new wxBoxSizer( wxHORIZONTAL );
 	
-	main_listbook = new wxListbook( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLB_DEFAULT|wxNO_BORDER );
-	#ifdef __WXGTK__ // Small icon style not supported in GTK
-	wxListView* main_listbookListView = main_listbook->GetListView();
-	long main_listbookFlags = main_listbookListView->GetWindowStyleFlag();
-	if( main_listbookFlags & wxLC_SMALL_ICON )
-	{
-		main_listbookFlags = ( main_listbookFlags & ~wxLC_SMALL_ICON ) | wxLC_ICON;
-	}
-	main_listbookListView->SetWindowStyleFlag( main_listbookFlags );
-	#endif
+	body_splitter = new wxSplitterWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_NOBORDER );
+	body_splitter->Connect( wxEVT_IDLE, wxIdleEventHandler( BFrame::body_splitterOnIdle ), NULL, this );
 	
-	BodybSizer->Add( main_listbook, 1, wxEXPAND | wxALL, 5 );
+	menu_scrolledWindow = new wxScrolledWindow( body_splitter, wxID_ANY, wxDefaultPosition, wxSize( 170,-1 ), wxVSCROLL );
+	menu_scrolledWindow->SetScrollRate( 5, 5 );
+	menu_scrolledWindow->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOW ) );
+	
+	wxBoxSizer* menu_bSizer;
+	menu_bSizer = new wxBoxSizer( wxVERTICAL );
+	
+	menu_laporan_staticText = new wxStaticText( menu_scrolledWindow, wxID_ANY, wxT("Laporan"), wxDefaultPosition, wxDefaultSize, 0 );
+	menu_laporan_staticText->Wrap( -1 );
+	menu_bSizer->Add( menu_laporan_staticText, 0, wxALL, 5 );
+	
+	menu_tukin_button = new wxButton( menu_scrolledWindow, ID_menu_tukin_btn, wxT("Tunjagan Kinerja"), wxDefaultPosition, wxDefaultSize, 0 );
+	menu_bSizer->Add( menu_tukin_button, 0, wxEXPAND, 0 );
+	
+	menu_umak_button = new wxButton( menu_scrolledWindow, ID_menu_umak_btn, wxT("Uang Makan"), wxDefaultPosition, wxDefaultSize, 0 );
+	menu_bSizer->Add( menu_umak_button, 0, wxEXPAND, 0 );
+	
+	menu_input_data_staticText = new wxStaticText( menu_scrolledWindow, wxID_ANY, wxT("Input Data"), wxDefaultPosition, wxDefaultSize, 0 );
+	menu_input_data_staticText->Wrap( -1 );
+	menu_bSizer->Add( menu_input_data_staticText, 0, wxALL, 5 );
+	
+	menu_pegawai_button = new wxButton( menu_scrolledWindow, ID_menu_pegawai_btn, wxT("Pegawai"), wxDefaultPosition, wxDefaultSize, 0 );
+	menu_bSizer->Add( menu_pegawai_button, 0, wxEXPAND, 0 );
+	
+	menu_kepank_button = new wxButton( menu_scrolledWindow, ID_menu_kepank_btn, wxT("Kelas /Pangkat"), wxDefaultPosition, wxDefaultSize, 0 );
+	menu_bSizer->Add( menu_kepank_button, 0, wxEXPAND, 0 );
+	
+	menu_absensi_button = new wxButton( menu_scrolledWindow, ID_menu_absensi_btn, wxT("Absensi"), wxDefaultPosition, wxDefaultSize, 0 );
+	menu_bSizer->Add( menu_absensi_button, 0, wxEXPAND, 0 );
+	
+	
+	menu_scrolledWindow->SetSizer( menu_bSizer );
+	menu_scrolledWindow->Layout();
+        
+//        mdi_scrolledWindow = new wxWindow( body_splitter, wxID_ANY, wxDefaultPosition, wxDefaultSize);
+	mdi_parent = new wxMDIParentFrame( body_splitter, wxID_ANY, "Kelas dan pangkat pegawai", wxDefaultPosition, wxDefaultSize);
+
+	body_splitter->SplitVertically( menu_scrolledWindow, mdi_parent, 170 );
+	
+        BodybSizer->Add( body_splitter, 1, wxEXPAND, 5 );
 	
 	
 	bSizerMain->Add( BodybSizer, 1, wxEXPAND, 5 );
@@ -147,6 +185,11 @@ void BFrame::OnBSettingDialog(wxCommandEvent& event){
     setting_dialog->Show(true);
 }
 
+void BFrame::OnKepank(wxCommandEvent& event){
+    KepankWindow *kepank_window=new KepankWindow(mdi_parent);
+    kepank_window->Show(true);
+}
+
 wxBEGIN_EVENT_TABLE(BFrame,wxFrame)
     EVT_LEFT_DOWN(BFrame::OnLeftDown)
     EVT_LEFT_UP(BFrame::OnLeftUp)
@@ -155,5 +198,7 @@ wxBEGIN_EVENT_TABLE(BFrame,wxFrame)
     EVT_BUTTON(wxID_EXIT, BFrame::OnExit)
     EVT_BUTTON(ID_Maximize, BFrame::OnMaximizeRestore)
     EVT_BUTTON(ID_Setting, BFrame::OnBSettingDialog)
+        
+    EVT_BUTTON(ID_menu_kepank_btn,BFrame::OnKepank)
 //    EVT_MENU(wxID_ABOUT, BFrame::OnAbout)
 wxEND_EVENT_TABLE()

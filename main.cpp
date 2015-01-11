@@ -10,18 +10,13 @@
     #include <wx/wx.h>
 #endif
 #include <wx/intl.h>
-#include <wx/file.h>
-#include <wx/log.h>
-#include <wx/cmdline.h>
-#include <wx/filefn.h>
-#include <wx/stdpaths.h>
-#include <wx/dir.h>
-#include <wx/xml/xml.h>
-#include <wx/stringimpl.h>
 
 #include "functions/general.h"
 #include "event_enum.h"
-#include "BFrame.h"
+const wxString bmain_settings[]={"mysql_server"};
+
+#include "BFrame.cpp"
+#include "BSettingDialog.cpp"
 class BApp:public wxApp{
     public:
         BApp(){
@@ -41,7 +36,9 @@ bool BApp::OnInit()
     wxImage::AddHandler( new wxPNGHandler );
     wxImage::AddHandler( new wxJPEGHandler );
 
-    
+    if(BgetXMLConfig(bmain_settings[0])==wxEmptyString){
+        BSetXMLConfig(bmain_settings[0],wxString("127.0.0.1"));
+    }
     
     BFrame *frame=new BFrame(NULL);
     frame->Center();

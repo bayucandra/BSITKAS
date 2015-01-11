@@ -8,17 +8,26 @@
 #ifndef GENERAL_H
 #define	GENERAL_H
 
+#include <wx/file.h>
+#include <wx/log.h>
+#include <wx/cmdline.h>
+#include <wx/filefn.h>
+#include <wx/stdpaths.h>
+#include <wx/dir.h>
+#include <wx/xml/xml.h>
+#include <wx/stringimpl.h>
+
 #define BAPP_NAME wxString("BSITKAS")
 #define BSETTING_DIR_BASE wxString(".bapps")
 #define BSETTING_FILE_NAME wxString("settings.conf")
 #define BSETTING_XML_ROOT_NODE wxString("settings")
 #ifdef __WXMSW__
-    #define BPATH_SLASH wxString("\"")
+    #define BPATH_SLASH wxString("\\")
 #else
     #define BPATH_SLASH wxString("/")
 #endif
 
-bool BinitXMLConfig(){
+inline bool BinitXMLConfig(){
     //-----------------------------------
     //BEGIN CHECK AND GENERATE CONFIGS
     //------------------------------------
@@ -68,7 +77,7 @@ bool BinitXMLConfig(){
     //BEGIN GET CONFIG
     //------------------------------------
 }
-wxString BgetConfigPath(){
+inline wxString BgetConfigPath(){
     wxString setting_file_path=wxStandardPaths::Get().GetUserConfigDir();
     setting_file_path.Append(BPATH_SLASH);
     setting_file_path.Append(BSETTING_DIR_BASE);
@@ -78,7 +87,7 @@ wxString BgetConfigPath(){
     setting_file_path.Append(BSETTING_FILE_NAME);
     return setting_file_path;
 }
-wxString BgetXMLConfig(wxString p_key){
+inline wxString BgetXMLConfig(wxString p_key){
     wxString ret_str;
     if(BinitXMLConfig()){
         wxXmlDocument doc;
@@ -105,7 +114,7 @@ wxString BgetXMLConfig(wxString p_key){
     }
     return ret_str;
 }
-bool BSetXMLConfig(wxString p_key,wxString p_value){
+inline bool BSetXMLConfig(wxString p_key,wxString p_value){
     if(BinitXMLConfig()){
         wxXmlDocument doc;
         if(!doc.Load(BgetConfigPath())){

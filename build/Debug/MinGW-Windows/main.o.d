@@ -229,27 +229,24 @@ build/Debug/MinGW-Windows/main.o: main.cpp \
  d:/wxWidgets-3.0.2/include/wx/filedlg.h \
  d:/wxWidgets-3.0.2/include/wx/msw/filedlg.h \
  d:/wxWidgets-3.0.2/include/wx/mdi.h \
- d:/wxWidgets-3.0.2/include/wx/msw/mdi.h \
+ d:/wxWidgets-3.0.2/include/wx/msw/mdi.h functions/general.h \
  d:/wxWidgets-3.0.2/include/wx/file.h \
  d:/wxWidgets-3.0.2/include/wx/convauto.h \
  d:/wxWidgets-3.0.2/include/wx/cmdline.h \
  d:/wxWidgets-3.0.2/include/wx/stdpaths.h \
  d:/wxWidgets-3.0.2/include/wx/msw/stdpaths.h \
  d:/wxWidgets-3.0.2/include/wx/dir.h \
- d:/wxWidgets-3.0.2/include/wx/xml/xml.h functions/general.h event_enum.h \
- BFrame.h d:/wxWidgets-3.0.2/include/wx/artprov.h \
+ d:/wxWidgets-3.0.2/include/wx/xml/xml.h event_enum.h BFrame.cpp \
+ images/logo.xpm BFrame.h d:/wxWidgets-3.0.2/include/wx/artprov.h \
  d:/wxWidgets-3.0.2/include/wx/xrc/xmlres.h \
  d:/wxWidgets-3.0.2/include/wx/filesys.h \
  d:/wxWidgets-3.0.2/include/wx/filename.h \
  d:/wxWidgets-3.0.2/include/wx/xrc/xmlreshandler.h \
- d:/wxWidgets-3.0.2/include/wx/listbook.h \
- d:/wxWidgets-3.0.2/include/wx/bookctrl.h \
- d:/wxWidgets-3.0.2/include/wx/withimages.h \
- d:/wxWidgets-3.0.2/include/wx/notebook.h \
- d:/wxWidgets-3.0.2/include/wx/msw/notebook.h \
- d:/wxWidgets-3.0.2/include/wx/listctrl.h \
- d:/wxWidgets-3.0.2/include/wx/listbase.h \
- d:/wxWidgets-3.0.2/include/wx/msw/listctrl.h BSettingDialog.h
+ d:/wxWidgets-3.0.2/include/wx/tglbtn.h \
+ d:/wxWidgets-3.0.2/include/wx/msw/tglbtn.h \
+ d:/wxWidgets-3.0.2/include/wx/splitter.h \
+ d:/wxWidgets-3.0.2/include/wx/generic/splitter.h BSettingDialog.h \
+ kepank/kepank_window.h BSettingDialog.cpp
 
 d:/wxWidgets-3.0.2/include/wx/wxprec.h:
 
@@ -717,6 +714,8 @@ d:/wxWidgets-3.0.2/include/wx/mdi.h:
 
 d:/wxWidgets-3.0.2/include/wx/msw/mdi.h:
 
+functions/general.h:
+
 d:/wxWidgets-3.0.2/include/wx/file.h:
 
 d:/wxWidgets-3.0.2/include/wx/convauto.h:
@@ -731,9 +730,11 @@ d:/wxWidgets-3.0.2/include/wx/dir.h:
 
 d:/wxWidgets-3.0.2/include/wx/xml/xml.h:
 
-functions/general.h:
-
 event_enum.h:
+
+BFrame.cpp:
+
+images/logo.xpm:
 
 BFrame.h:
 
@@ -747,20 +748,16 @@ d:/wxWidgets-3.0.2/include/wx/filename.h:
 
 d:/wxWidgets-3.0.2/include/wx/xrc/xmlreshandler.h:
 
-d:/wxWidgets-3.0.2/include/wx/listbook.h:
+d:/wxWidgets-3.0.2/include/wx/tglbtn.h:
 
-d:/wxWidgets-3.0.2/include/wx/bookctrl.h:
+d:/wxWidgets-3.0.2/include/wx/msw/tglbtn.h:
 
-d:/wxWidgets-3.0.2/include/wx/withimages.h:
+d:/wxWidgets-3.0.2/include/wx/splitter.h:
 
-d:/wxWidgets-3.0.2/include/wx/notebook.h:
-
-d:/wxWidgets-3.0.2/include/wx/msw/notebook.h:
-
-d:/wxWidgets-3.0.2/include/wx/listctrl.h:
-
-d:/wxWidgets-3.0.2/include/wx/listbase.h:
-
-d:/wxWidgets-3.0.2/include/wx/msw/listctrl.h:
+d:/wxWidgets-3.0.2/include/wx/generic/splitter.h:
 
 BSettingDialog.h:
+
+kepank/kepank_window.h:
+
+BSettingDialog.cpp:

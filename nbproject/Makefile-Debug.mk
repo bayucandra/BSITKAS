@@ -35,8 +35,6 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/BFrame.o \
-	${OBJECTDIR}/BSettingDialog.o \
 	${OBJECTDIR}/main.o
 
 
@@ -63,16 +61,6 @@ LDLIBSOPTIONS=-L../../../wxWidgets-3.0.2/lib/gcc_lib -lwxmsw30u_core -lwxbase30u
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bsitkas.exe: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bsitkas ${OBJECTFILES} ${LDLIBSOPTIONS}
-
-${OBJECTDIR}/BFrame.o: BFrame.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -D_UNICODE -D__WXMSW__ -I/D/wxWidgets-3.0.2/include -I../../../wxWidgets-3.0.2/lib/gcc_lib/mswud -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/BFrame.o BFrame.cpp
-
-${OBJECTDIR}/BSettingDialog.o: BSettingDialog.cpp 
-	${MKDIR} -p ${OBJECTDIR}
-	${RM} "$@.d"
-	$(COMPILE.cc) -g -D_UNICODE -D__WXMSW__ -I/D/wxWidgets-3.0.2/include -I../../../wxWidgets-3.0.2/lib/gcc_lib/mswud -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/BSettingDialog.o BSettingDialog.cpp
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}

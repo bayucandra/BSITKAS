@@ -23,12 +23,15 @@
 #include <wx/sizer.h>
 #include <wx/bmpbuttn.h>
 #include <wx/button.h>
-#include <wx/listbook.h>
-#include <wx/listctrl.h>
+#include <wx/tglbtn.h>
+#include <wx/statbox.h>
+#include <wx/scrolwin.h>
+#include <wx/splitter.h>
 #include <wx/frame.h>
 
 //#include "event_enum.h"
 #include "BSettingDialog.h"
+#include "kepank/kepank_window.h"
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -44,6 +47,8 @@ class BFrame : public wxFrame
 {
 	private:
             wxPoint m_delta;
+            void OnKepank(wxCommandEvent& event);
+            
             void OnExit(wxCommandEvent& event);
             
             void OnLeftDown(wxMouseEvent& evt);
@@ -61,14 +66,29 @@ class BFrame : public wxFrame
 		wxBitmapButton* Maximize_bpButton;
 		wxBitmapButton* Close_bpButton;
 		wxBitmapButton* Setting_bpButton;
-		wxListbook* main_listbook;
+		wxSplitterWindow* body_splitter;
+		wxScrolledWindow* menu_scrolledWindow;
+		wxStaticText* menu_laporan_staticText;
+		wxButton* menu_tukin_button;
+		wxButton* menu_umak_button;
+		wxStaticText* menu_input_data_staticText;
+		wxButton* menu_pegawai_button;
+		wxButton* menu_kepank_button;
+		wxButton* menu_absensi_button;
+                wxWindow* mdi_scrolledWindow;
+		wxMDIParentFrame* mdi_parent;
 	
 	public:
 		
-		BFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 900,450 ), long style = wxFRAME_SHAPED|wxRESIZE_BORDER|wxSUNKEN_BORDER|wxTAB_TRAVERSAL );
-
-                
+		BFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 900,450 ), long style = wxCAPTION|wxRESIZE_BORDER|wxSUNKEN_BORDER|wxTAB_TRAVERSAL );
+		
 		~BFrame();
+		
+		void body_splitterOnIdle( wxIdleEvent& )
+		{
+			body_splitter->SetSashPosition( 170 );
+			body_splitter->Disconnect( wxEVT_IDLE, wxIdleEventHandler( BFrame::body_splitterOnIdle ), NULL, this );
+		}
         wxDECLARE_EVENT_TABLE();
 	
 };
