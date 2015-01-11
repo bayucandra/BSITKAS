@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="95">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <logicalFolder name="HeaderFiles"
+                   displayName="Header Files"
+                   projectFiles="true">
+      <itemPath>BFrame.h</itemPath>
+      <itemPath>BSettingDialog.h</itemPath>
+      <itemPath>event_enum.h</itemPath>
+      <itemPath>functions/general.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles"
+                   displayName="Resource Files"
+                   projectFiles="true">
+    </logicalFolder>
+    <logicalFolder name="SourceFiles"
+                   displayName="Source Files"
+                   projectFiles="true">
+      <itemPath>BFrame.cpp</itemPath>
+      <itemPath>BSettingDialog.cpp</itemPath>
+      <itemPath>main.cpp</itemPath>
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="Test Files"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="1">
+      <toolsSet>
+        <compilerSet>MinGW|MinGW</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <incDir>
+            <pElem>D:/wxWidgets-3.0.2/include</pElem>
+            <pElem>../../../wxWidgets-3.0.2/lib/gcc_lib/mswud</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>_UNICODE</Elem>
+            <Elem>__WXMSW__</Elem>
+          </preprocessorList>
+        </ccTool>
+        <linkerTool>
+          <linkerAddLib>
+            <pElem>../../../wxWidgets-3.0.2/lib/gcc_lib</pElem>
+          </linkerAddLib>
+          <linkerLibItems>
+            <linkerLibLibItem>wxmsw30u_core</linkerLibLibItem>
+            <linkerLibLibItem>wxbase30u</linkerLibLibItem>
+            <linkerLibLibItem>wxbase30u_xml</linkerLibLibItem>
+            <linkerLibLibItem>wxtiff</linkerLibLibItem>
+            <linkerLibLibItem>wxjpeg</linkerLibLibItem>
+            <linkerLibLibItem>wxpng</linkerLibLibItem>
+            <linkerLibLibItem>wxzlib</linkerLibLibItem>
+            <linkerLibLibItem>wxexpat</linkerLibLibItem>
+            <linkerLibLibItem>wxregexu</linkerLibLibItem>
+            <linkerLibLibItem>gdi32</linkerLibLibItem>
+            <linkerLibLibItem>comctl32</linkerLibLibItem>
+            <linkerLibLibItem>ole32</linkerLibLibItem>
+            <linkerLibLibItem>uuid</linkerLibLibItem>
+            <linkerLibLibItem>oleaut32</linkerLibLibItem>
+            <linkerLibLibItem>comdlg32</linkerLibLibItem>
+            <linkerLibLibItem>winspool</linkerLibLibItem>
+          </linkerLibItems>
+        </linkerTool>
+      </compileType>
+      <item path="BFrame.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="BFrame.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="BSettingDialog.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="BSettingDialog.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="event_enum.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="functions/general.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+    </conf>
+    <conf name="Release" type="1">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <asmTool>
+          <developmentMode>5</developmentMode>
+        </asmTool>
+      </compileType>
+      <item path="BFrame.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="BFrame.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="BSettingDialog.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="BSettingDialog.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="event_enum.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="functions/general.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>
