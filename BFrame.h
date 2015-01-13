@@ -28,10 +28,11 @@
 #include <wx/scrolwin.h>
 #include <wx/splitter.h>
 #include <wx/frame.h>
+#include <wx/simplebook.h>
 
 //#include "event_enum.h"
 #include "BSettingDialog.h"
-#include "kepank/kepank_window.h"
+#include "kepank/kepank_notebook.h"
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -66,8 +67,7 @@ class BFrame : public wxFrame
 		wxBitmapButton* Maximize_bpButton;
 		wxBitmapButton* Close_bpButton;
 		wxBitmapButton* Setting_bpButton;
-		wxSplitterWindow* body_splitter;
-		wxScrolledWindow* menu_scrolledWindow;
+		wxPanel* menu_panel;
 		wxStaticText* menu_laporan_staticText;
 		wxButton* menu_tukin_button;
 		wxButton* menu_umak_button;
@@ -75,20 +75,16 @@ class BFrame : public wxFrame
 		wxButton* menu_pegawai_button;
 		wxButton* menu_kepank_button;
 		wxButton* menu_absensi_button;
-                wxWindow* mdi_scrolledWindow;
-		wxMDIParentFrame* mdi_parent;
+		wxSimplebook* main_notebook;
+                //BEGIN BAYU WIDGET===========
+                KepankNotebook* kepank_notebook;
+                //END BAYU WIDGET**************
 	
 	public:
 		
 		BFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 900,450 ), long style = wxCAPTION|wxRESIZE_BORDER|wxSUNKEN_BORDER|wxTAB_TRAVERSAL );
 		
 		~BFrame();
-		
-		void body_splitterOnIdle( wxIdleEvent& )
-		{
-			body_splitter->SetSashPosition( 170 );
-			body_splitter->Disconnect( wxEVT_IDLE, wxIdleEventHandler( BFrame::body_splitterOnIdle ), NULL, this );
-		}
         wxDECLARE_EVENT_TABLE();
 	
 };

@@ -245,8 +245,24 @@ build/Debug/MinGW-Windows/main.o: main.cpp \
  d:/wxWidgets-3.0.2/include/wx/tglbtn.h \
  d:/wxWidgets-3.0.2/include/wx/msw/tglbtn.h \
  d:/wxWidgets-3.0.2/include/wx/splitter.h \
- d:/wxWidgets-3.0.2/include/wx/generic/splitter.h BSettingDialog.h \
- kepank/kepank_window.h BSettingDialog.cpp
+ d:/wxWidgets-3.0.2/include/wx/generic/splitter.h \
+ d:/wxWidgets-3.0.2/include/wx/simplebook.h \
+ d:/wxWidgets-3.0.2/include/wx/bookctrl.h \
+ d:/wxWidgets-3.0.2/include/wx/withimages.h \
+ d:/wxWidgets-3.0.2/include/wx/notebook.h \
+ d:/wxWidgets-3.0.2/include/wx/msw/notebook.h BSettingDialog.h \
+ kepank/kepank_notebook.h kepank/kelas_panel.h \
+ d:/wxWidgets-3.0.2/include/wx/dataview.h \
+ d:/wxWidgets-3.0.2/include/wx/headercol.h \
+ d:/wxWidgets-3.0.2/include/wx/dnd.h \
+ d:/wxWidgets-3.0.2/include/wx/msw/ole/dropsrc.h \
+ d:/wxWidgets-3.0.2/include/wx/msw/ole/droptgt.h \
+ d:/wxWidgets-3.0.2/include/wx/itemid.h \
+ d:/wxWidgets-3.0.2/include/wx/dvrenderers.h \
+ d:/wxWidgets-3.0.2/include/wx/generic/dvrenderer.h \
+ d:/wxWidgets-3.0.2/include/wx/generic/dvrenderers.h \
+ d:/wxWidgets-3.0.2/include/wx/generic/dataview.h \
+ kepank/kelas_input_dialog.h BSettingDialog.cpp
 
 d:/wxWidgets-3.0.2/include/wx/wxprec.h:
 
@@ -756,8 +772,42 @@ d:/wxWidgets-3.0.2/include/wx/splitter.h:
 
 d:/wxWidgets-3.0.2/include/wx/generic/splitter.h:
 
+d:/wxWidgets-3.0.2/include/wx/simplebook.h:
+
+d:/wxWidgets-3.0.2/include/wx/bookctrl.h:
+
+d:/wxWidgets-3.0.2/include/wx/withimages.h:
+
+d:/wxWidgets-3.0.2/include/wx/notebook.h:
+
+d:/wxWidgets-3.0.2/include/wx/msw/notebook.h:
+
 BSettingDialog.h:
 
-kepank/kepank_window.h:
+kepank/kepank_notebook.h:
+
+kepank/kelas_panel.h:
+
+d:/wxWidgets-3.0.2/include/wx/dataview.h:
+
+d:/wxWidgets-3.0.2/include/wx/headercol.h:
+
+d:/wxWidgets-3.0.2/include/wx/dnd.h:
+
+d:/wxWidgets-3.0.2/include/wx/msw/ole/dropsrc.h:
+
+d:/wxWidgets-3.0.2/include/wx/msw/ole/droptgt.h:
+
+d:/wxWidgets-3.0.2/include/wx/itemid.h:
+
+d:/wxWidgets-3.0.2/include/wx/dvrenderers.h:
+
+d:/wxWidgets-3.0.2/include/wx/generic/dvrenderer.h:
+
+d:/wxWidgets-3.0.2/include/wx/generic/dvrenderers.h:
+
+d:/wxWidgets-3.0.2/include/wx/generic/dataview.h:
+
+kepank/kelas_input_dialog.h:
 
 BSettingDialog.cpp:

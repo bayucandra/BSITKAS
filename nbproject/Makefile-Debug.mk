@@ -52,7 +52,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-L../../../wxWidgets-3.0.2/lib/gcc_lib -lwxmsw30u_core -lwxbase30u -lwxbase30u_xml -lwxtiff -lwxjpeg -lwxpng -lwxzlib -lwxexpat -lwxregexu -lgdi32 -lcomctl32 -lole32 -luuid -loleaut32 -lcomdlg32 -lwinspool
+LDLIBSOPTIONS=-L../../../wxWidgets-3.0.2/lib/gcc_lib -lwxmsw30u_adv -lwxmsw30u_core -lwxbase30u -lwxbase30u_xml -lwxtiff -lwxjpeg -lwxpng -lwxzlib -lwxexpat -lwxregexu -lgdi32 -lcomctl32 -lole32 -luuid -loleaut32 -lcomdlg32 -lwinspool -lwxmsw30u_xrc resource.o
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
@@ -61,6 +61,10 @@ LDLIBSOPTIONS=-L../../../wxWidgets-3.0.2/lib/gcc_lib -lwxmsw30u_core -lwxbase30u
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bsitkas.exe: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bsitkas ${OBJECTFILES} ${LDLIBSOPTIONS}
+
+: /D/Projects/Windows/BSITKAS/resource.rc 
+	@echo Building resource.o
+	windres.exe resource.rc resource.o
 
 ${OBJECTDIR}/main.o: main.cpp 
 	${MKDIR} -p ${OBJECTDIR}
@@ -74,6 +78,7 @@ ${OBJECTDIR}/main.o: main.cpp
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r ${CND_BUILDDIR}/${CND_CONF}
 	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bsitkas.exe
+	${RM} 
 
 # Subprojects
 .clean-subprojects:

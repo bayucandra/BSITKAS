@@ -56,7 +56,7 @@ BFrame::BFrame( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	CloseBoxbSizer->Add( Minimize_bpButton, 0, wxALL, 3 );
 	
 	Maximize_bpButton = new wxBitmapButton( this, ID_Maximize, wxBitmap( wxT("images/btn_maximize.png"), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxSize( 20,20 ), wxBU_AUTODRAW|wxNO_BORDER );
-	Maximize_bpButton->SetToolTip( wxT("Maximize") );
+	Maximize_bpButton->SetToolTip( wxT("Maximize/Restore") );
 	
 	CloseBoxbSizer->Add( Maximize_bpButton, 0, wxALL, 3 );
 	
@@ -82,49 +82,44 @@ BFrame::BFrame( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	wxBoxSizer* BodybSizer;
 	BodybSizer = new wxBoxSizer( wxHORIZONTAL );
 	
-	body_splitter = new wxSplitterWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_NOBORDER );
-	body_splitter->Connect( wxEVT_IDLE, wxIdleEventHandler( BFrame::body_splitterOnIdle ), NULL, this );
-	
-	menu_scrolledWindow = new wxScrolledWindow( body_splitter, wxID_ANY, wxDefaultPosition, wxSize( 170,-1 ), wxVSCROLL );
-	menu_scrolledWindow->SetScrollRate( 5, 5 );
-	menu_scrolledWindow->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOW ) );
-	
+	menu_panel = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxSize( -1,-1 ), wxTAB_TRAVERSAL );
 	wxBoxSizer* menu_bSizer;
 	menu_bSizer = new wxBoxSizer( wxVERTICAL );
 	
-	menu_laporan_staticText = new wxStaticText( menu_scrolledWindow, wxID_ANY, wxT("Laporan"), wxDefaultPosition, wxDefaultSize, 0 );
+	menu_laporan_staticText = new wxStaticText( menu_panel, wxID_ANY, wxT("Laporan"), wxDefaultPosition, wxSize( 170,-1 ), 0 );
 	menu_laporan_staticText->Wrap( -1 );
 	menu_bSizer->Add( menu_laporan_staticText, 0, wxALL, 5 );
 	
-	menu_tukin_button = new wxButton( menu_scrolledWindow, ID_menu_tukin_btn, wxT("Tunjagan Kinerja"), wxDefaultPosition, wxDefaultSize, 0 );
+	menu_tukin_button = new wxButton( menu_panel, ID_menu_tukin_btn, wxT("Tunjagan Kinerja"), wxDefaultPosition, wxSize( -1,-1 ), 0 );
 	menu_bSizer->Add( menu_tukin_button, 0, wxEXPAND, 0 );
 	
-	menu_umak_button = new wxButton( menu_scrolledWindow, ID_menu_umak_btn, wxT("Uang Makan"), wxDefaultPosition, wxDefaultSize, 0 );
+	menu_umak_button = new wxButton( menu_panel, ID_menu_umak_btn, wxT("Uang Makan"), wxDefaultPosition, wxDefaultSize, 0 );
 	menu_bSizer->Add( menu_umak_button, 0, wxEXPAND, 0 );
 	
-	menu_input_data_staticText = new wxStaticText( menu_scrolledWindow, wxID_ANY, wxT("Input Data"), wxDefaultPosition, wxDefaultSize, 0 );
+	menu_input_data_staticText = new wxStaticText( menu_panel, wxID_ANY, wxT("Input Data"), wxDefaultPosition, wxDefaultSize, 0 );
 	menu_input_data_staticText->Wrap( -1 );
 	menu_bSizer->Add( menu_input_data_staticText, 0, wxALL, 5 );
 	
-	menu_pegawai_button = new wxButton( menu_scrolledWindow, ID_menu_pegawai_btn, wxT("Pegawai"), wxDefaultPosition, wxDefaultSize, 0 );
+	menu_pegawai_button = new wxButton( menu_panel, ID_menu_pegawai_btn, wxT("Pegawai"), wxDefaultPosition, wxDefaultSize, 0 );
 	menu_bSizer->Add( menu_pegawai_button, 0, wxEXPAND, 0 );
 	
-	menu_kepank_button = new wxButton( menu_scrolledWindow, ID_menu_kepank_btn, wxT("Kelas /Pangkat"), wxDefaultPosition, wxDefaultSize, 0 );
+	menu_kepank_button = new wxButton( menu_panel, ID_menu_kepank_btn, wxT("Kelas /Pangkat"), wxDefaultPosition, wxDefaultSize, 0 );
 	menu_bSizer->Add( menu_kepank_button, 0, wxEXPAND, 0 );
 	
-	menu_absensi_button = new wxButton( menu_scrolledWindow, ID_menu_absensi_btn, wxT("Absensi"), wxDefaultPosition, wxDefaultSize, 0 );
+	menu_absensi_button = new wxButton( menu_panel, ID_menu_absensi_btn, wxT("Absensi"), wxDefaultPosition, wxDefaultSize, 0 );
 	menu_bSizer->Add( menu_absensi_button, 0, wxEXPAND, 0 );
 	
 	
-	menu_scrolledWindow->SetSizer( menu_bSizer );
-	menu_scrolledWindow->Layout();
-        
-//        mdi_scrolledWindow = new wxWindow( body_splitter, wxID_ANY, wxDefaultPosition, wxDefaultSize);
-	mdi_parent = new wxMDIParentFrame( body_splitter, wxID_ANY, "Kelas dan pangkat pegawai", wxDefaultPosition, wxDefaultSize);
-
-	body_splitter->SplitVertically( menu_scrolledWindow, mdi_parent, 170 );
+	menu_panel->SetSizer( menu_bSizer );
+	menu_panel->Layout();
+	menu_bSizer->Fit( menu_panel );
+	BodybSizer->Add( menu_panel, 0, wxEXPAND | wxALL, 5 );
 	
-        BodybSizer->Add( body_splitter, 1, wxEXPAND, 5 );
+	main_notebook = new wxSimplebook( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
+        kepank_notebook=new KepankNotebook(main_notebook);
+        main_notebook->AddPage( kepank_notebook, wxT("Kepank Notebook"));
+	
+	BodybSizer->Add( main_notebook, 1, wxEXPAND | wxALL, 5 );
 	
 	
 	bSizerMain->Add( BodybSizer, 1, wxEXPAND, 5 );
@@ -175,19 +170,20 @@ void BFrame::OnMaximizeRestore(wxCommandEvent& event)
 {
     if(this->IsMaximized()){
         this->Restore();
+	Maximize_bpButton->SetToolTip( wxT("Maximize") );
     }else{
         this->Maximize();
+	Maximize_bpButton->SetToolTip( wxT("Restore") );
     }
 }
 void BFrame::OnBSettingDialog(wxCommandEvent& event){
     BSettingDialog *setting_dialog=new BSettingDialog(this);
     setting_dialog->Center();
-    setting_dialog->Show(true);
+    setting_dialog->ShowModal();
 }
 
 void BFrame::OnKepank(wxCommandEvent& event){
-    KepankWindow *kepank_window=new KepankWindow(mdi_parent);
-    kepank_window->Show(true);
+//    KepankPanel *kepank_panel=new KepankPanel(mdi_parent);
 }
 
 wxBEGIN_EVENT_TABLE(BFrame,wxFrame)
