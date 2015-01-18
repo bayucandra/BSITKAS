@@ -88,7 +88,7 @@ inline wxString BgetConfigPath(){
     return setting_file_path;
 }
 inline wxString BgetXMLConfig(wxString p_key){
-    wxString ret_str;
+    wxString ret_str=wxEmptyString;
     if(BinitXMLConfig()){
         wxXmlDocument doc;
         if(!doc.Load(BgetConfigPath())){
@@ -131,12 +131,16 @@ inline bool BSetXMLConfig(wxString p_key,wxString p_value){
             wxXmlNode *value=key->GetNext();
             if(key->GetNodeContent()==p_key){
                 key_exist=true;
-                value->GetChildren()->SetContent(p_value);
+                if(p_value!=wxEmptyString){
+                    value->GetChildren()->SetContent(p_value);
+                }else{
+                    doc.GetRoot()->RemoveChild(record);
+                }
             }
             
             record=record->GetNext();
         }
-        if(!key_exist){
+        if(!key_exist&&(p_value!=wxEmptyString)){
             wxXmlNode *record_node=new wxXmlNode(wxXML_ELEMENT_NODE,wxString("record"));
             
             wxXmlNode *key=new wxXmlNode(wxXML_ELEMENT_NODE,wxString("key"));

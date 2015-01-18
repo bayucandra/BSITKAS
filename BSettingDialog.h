@@ -37,19 +37,25 @@
 class BSettingDialog : public wxDialog 
 {
 	private:
-            wxString mysql_server_conf;
             void OnSave(wxCommandEvent& event);
+            void BInitConfigs();
 	protected:
 		wxStaticText* MySQLServer_staticText;
 		wxTextCtrl* MySQLServer_textCtrl;
+		wxStaticText* m_staticText9;
+		wxTextCtrl* MySQLUsername_textCtrl;
+		wxStaticText* m_staticText10;
+		wxTextCtrl* MySQLPassword_textCtrl;
+		wxStaticText* m_staticText11;
+		wxTextCtrl* MySQLDBName_textCtrl;
 		wxButton* Simpan_button;
 	
 	public:
 		
 		BSettingDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Setting"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,400 ), long style = wxDEFAULT_DIALOG_STYLE ); 
 		~BSettingDialog();
+
         wxDECLARE_EVENT_TABLE();
-	
 };
 
 

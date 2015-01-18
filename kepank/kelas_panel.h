@@ -9,9 +9,9 @@
 #define	KELAS_PANEL_H
 #include "wx/panel.h"
 #include <wx/dataview.h>
-#include "kelas_input_dialog.h"
+#include "kelas_input_dialog.cpp"
 enum{
-    ID_tambah_kelas
+    ID_tambah_kelas, ID_ubah_kelas, ID_hapus_kelas
 };
 class KelasPanel : public wxPanel 
 {
@@ -20,7 +20,9 @@ class KelasPanel : public wxPanel
             void OnTambahKelas(wxCommandEvent& event);
 	protected:
 		wxButton* tambah_kelas_button;
-		wxDataViewListCtrl* m_dataViewListCtrl1;
+		wxButton* ubah_kelas_button;
+		wxButton* hapus_kelas_button;
+		wxDataViewListCtrl* kelas_dataViewListCtrl;
 	
 	public:
 		
@@ -43,11 +45,27 @@ KelasPanel::KelasPanel( wxWindow* parent, wxWindowID id, const wxPoint& pos, con
 	tambah_kelas_button = new wxButton( this, ID_tambah_kelas, wxT("Tambah Kelas"), wxDefaultPosition, wxDefaultSize, 0 );
 	button_bSizer->Add( tambah_kelas_button, 0, wxALL, 5 );
 	
+	ubah_kelas_button = new wxButton( this, ID_ubah_kelas, wxT("Ubah Kelas"), wxDefaultPosition, wxDefaultSize, 0 );
+	button_bSizer->Add( ubah_kelas_button, 0, wxALL, 5 );
+	
+	hapus_kelas_button = new wxButton( this, ID_hapus_kelas, wxT("Hapus Kelas"), wxDefaultPosition, wxDefaultSize, 0 );
+	button_bSizer->Add( hapus_kelas_button, 0, wxALL, 5 );
 	
 	wrapperSizer->Add( button_bSizer, 0, wxEXPAND, 5 );
 	
-	m_dataViewListCtrl1 = new wxDataViewListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
-	wrapperSizer->Add( m_dataViewListCtrl1, 1, wxALL|wxEXPAND, 5 );
+	kelas_dataViewListCtrl = new wxDataViewListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
+        wxDataViewListStore* kelas_model=new wxDataViewListStore();
+        kelas_dataViewListCtrl->AssociateModel(kelas_model);
+        kelas_model->DecRef();
+        kelas_dataViewListCtrl->AppendTextColumn("Row Id");
+        wxVector<wxVariant> data;
+        for(unsigned int i=0;i<10;i++){
+            data.clear();
+            data.push_back(wxString::Format("row %d",i));
+            kelas_dataViewListCtrl->AppendItem(data);
+        }
+        
+	wrapperSizer->Add( kelas_dataViewListCtrl, 1, wxALL|wxEXPAND, 5 );
 	
 	
 	this->SetSizer( wrapperSizer );
@@ -60,6 +78,7 @@ KelasPanel::~KelasPanel()
 
 void KelasPanel::OnTambahKelas(wxCommandEvent& event){
     kelas_input_dialog=new KelasInputDialog(this);
+    kelas_input_dialog->InputMode("create");
     kelas_input_dialog->Center();
     kelas_input_dialog->SetTitle(wxT("Tambah Kelas"));
     kelas_input_dialog->ShowModal();

@@ -5,16 +5,21 @@
  * Created on January 6, 2015, 5:32 PM
  */
 
+
 #include <wx/wxprec.h>
 #ifndef WX_PRECOMP
     #include <wx/wx.h>
 #endif
 #include <wx/intl.h>
 
+#include "mysql++.h"
+#include "ssql_tpl.h"
+
 #include "functions/general.h"
 #include "event_enum.h"
-const wxString bmain_settings[]={"mysql_server"};
-
+const wxString bmain_settings[]={"mysql_server","mysql_username","mysql_password","mysql_db"};
+mysqlpp::Connection conn(false);
+    
 #include "BFrame.cpp"
 #include "BSettingDialog.cpp"
 class BApp:public wxApp{
@@ -32,17 +37,33 @@ wxIMPLEMENT_APP(BApp);
 
 bool BApp::OnInit()
 {
+    //BEGIN DATABASE CONNECTION======
+    bool is_mysql_configs_empty=(BgetXMLConfig(bmain_settings[0])==wxEmptyString)||
+                (BgetXMLConfig(bmain_settings[1])==wxEmptyString)||
+                (BgetXMLConfig(bmain_settings[2])==wxEmptyString)||
+                (BgetXMLConfig(bmain_settings[3])==wxEmptyString);
+    if(is_mysql_configs_empty==false){
+        bool mysql_connect=conn.connect(BgetXMLConfig(bmain_settings[3]).mb_str(), BgetXMLConfig(bmain_settings[0]).mb_str(),
+                BgetXMLConfig(bmain_settings[1]).mb_str(), BgetXMLConfig(bmain_settings[2]).mb_str()
+        );
+        if(mysql_connect==false){
+            wxString mysql_error=wxString(wxT("Koneksi database gagal, pesan error:"));
+            mysql_error.Append(conn.error());
+            wxLogError(mysql_error);
+        }
+    }else{
+        wxLogError(wxT("Error: Harap periksa setting konfigurasi database."));
+    }
+    //END DATABASE CONNECTION*************
     // Add the common image handlers
     wxImage::AddHandler( new wxPNGHandler );
     wxImage::AddHandler( new wxJPEGHandler );
-
-    if(BgetXMLConfig(bmain_settings[0])==wxEmptyString){
-        BSetXMLConfig(bmain_settings[0],wxString("127.0.0.1"));
-    }
     
     BFrame *frame=new BFrame(NULL);
     frame->Center();
     frame->Show(true);
+
+    
     return true;
 }
 void BApp::xmlConfig(){
