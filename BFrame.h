@@ -29,12 +29,23 @@
 #include <wx/splitter.h>
 #include <wx/frame.h>
 #include <wx/simplebook.h>
+#include "wx/dataview.h"
+#include "wx/notebook.h"
+#include "wx/panel.h"
+#include <wx/datectrl.h>
+#include <wx/dateevt.h>
+#include "wx/dialog.h"
 
 //#include "event_enum.h"
 #include "BSettingDialog.h"
 #include "kepank/kepank_notebook.h"
+#include "pegawai/pegawai_notebook.h"
+#include "absensi/absensi_notebook.h"
 
-
+enum{
+    ID_Minimize, ID_Maximize, ID_Setting, 
+    ID_menu_tukin_btn, ID_menu_umak_btn, ID_menu_pegawai_btn, ID_menu_kepank_btn, ID_menu_absensi_btn
+};
 ///////////////////////////////////////////////////////////////////////////
 //
 //#define ID_Minimize 1000
@@ -48,16 +59,20 @@ class BFrame : public wxFrame
 {
 	private:
             wxPoint m_delta;
-            void OnKepank(wxCommandEvent& event);
-            
-            void OnExit(wxCommandEvent& event);
             
             void OnLeftDown(wxMouseEvent& evt);
             void OnLeftUp(wxMouseEvent& evt);
             void OnMouseMove(wxMouseEvent& evt);
             
+            void OnMinimize(wxCommandEvent& event);
             void OnMaximizeRestore(wxCommandEvent& event);
+            void OnExit(wxCommandEvent& event);
+            
             void OnBSettingDialog(wxCommandEvent& event);
+            
+            void OnMenuAbsensi(wxCommandEvent& event);
+            void OnMenuPegawai(wxCommandEvent& event);
+            void OnMenuKepank(wxCommandEvent& event);
 	
 	protected:
 		wxStaticBitmap* m_bitmapLogo;
@@ -72,17 +87,19 @@ class BFrame : public wxFrame
 		wxButton* menu_tukin_button;
 		wxButton* menu_umak_button;
 		wxStaticText* menu_input_data_staticText;
+		wxButton* menu_absensi_button;
 		wxButton* menu_pegawai_button;
 		wxButton* menu_kepank_button;
-		wxButton* menu_absensi_button;
 		wxSimplebook* main_notebook;
-                //BEGIN BAYU WIDGET===========
+                //BEGIN BAYU===========
+                AbsensiNotebook* absensi_notebook;
+                PegawaiNotebook* pegawai_notebook;
                 KepankNotebook* kepank_notebook;
-                //END BAYU WIDGET**************
+                //END BAYU**************
 	
 	public:
 		
-		BFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 900,450 ), long style = wxCAPTION|wxRESIZE_BORDER|wxSUNKEN_BORDER|wxTAB_TRAVERSAL );
+		BFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 900,450 ), long style = wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLIP_CHILDREN|wxSUNKEN_BORDER|wxTAB_TRAVERSAL );
 		
 		~BFrame();
         wxDECLARE_EVENT_TABLE();

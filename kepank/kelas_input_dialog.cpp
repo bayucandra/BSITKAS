@@ -1,12 +1,6 @@
-/* 
- * File:   kelas_input_dialog.cpp
- * Author: bayucandra@gmail.com
- *
- * Created on January 17, 2015, 7:23 PM
- */
 #include "kelas_input_dialog.h"
-
-KelasInputDialog::KelasInputDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+#include "kelas_panel.h"
+KelasInputDialog::KelasInputDialog( wxPanel* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
 {
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
 	
@@ -62,8 +56,10 @@ KelasInputDialog::KelasInputDialog( wxWindow* parent, wxWindowID id, const wxStr
 	kelas_textCtrl->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( KelasInputDialog::OnSimpan ), NULL, this );
 	keterangan_textCtrl->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( KelasInputDialog::OnSimpan ), NULL, this );
 	tunjangan_perbulan_textCtrl->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( KelasInputDialog::OnSimpan ), NULL, this );
-        
-        update_id=-1;
+	tambah_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( KelasInputDialog::OnSimpan ), NULL, this );
+	reset_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( KelasInputDialog::OnReset ), NULL, this );
+        //BEGIN BAYU=============
+        ref_id=-1;
 }
 
 KelasInputDialog::~KelasInputDialog()
@@ -72,46 +68,91 @@ KelasInputDialog::~KelasInputDialog()
 	kelas_textCtrl->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( KelasInputDialog::OnSimpan ), NULL, this );
 	keterangan_textCtrl->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( KelasInputDialog::OnSimpan ), NULL, this );
 	tunjangan_perbulan_textCtrl->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( KelasInputDialog::OnSimpan ), NULL, this );
-	
+	tambah_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( KelasInputDialog::OnSimpan ), NULL, this );
+	reset_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( KelasInputDialog::OnReset ), NULL, this );
+}
+void KelasInputDialog::ResetInput(){
+    kelas_textCtrl->SetValue(wxEmptyString);
+    keterangan_textCtrl->SetValue(wxEmptyString);
+    tunjangan_perbulan_textCtrl->SetValue(wxEmptyString);
+    
+    kelas_textCtrl->SetFocus();
+}
+void KelasInputDialog::OnReset(wxCommandEvent& event){
+    this->ResetInput();
 }
 void KelasInputDialog::OnSimpan(wxCommandEvent& event) {
+    if(!IsInputValid()){
+        wxLogError("Inputan tidak valid. Harap periksa ulang.");
+        return;
+    }
     if(conn.connected()){
-        bkelas row;
-        mysqlpp::Query qry=conn.query();
-        if(this->GetInputMode()=="insert"){
-            bkelas row(NULL, (const_cast<char*>((const char*)kelas_textCtrl->GetValue().mb_str())),
-                (const_cast<char*>((const char*)keterangan_textCtrl->GetValue().mb_str())),
-                wxAtoi(tunjangan_perbulan_textCtrl->GetValue()));
-            qry.insert(row);
-            
-        }else if(this->GetInputMode()=="update"){
-            bkelas row(this->GetUpdateId(), (const_cast<char*>((const char*)kelas_textCtrl->GetValue().mb_str())),
-                (const_cast<char*>((const char*)keterangan_textCtrl->GetValue().mb_str())),
-                wxAtoi(tunjangan_perbulan_textCtrl->GetValue()));
-        }
-        bool res_ins=qry.execute();
-        if(!res_ins){
-            wxString error_msg=wxString(wxT("Error input database: "));
-            error_msg.Append(qry.error());
-            wxLogError(error_msg);
+        try{
+            mysqlpp::Query qry=conn.query();
+            if(this->GetInputMode()=="create"){
+                qry<<"INSERT INTO bkelas(kelas,keterangan,tunjangan_perbulan) VALUES("
+                    <<mysqlpp::quote<<(const_cast<char*>((const char*)kelas_textCtrl->GetValue().mb_str()))<<","
+                    <<mysqlpp::quote<<(const_cast<char*>((const char*)keterangan_textCtrl->GetValue().mb_str()))<<","
+                    <<(const_cast<char*>((const char*)tunjangan_perbulan_textCtrl->GetValue().mb_str()))
+                    <<")";
+            }else if(this->GetInputMode()=="update"){
+                qry<<"UPDATE bkelas SET "
+                    <<"kelas="<<mysqlpp::quote<<(const_cast<char*>((const char*)kelas_textCtrl->GetValue().mb_str()))<<","
+                    <<"keterangan="<<mysqlpp::quote<<(const_cast<char*>((const char*)keterangan_textCtrl->GetValue().mb_str()))<<","
+                    <<"tunjangan_perbulan="<<mysqlpp::quote<<(const_cast<char*>((const char*)tunjangan_perbulan_textCtrl->GetValue().mb_str()))
+                    <<" WHERE idbkelas="<<ref_id
+                    <<" LIMIT 1";
+            }
+            bool res_ins=qry.execute();
+            if(!res_ins){
+                wxString error_msg=wxString(wxT("Error input database: "));
+                error_msg.Append(qry.error());
+                wxLogError(error_msg);
+            }else{
+                ((KelasPanel*)GetParent())->RefreshDataView();
+                if(input_mode=="create"){
+                    ResetInput();
+                }else if(input_mode=="update"){
+                    Close();
+                }
+            }
+        }catch(mysqlpp::Exception &e){
+            wxLogMessage(e.what());
         }
     }else{
         wxLogError(wxT("Error: Database tidak terkoneksi!"));
     }
 }
-void KelasInputDialog::InputMode(char* p_input_mode){
+void KelasInputDialog::InputMode(char* p_input_mode,int p_ref_id){
     input_mode=p_input_mode;
     if(p_input_mode=="update"){
-        update_id=-1;
+        if(p_ref_id!=-1){
+            ref_id=p_ref_id;
+        }else{
+            wxLogError("Kesalahan pemrograman untuk parameter p_ref_id. Harap kontak administrator programmer.");
+        }
     }
 }
 char* KelasInputDialog::GetInputMode(){
     return input_mode;
 }
 
-void KelasInputDialog::SetUpdateId(int p_update_id){
-    update_id=p_update_id;
+int KelasInputDialog::GetRefId(){
+    return ref_id;
 }
-int KelasInputDialog::GetUpdateId(){
-    return update_id;
+
+void KelasInputDialog::SetUpdateValue(wxString kelas, wxString keterangan, wxString tunjangan_perbulan){
+    kelas_textCtrl->SetValue(kelas);
+    keterangan_textCtrl->SetValue(keterangan);
+    tunjangan_perbulan_textCtrl->SetValue(tunjangan_perbulan);
+}
+bool KelasInputDialog::IsInputValid(){
+    bool ret=true;
+    if((kelas_textCtrl->GetValue()==wxEmptyString)
+            ||(tunjangan_perbulan_textCtrl->GetValue()==wxEmptyString)
+        )
+    {
+        ret=false;
+    }
+    return ret;
 }

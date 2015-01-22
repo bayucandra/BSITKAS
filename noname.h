@@ -29,7 +29,6 @@
 #include <wx/textctrl.h>
 #include <wx/dialog.h>
 #include <wx/dataview.h>
-#include <wx/valtext.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -42,6 +41,12 @@
 #define ID_menu_kepank_btn 1006
 #define ID_menu_absensi_btn 1007
 #define ID_DLG_SETTING_save 1008
+#define ID_tambah_kelas 1009
+#define ID_ubah_kelas 1010
+#define ID_hapus_kelas 1011
+#define ID_tambah_pangkat 1012
+#define ID_ubah_pangkat 1013
+#define ID_hapus_pangkat 1014
 
 ///////////////////////////////////////////////////////////////////////////////
 /// Class BFrame
@@ -70,7 +75,7 @@ class BFrame : public wxFrame
 	
 	public:
 		
-		BFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 900,450 ), long style = wxCAPTION|wxRESIZE_BORDER|wxSUNKEN_BORDER|wxTAB_TRAVERSAL );
+		BFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 900,450 ), long style = wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLIP_CHILDREN|wxSUNKEN_BORDER|wxTAB_TRAVERSAL );
 		
 		~BFrame();
 	
@@ -86,6 +91,12 @@ class BSettingDialog : public wxDialog
 	protected:
 		wxStaticText* MySQLServer_staticText;
 		wxTextCtrl* MySQLServer_textCtrl;
+		wxStaticText* m_staticText9;
+		wxTextCtrl* MySQLUsername_textCtrl;
+		wxStaticText* m_staticText10;
+		wxTextCtrl* MySQLPassword_textCtrl;
+		wxStaticText* m_staticText11;
+		wxTextCtrl* MySQLDBName_textCtrl;
 		wxButton* Simpan_button;
 	
 	public:
@@ -104,7 +115,9 @@ class KelasPanel : public wxPanel
 	
 	protected:
 		wxButton* tambah_kelas_button;
-		wxDataViewListCtrl* m_dataViewListCtrl1;
+		wxButton* ubah_kelas_button;
+		wxButton* hapus_kelas_button;
+		wxDataViewListCtrl* kelas_dataViewListCtrl;
 	
 	public:
 		
@@ -129,11 +142,71 @@ class KelasInputDialog : public wxDialog
 		wxTextCtrl* tunjangan_perbulan_textCtrl;
 		wxButton* tambah_button;
 		wxButton* reset_button;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnSimpan( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnReset( wxCommandEvent& event ) { event.Skip(); }
+		
 	
 	public:
 		
-		KelasInputDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,-1 ), long style = wxDEFAULT_DIALOG_STYLE ); 
+		KelasInputDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,200 ), long style = wxDEFAULT_DIALOG_STYLE ); 
 		~KelasInputDialog();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class PangkatPanel
+///////////////////////////////////////////////////////////////////////////////
+class PangkatPanel : public wxPanel 
+{
+	private:
+	
+	protected:
+		wxButton* tambah_button;
+		wxButton* ubah_button;
+		wxButton* hapus_button;
+		wxDataViewListCtrl* pangkat_dataViewListCtrl;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnTambahPangkat( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnUbahPangkat( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnHapusPangkat( wxCommandEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		
+		PangkatPanel( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,300 ), long style = wxTAB_TRAVERSAL ); 
+		~PangkatPanel();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class PangkatInputDialog
+///////////////////////////////////////////////////////////////////////////////
+class PangkatInputDialog : public wxDialog 
+{
+	private:
+	
+	protected:
+		wxStaticText* staticText1;
+		wxTextCtrl* pangkat_textCtrl;
+		wxStaticText* staticText2;
+		wxTextCtrl* keterangan_textCtrl;
+		wxStaticText* staticText3;
+		wxTextCtrl* uang_makan_textCtrl;
+		wxButton* simpan_button;
+		wxButton* reset_button;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnSimpan( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnReset( wxCommandEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		
+		PangkatInputDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,200 ), long style = wxDEFAULT_DIALOG_STYLE ); 
+		~PangkatInputDialog();
 	
 };
 

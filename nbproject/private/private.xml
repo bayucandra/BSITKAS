@@ -8,17 +8,21 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/D:/Projects/Windows/BSITKAS/kepank/kepank_notebook.h</file>
-            <file>file:/D:/Projects/Windows/BSITKAS/main.cpp</file>
+            <file>file:/D:/Projects/Windows/BSITKAS/kepank/kelas_panel.cpp</file>
             <file>file:/D:/Projects/Windows/BSITKAS/kepank/kelas_input_dialog.cpp</file>
-            <file>file:/D:/Projects/Windows/BSITKAS/event_enum.h</file>
+            <file>file:/D:/Projects/Windows/BSITKAS/pegawai/pegawai_panel.h</file>
+            <file>file:/D:/Projects/Windows/BSITKAS/pegawai/pegawai_salin_dialog.h</file>
+            <file>file:/D:/Projects/Windows/BSITKAS/BFrame.h</file>
+            <file>file:/D:/Projects/Windows/BSITKAS/pegawai/pegawai_salin_dialog.cpp</file>
+            <file>file:/D:/Projects/Windows/BSITKAS/main.cpp</file>
+            <file>file:/D:/Projects/Windows/BSITKAS/pegawai/pegawai_notebook.h</file>
+            <file>file:/D:/Projects/Windows/BSITKAS/pegawai/pegawai_notebook.cpp</file>
             <file>file:/D:/Projects/Windows/BSITKAS/functions/general.h</file>
+            <file>file:/D:/Projects/Windows/BSITKAS/kepank/kepank_notebook.cpp</file>
             <file>file:/D:/Projects/Windows/BSITKAS/kepank/kelas_input_dialog.h</file>
             <file>file:/D:/Projects/Windows/BSITKAS/BFrame.cpp</file>
-            <file>file:/D:/Projects/Windows/BSITKAS/BSettingDialog.cpp</file>
-            <file>file:/D:/Projects/Windows/BSITKAS/BFrame.h</file>
             <file>file:/D:/Projects/Windows/BSITKAS/kepank/kelas_panel.h</file>
-            <file>file:/D:/Projects/Windows/BSITKAS/BSettingDialog.h</file>
-            <file>file:/D:/Projects/Windows/BSITKAS/ssql_tpl.h</file>
+            <file>file:/D:/Projects/Windows/BSITKAS/pegawai/pegawai_panel.cpp</file>
         </group>
     </open-files>
 </project-private>

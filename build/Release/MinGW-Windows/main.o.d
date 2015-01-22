@@ -274,16 +274,15 @@ build/Release/MinGW-Windows/main.o: main.cpp \
  ../../../IDE/MySQL++/include/transaction.h \
  ../../../IDE/MySQL++/include/insertpolicy.h \
  ../../../IDE/MySQL++/include/scopedconnection.h \
- ../../../IDE/MySQL++/include/sql_types.h ssql_tpl.h \
- ../../../IDE/MySQL++/include/ssqls.h functions/general.h \
+ ../../../IDE/MySQL++/include/sql_types.h functions/general.h \
  d:/wxWidgets-3.0.2/include/wx/file.h \
  d:/wxWidgets-3.0.2/include/wx/convauto.h \
  d:/wxWidgets-3.0.2/include/wx/cmdline.h \
  d:/wxWidgets-3.0.2/include/wx/stdpaths.h \
  d:/wxWidgets-3.0.2/include/wx/msw/stdpaths.h \
  d:/wxWidgets-3.0.2/include/wx/dir.h \
- d:/wxWidgets-3.0.2/include/wx/xml/xml.h event_enum.h BFrame.cpp \
- images/logo.xpm BFrame.h d:/wxWidgets-3.0.2/include/wx/artprov.h \
+ d:/wxWidgets-3.0.2/include/wx/xml/xml.h BFrame.cpp images/logo.xpm \
+ BFrame.h d:/wxWidgets-3.0.2/include/wx/artprov.h \
  d:/wxWidgets-3.0.2/include/wx/xrc/xmlres.h \
  d:/wxWidgets-3.0.2/include/wx/filesys.h \
  d:/wxWidgets-3.0.2/include/wx/filename.h \
@@ -296,8 +295,7 @@ build/Release/MinGW-Windows/main.o: main.cpp \
  d:/wxWidgets-3.0.2/include/wx/bookctrl.h \
  d:/wxWidgets-3.0.2/include/wx/withimages.h \
  d:/wxWidgets-3.0.2/include/wx/notebook.h \
- d:/wxWidgets-3.0.2/include/wx/msw/notebook.h BSettingDialog.h \
- kepank/kepank_notebook.h kepank/kelas_panel.h \
+ d:/wxWidgets-3.0.2/include/wx/msw/notebook.h \
  d:/wxWidgets-3.0.2/include/wx/dataview.h \
  d:/wxWidgets-3.0.2/include/wx/headercol.h \
  d:/wxWidgets-3.0.2/include/wx/dnd.h \
@@ -308,8 +306,23 @@ build/Release/MinGW-Windows/main.o: main.cpp \
  d:/wxWidgets-3.0.2/include/wx/generic/dvrenderer.h \
  d:/wxWidgets-3.0.2/include/wx/generic/dvrenderers.h \
  d:/wxWidgets-3.0.2/include/wx/generic/dataview.h \
- kepank/kelas_input_dialog.cpp kepank/kelas_input_dialog.h \
- BSettingDialog.cpp
+ d:/wxWidgets-3.0.2/include/wx/datectrl.h \
+ d:/wxWidgets-3.0.2/include/wx/datetimectrl.h \
+ d:/wxWidgets-3.0.2/include/wx/msw/datetimectrl.h \
+ d:/wxWidgets-3.0.2/include/wx/msw/datectrl.h \
+ d:/wxWidgets-3.0.2/include/wx/dateevt.h BSettingDialog.h \
+ kepank/kepank_notebook.h kepank/kelas_panel.h \
+ kepank/kelas_input_dialog.h kepank/pangkat_panel.h \
+ kepank/pangkat_input_dialog.h pegawai/pegawai_notebook.h \
+ pegawai/pegawai_panel.h pegawai/pegawai_salin_dialog.h \
+ absensi/absensi_notebook.h absensi/absensi_panel.h absensi/izin_panel.h \
+ kepank/kepank_notebook.cpp kepank/kepank_notebook.h \
+ kepank/kelas_panel.cpp kepank/kelas_input_dialog.cpp \
+ kepank/pangkat_panel.cpp kepank/pangkat_input_dialog.cpp \
+ pegawai/pegawai_notebook.cpp pegawai/pegawai_notebook.h \
+ pegawai/pegawai_panel.cpp pegawai/pegawai_salin_dialog.cpp \
+ absensi/absensi_notebook.cpp absensi/absensi_notebook.h \
+ absensi/absensi_panel.cpp absensi/izin_panel.cpp BSettingDialog.cpp
 
 d:/wxWidgets-3.0.2/include/wx/wxprec.h:
 
@@ -867,10 +880,6 @@ c:/Program\ Files/MySQL/MySQL\ Server\ 5.6/include/my_alloc.h:
 
 ../../../IDE/MySQL++/include/sql_types.h:
 
-ssql_tpl.h:
-
-../../../IDE/MySQL++/include/ssqls.h:
-
 functions/general.h:
 
 d:/wxWidgets-3.0.2/include/wx/file.h:
@@ -886,8 +895,6 @@ d:/wxWidgets-3.0.2/include/wx/msw/stdpaths.h:
 d:/wxWidgets-3.0.2/include/wx/dir.h:
 
 d:/wxWidgets-3.0.2/include/wx/xml/xml.h:
-
-event_enum.h:
 
 BFrame.cpp:
 
@@ -923,12 +930,6 @@ d:/wxWidgets-3.0.2/include/wx/notebook.h:
 
 d:/wxWidgets-3.0.2/include/wx/msw/notebook.h:
 
-BSettingDialog.h:
-
-kepank/kepank_notebook.h:
-
-kepank/kelas_panel.h:
-
 d:/wxWidgets-3.0.2/include/wx/dataview.h:
 
 d:/wxWidgets-3.0.2/include/wx/headercol.h:
@@ -949,8 +950,66 @@ d:/wxWidgets-3.0.2/include/wx/generic/dvrenderers.h:
 
 d:/wxWidgets-3.0.2/include/wx/generic/dataview.h:
 
-kepank/kelas_input_dialog.cpp:
+d:/wxWidgets-3.0.2/include/wx/datectrl.h:
+
+d:/wxWidgets-3.0.2/include/wx/datetimectrl.h:
+
+d:/wxWidgets-3.0.2/include/wx/msw/datetimectrl.h:
+
+d:/wxWidgets-3.0.2/include/wx/msw/datectrl.h:
+
+d:/wxWidgets-3.0.2/include/wx/dateevt.h:
+
+BSettingDialog.h:
+
+kepank/kepank_notebook.h:
+
+kepank/kelas_panel.h:
 
 kepank/kelas_input_dialog.h:
+
+kepank/pangkat_panel.h:
+
+kepank/pangkat_input_dialog.h:
+
+pegawai/pegawai_notebook.h:
+
+pegawai/pegawai_panel.h:
+
+pegawai/pegawai_salin_dialog.h:
+
+absensi/absensi_notebook.h:
+
+absensi/absensi_panel.h:
+
+absensi/izin_panel.h:
+
+kepank/kepank_notebook.cpp:
+
+kepank/kepank_notebook.h:
+
+kepank/kelas_panel.cpp:
+
+kepank/kelas_input_dialog.cpp:
+
+kepank/pangkat_panel.cpp:
+
+kepank/pangkat_input_dialog.cpp:
+
+pegawai/pegawai_notebook.cpp:
+
+pegawai/pegawai_notebook.h:
+
+pegawai/pegawai_panel.cpp:
+
+pegawai/pegawai_salin_dialog.cpp:
+
+absensi/absensi_notebook.cpp:
+
+absensi/absensi_notebook.h:
+
+absensi/absensi_panel.cpp:
+
+absensi/izin_panel.cpp:
 
 BSettingDialog.cpp:

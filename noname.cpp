@@ -153,6 +153,27 @@ BSettingDialog::BSettingDialog( wxWindow* parent, wxWindowID id, const wxString&
 	MySQLServer_textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 300,-1 ), 0 );
 	SettingfgSizer->Add( MySQLServer_textCtrl, 1, wxALL, 5 );
 	
+	m_staticText9 = new wxStaticText( this, wxID_ANY, wxT("Username"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText9->Wrap( -1 );
+	SettingfgSizer->Add( m_staticText9, 0, wxALL, 5 );
+	
+	MySQLUsername_textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 200,-1 ), 0 );
+	SettingfgSizer->Add( MySQLUsername_textCtrl, 0, wxALL, 5 );
+	
+	m_staticText10 = new wxStaticText( this, wxID_ANY, wxT("Password"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText10->Wrap( -1 );
+	SettingfgSizer->Add( m_staticText10, 0, wxALL, 5 );
+	
+	MySQLPassword_textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 200,-1 ), wxTE_PASSWORD );
+	SettingfgSizer->Add( MySQLPassword_textCtrl, 0, wxALL, 5 );
+	
+	m_staticText11 = new wxStaticText( this, wxID_ANY, wxT("DB Name"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText11->Wrap( -1 );
+	SettingfgSizer->Add( m_staticText11, 0, wxALL, 5 );
+	
+	MySQLDBName_textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 250,-1 ), 0 );
+	SettingfgSizer->Add( MySQLDBName_textCtrl, 0, wxALL, 5 );
+	
 	
 	SettingWrapperbSizer->Add( SettingfgSizer, 1, wxALL|wxEXPAND, 10 );
 	
@@ -178,14 +199,20 @@ KelasPanel::KelasPanel( wxWindow* parent, wxWindowID id, const wxPoint& pos, con
 	wxBoxSizer* button_bSizer;
 	button_bSizer = new wxBoxSizer( wxHORIZONTAL );
 	
-	tambah_kelas_button = new wxButton( this, wxID_ANY, wxT("Tambah Kelas"), wxDefaultPosition, wxDefaultSize, 0 );
+	tambah_kelas_button = new wxButton( this, ID_tambah_kelas, wxT("Tambah"), wxDefaultPosition, wxDefaultSize, 0 );
 	button_bSizer->Add( tambah_kelas_button, 0, wxALL, 5 );
+	
+	ubah_kelas_button = new wxButton( this, ID_ubah_kelas, wxT("Ubah"), wxDefaultPosition, wxDefaultSize, 0 );
+	button_bSizer->Add( ubah_kelas_button, 0, wxALL, 5 );
+	
+	hapus_kelas_button = new wxButton( this, ID_hapus_kelas, wxT("Hapus"), wxDefaultPosition, wxDefaultSize, 0 );
+	button_bSizer->Add( hapus_kelas_button, 0, wxALL, 5 );
 	
 	
 	wrapperSizer->Add( button_bSizer, 0, wxEXPAND, 5 );
 	
-	m_dataViewListCtrl1 = new wxDataViewListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
-	wrapperSizer->Add( m_dataViewListCtrl1, 1, wxALL|wxEXPAND, 5 );
+	kelas_dataViewListCtrl = new wxDataViewListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxDV_HORIZ_RULES|wxDV_ROW_LINES );
+	wrapperSizer->Add( kelas_dataViewListCtrl, 1, wxALL|wxEXPAND, 5 );
 	
 	
 	this->SetSizer( wrapperSizer );
@@ -210,21 +237,21 @@ KelasInputDialog::KelasInputDialog( wxWindow* parent, wxWindowID id, const wxStr
 	kelas_staticText->Wrap( -1 );
 	input_fgSizer->Add( kelas_staticText, 0, wxALL, 5 );
 	
-	kelas_textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	kelas_textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER );
 	input_fgSizer->Add( kelas_textCtrl, 0, wxALL, 5 );
 	
 	keterangan_staticText = new wxStaticText( this, wxID_ANY, wxT("Keterangan"), wxDefaultPosition, wxDefaultSize, 0 );
 	keterangan_staticText->Wrap( -1 );
 	input_fgSizer->Add( keterangan_staticText, 0, wxALL, 5 );
 	
-	keterangan_textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	keterangan_textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER );
 	input_fgSizer->Add( keterangan_textCtrl, 0, wxALL|wxEXPAND, 5 );
 	
 	tunjangan_perbulan_staticText = new wxStaticText( this, wxID_ANY, wxT("Tunjangan perbulan"), wxDefaultPosition, wxDefaultSize, 0 );
 	tunjangan_perbulan_staticText->Wrap( -1 );
 	input_fgSizer->Add( tunjangan_perbulan_staticText, 0, wxALL, 5 );
 	
-	tunjangan_perbulan_textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 250,-1 ), wxTE_RIGHT );
+	tunjangan_perbulan_textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 200,-1 ), wxTE_PROCESS_ENTER|wxTE_RIGHT );
 	input_fgSizer->Add( tunjangan_perbulan_textCtrl, 0, wxALL, 5 );
 	
 	
@@ -247,8 +274,135 @@ KelasInputDialog::KelasInputDialog( wxWindow* parent, wxWindowID id, const wxStr
 	this->Layout();
 	
 	this->Centre( wxBOTH );
+	
+	// Connect Events
+	kelas_textCtrl->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( KelasInputDialog::OnSimpan ), NULL, this );
+	keterangan_textCtrl->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( KelasInputDialog::OnSimpan ), NULL, this );
+	tunjangan_perbulan_textCtrl->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( KelasInputDialog::OnSimpan ), NULL, this );
+	tambah_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( KelasInputDialog::OnSimpan ), NULL, this );
+	reset_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( KelasInputDialog::OnReset ), NULL, this );
 }
 
 KelasInputDialog::~KelasInputDialog()
 {
+	// Disconnect Events
+	kelas_textCtrl->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( KelasInputDialog::OnSimpan ), NULL, this );
+	keterangan_textCtrl->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( KelasInputDialog::OnSimpan ), NULL, this );
+	tunjangan_perbulan_textCtrl->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( KelasInputDialog::OnSimpan ), NULL, this );
+	tambah_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( KelasInputDialog::OnSimpan ), NULL, this );
+	reset_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( KelasInputDialog::OnReset ), NULL, this );
+	
+}
+
+PangkatPanel::PangkatPanel( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
+{
+	wxBoxSizer* wrapperSizer;
+	wrapperSizer = new wxBoxSizer( wxVERTICAL );
+	
+	wxBoxSizer* button_bSizer;
+	button_bSizer = new wxBoxSizer( wxHORIZONTAL );
+	
+	tambah_button = new wxButton( this, ID_tambah_pangkat, wxT("Tambah"), wxDefaultPosition, wxDefaultSize, 0 );
+	button_bSizer->Add( tambah_button, 0, wxALL, 5 );
+	
+	ubah_button = new wxButton( this, ID_ubah_pangkat, wxT("Ubah"), wxDefaultPosition, wxDefaultSize, 0 );
+	button_bSizer->Add( ubah_button, 0, wxALL, 5 );
+	
+	hapus_button = new wxButton( this, ID_hapus_pangkat, wxT("Hapus"), wxDefaultPosition, wxDefaultSize, 0 );
+	button_bSizer->Add( hapus_button, 0, wxALL, 5 );
+	
+	
+	wrapperSizer->Add( button_bSizer, 0, wxEXPAND, 5 );
+	
+	pangkat_dataViewListCtrl = new wxDataViewListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxDV_HORIZ_RULES|wxDV_ROW_LINES );
+	wrapperSizer->Add( pangkat_dataViewListCtrl, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	this->SetSizer( wrapperSizer );
+	this->Layout();
+	
+	// Connect Events
+	tambah_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PangkatPanel::OnTambahPangkat ), NULL, this );
+	ubah_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PangkatPanel::OnUbahPangkat ), NULL, this );
+	hapus_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PangkatPanel::OnHapusPangkat ), NULL, this );
+}
+
+PangkatPanel::~PangkatPanel()
+{
+	// Disconnect Events
+	tambah_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PangkatPanel::OnTambahPangkat ), NULL, this );
+	ubah_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PangkatPanel::OnUbahPangkat ), NULL, this );
+	hapus_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PangkatPanel::OnHapusPangkat ), NULL, this );
+	
+}
+
+PangkatInputDialog::PangkatInputDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	wxFlexGridSizer* input_fgSizer;
+	input_fgSizer = new wxFlexGridSizer( 0, 2, 0, 0 );
+	input_fgSizer->AddGrowableCol( 1 );
+	input_fgSizer->SetFlexibleDirection( wxBOTH );
+	input_fgSizer->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	staticText1 = new wxStaticText( this, wxID_ANY, wxT("Pangkat / Golongan"), wxDefaultPosition, wxDefaultSize, 0 );
+	staticText1->Wrap( -1 );
+	input_fgSizer->Add( staticText1, 0, wxALL, 5 );
+	
+	pangkat_textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER );
+	input_fgSizer->Add( pangkat_textCtrl, 0, wxALL, 5 );
+	
+	staticText2 = new wxStaticText( this, wxID_ANY, wxT("Keterangan"), wxDefaultPosition, wxDefaultSize, 0 );
+	staticText2->Wrap( -1 );
+	input_fgSizer->Add( staticText2, 0, wxALL, 5 );
+	
+	keterangan_textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER );
+	input_fgSizer->Add( keterangan_textCtrl, 0, wxALL|wxEXPAND, 5 );
+	
+	staticText3 = new wxStaticText( this, wxID_ANY, wxT("Uang makan"), wxDefaultPosition, wxDefaultSize, 0 );
+	staticText3->Wrap( -1 );
+	input_fgSizer->Add( staticText3, 0, wxALL, 5 );
+	
+	uang_makan_textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 200,-1 ), wxTE_PROCESS_ENTER|wxTE_RIGHT );
+	input_fgSizer->Add( uang_makan_textCtrl, 0, wxALL, 5 );
+	
+	
+	input_fgSizer->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	wxBoxSizer* button_bSizer;
+	button_bSizer = new wxBoxSizer( wxHORIZONTAL );
+	
+	simpan_button = new wxButton( this, wxID_ANY, wxT("Simpan"), wxDefaultPosition, wxDefaultSize, 0 );
+	button_bSizer->Add( simpan_button, 0, wxALL, 5 );
+	
+	reset_button = new wxButton( this, wxID_ANY, wxT("Reset Input"), wxDefaultPosition, wxDefaultSize, 0 );
+	button_bSizer->Add( reset_button, 0, wxALL, 5 );
+	
+	
+	input_fgSizer->Add( button_bSizer, 1, wxEXPAND, 5 );
+	
+	
+	this->SetSizer( input_fgSizer );
+	this->Layout();
+	
+	this->Centre( wxBOTH );
+	
+	// Connect Events
+	pangkat_textCtrl->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( PangkatInputDialog::OnSimpan ), NULL, this );
+	keterangan_textCtrl->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( PangkatInputDialog::OnSimpan ), NULL, this );
+	uang_makan_textCtrl->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( PangkatInputDialog::OnSimpan ), NULL, this );
+	simpan_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PangkatInputDialog::OnSimpan ), NULL, this );
+	reset_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PangkatInputDialog::OnReset ), NULL, this );
+}
+
+PangkatInputDialog::~PangkatInputDialog()
+{
+	// Disconnect Events
+	pangkat_textCtrl->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( PangkatInputDialog::OnSimpan ), NULL, this );
+	keterangan_textCtrl->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( PangkatInputDialog::OnSimpan ), NULL, this );
+	uang_makan_textCtrl->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( PangkatInputDialog::OnSimpan ), NULL, this );
+	simpan_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PangkatInputDialog::OnSimpan ), NULL, this );
+	reset_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PangkatInputDialog::OnReset ), NULL, this );
+	
 }

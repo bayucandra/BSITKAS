@@ -13,10 +13,9 @@
 #include <wx/intl.h>
 
 #include "mysql++.h"
-#include "ssql_tpl.h"
+//#include "ssql_tpl.h"
 
 #include "functions/general.h"
-#include "event_enum.h"
 const wxString bmain_settings[]={"mysql_server","mysql_username","mysql_password","mysql_db"};
 mysqlpp::Connection conn(false);
     
@@ -62,6 +61,7 @@ bool BApp::OnInit()
     BFrame *frame=new BFrame(NULL);
     frame->Center();
     frame->Show(true);
+    SetTopWindow(frame);
 
     
     return true;

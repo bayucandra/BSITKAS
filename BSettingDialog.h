@@ -7,6 +7,9 @@
 
 #ifndef BSETTINGDIALOG_H
 #define	BSETTINGDIALOG_H
+enum{
+    ID_DLG_SETTING_save
+};
 ///////////////////////////////////////////////////////////////////////////
 // C++ code generated with wxFormBuilder (version Jun  5 2014)
 // http://www.wxformbuilder.org/

@@ -4,13 +4,35 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <logicalFolder name="f4" displayName="absensi" projectFiles="true">
+        <itemPath>absensi/absensi_notebook.cpp</itemPath>
+        <itemPath>absensi/absensi_notebook.h</itemPath>
+        <itemPath>absensi/absensi_panel.cpp</itemPath>
+        <itemPath>absensi/absensi_panel.h</itemPath>
+        <itemPath>absensi/izin_panel.cpp</itemPath>
+        <itemPath>absensi/izin_panel.h</itemPath>
+      </logicalFolder>
       <logicalFolder name="f2" displayName="kepank" projectFiles="true">
         <itemPath>kepank/kelas_input_dialog.cpp</itemPath>
         <itemPath>D:/Projects/Windows/BSITKAS/kepank/kelas_input_dialog.h</itemPath>
+        <itemPath>kepank/kelas_panel.cpp</itemPath>
         <itemPath>D:/Projects/Windows/BSITKAS/kepank/kelas_panel.h</itemPath>
+        <itemPath>kepank/kepank_notebook.cpp</itemPath>
         <itemPath>kepank/kepank_notebook.h</itemPath>
+        <itemPath>kepank/pangkat_input_dialog.cpp</itemPath>
+        <itemPath>kepank/pangkat_input_dialog.h</itemPath>
+        <itemPath>kepank/pangkat_panel.cpp</itemPath>
+        <itemPath>kepank/pangkat_panel.h</itemPath>
       </logicalFolder>
       <logicalFolder name="f1" displayName="menu" projectFiles="true">
+      </logicalFolder>
+      <logicalFolder name="f3" displayName="pegawai" projectFiles="true">
+        <itemPath>pegawai/pegawai_notebook.cpp</itemPath>
+        <itemPath>pegawai/pegawai_notebook.h</itemPath>
+        <itemPath>pegawai/pegawai_panel.cpp</itemPath>
+        <itemPath>pegawai/pegawai_panel.h</itemPath>
+        <itemPath>pegawai/pegawai_salin_dialog.cpp</itemPath>
+        <itemPath>pegawai/pegawai_salin_dialog.h</itemPath>
       </logicalFolder>
       <itemPath>BFrame.h</itemPath>
       <itemPath>BSettingDialog.h</itemPath>
@@ -119,13 +141,49 @@
       </item>
       <item path="README.md" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="absensi/absensi_notebook.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="absensi/absensi_notebook.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="absensi/absensi_panel.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="absensi/absensi_panel.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="absensi/izin_panel.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="absensi/izin_panel.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="event_enum.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="functions/general.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="kepank/kelas_input_dialog.cpp" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="kepank/kelas_panel.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="kepank/kepank_notebook.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="kepank/pangkat_input_dialog.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="kepank/pangkat_input_dialog.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="kepank/pangkat_panel.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="kepank/pangkat_panel.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="pegawai/pegawai_notebook.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="pegawai/pegawai_notebook.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="pegawai/pegawai_panel.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="pegawai/pegawai_panel.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="pegawai/pegawai_salin_dialog.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="pegawai/pegawai_salin_dialog.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="ssql_tpl.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -153,6 +211,7 @@
             <Elem>_UNICODE</Elem>
             <Elem>__WXMSW__</Elem>
           </preprocessorList>
+          <warningLevel>0</warningLevel>
         </ccTool>
         <linkerTool>
           <output>${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bsitkas</output>

@@ -6,6 +6,9 @@
 ///////////////////////////////////////////////////////////////////////////
 #include "images/logo.xpm"
 #include "BFrame.h"
+#include "kepank/kepank_notebook.cpp"
+#include "pegawai/pegawai_notebook.cpp"
+#include "absensi/absensi_notebook.cpp"
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -100,14 +103,14 @@ BFrame::BFrame( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	menu_input_data_staticText->Wrap( -1 );
 	menu_bSizer->Add( menu_input_data_staticText, 0, wxALL, 5 );
 	
+	menu_absensi_button = new wxButton( menu_panel, ID_menu_absensi_btn, wxT("Absensi"), wxDefaultPosition, wxDefaultSize, 0 );
+	menu_bSizer->Add( menu_absensi_button, 0, wxEXPAND, 0 );
+	
 	menu_pegawai_button = new wxButton( menu_panel, ID_menu_pegawai_btn, wxT("Pegawai"), wxDefaultPosition, wxDefaultSize, 0 );
 	menu_bSizer->Add( menu_pegawai_button, 0, wxEXPAND, 0 );
 	
-	menu_kepank_button = new wxButton( menu_panel, ID_menu_kepank_btn, wxT("Kelas /Pangkat"), wxDefaultPosition, wxDefaultSize, 0 );
+	menu_kepank_button = new wxButton( menu_panel, ID_menu_kepank_btn, wxT("Kelas/Pangkat"), wxDefaultPosition, wxDefaultSize, 0 );
 	menu_bSizer->Add( menu_kepank_button, 0, wxEXPAND, 0 );
-	
-	menu_absensi_button = new wxButton( menu_panel, ID_menu_absensi_btn, wxT("Absensi"), wxDefaultPosition, wxDefaultSize, 0 );
-	menu_bSizer->Add( menu_absensi_button, 0, wxEXPAND, 0 );
 	
 	
 	menu_panel->SetSizer( menu_bSizer );
@@ -116,9 +119,6 @@ BFrame::BFrame( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	BodybSizer->Add( menu_panel, 0, wxEXPAND | wxALL, 5 );
 	
 	main_notebook = new wxSimplebook( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
-        kepank_notebook=new KepankNotebook(main_notebook);
-        main_notebook->AddPage( kepank_notebook, wxT("Kepank Notebook"));
-	
 	BodybSizer->Add( main_notebook, 1, wxEXPAND | wxALL, 5 );
 	
 	
@@ -131,6 +131,17 @@ BFrame::BFrame( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	this->Centre( wxBOTH );
         
         this->SetIcon(wxIcon(logo_xpm));
+        
+        //BEGIN BAYU============
+        absensi_notebook=new AbsensiNotebook(main_notebook);
+        main_notebook->AddPage(absensi_notebook, "Absensi Notebook");
+        
+        pegawai_notebook=new PegawaiNotebook(main_notebook);
+        main_notebook->AddPage(pegawai_notebook, "Pegawai Notebook");
+        
+        kepank_notebook=new KepankNotebook(main_notebook);
+        main_notebook->AddPage( kepank_notebook, wxT("Kepank Notebook"));
+        //END BAYU************
 }
 
 BFrame::~BFrame()
@@ -166,6 +177,9 @@ void BFrame::OnMouseMove(wxMouseEvent& evt)
         Move(wxPoint(pos.x - m_delta.x, pos.y - m_delta.y));
     }
 }
+void BFrame::OnMinimize(wxCommandEvent& event){
+    Iconize();
+}
 void BFrame::OnMaximizeRestore(wxCommandEvent& event)
 {
     if(this->IsMaximized()){
@@ -182,8 +196,18 @@ void BFrame::OnBSettingDialog(wxCommandEvent& event){
     setting_dialog->ShowModal();
 }
 
-void BFrame::OnKepank(wxCommandEvent& event){
-//    KepankPanel *kepank_panel=new KepankPanel(mdi_parent);
+
+void BFrame::OnMenuKepank(wxCommandEvent& event){
+    int kepank_idx=main_notebook->FindPage(kepank_notebook);
+    main_notebook->SetSelection(kepank_idx);
+}
+void BFrame::OnMenuPegawai(wxCommandEvent& event){
+    int pegawai_idx=main_notebook->FindPage(pegawai_notebook);
+    main_notebook->SetSelection(pegawai_idx);
+}
+void BFrame::OnMenuAbsensi(wxCommandEvent& event){
+    int absensi_idx=main_notebook->FindPage(absensi_notebook);
+    main_notebook->SetSelection(absensi_idx);
 }
 
 wxBEGIN_EVENT_TABLE(BFrame,wxFrame)
@@ -192,9 +216,12 @@ wxBEGIN_EVENT_TABLE(BFrame,wxFrame)
     EVT_MOTION(BFrame::OnMouseMove)
         
     EVT_BUTTON(wxID_EXIT, BFrame::OnExit)
+    EVT_BUTTON(ID_Minimize, BFrame::OnMinimize)
     EVT_BUTTON(ID_Maximize, BFrame::OnMaximizeRestore)
     EVT_BUTTON(ID_Setting, BFrame::OnBSettingDialog)
-        
-    EVT_BUTTON(ID_menu_kepank_btn,BFrame::OnKepank)
+
+    EVT_BUTTON(ID_menu_absensi_btn, BFrame::OnMenuAbsensi)
+    EVT_BUTTON(ID_menu_pegawai_btn, BFrame::OnMenuPegawai)
+    EVT_BUTTON(ID_menu_kepank_btn, BFrame::OnMenuKepank)
 //    EVT_MENU(wxID_ABOUT, BFrame::OnAbout)
 wxEND_EVENT_TABLE()
