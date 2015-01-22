@@ -134,6 +134,10 @@ void IzinPanel::RefreshDataView(){
 void IzinPanel::InitDateRange(){
     wxDateTime date_today=wxDateTime::Today();
     
-    wxDateTime last_month_day=wxDateTime::;
-    end_datePicker->SetValue(last_month_day);
+    wxDateTime first_day=wxDateTime(1,date_today.GetMonth(), date_today.GetYear());
+    start_datePicker->SetValue(first_day);
+    
+    wxDateTime last_day=date_today;
+    last_day.SetToLastMonthDay();
+    end_datePicker->SetValue(last_day);
 }
