@@ -1,8 +1,7 @@
-#include "izin_panel.h"
-#include "izin_dialog.h"
-#include "izin_daftar_pegawai_dialog.cpp"
-
-IzinDialog::IzinDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+#include "dinas_luar_dialog.h"
+#include "dinas_luar_daftar_pegawai_dialog.cpp"
+#include "dinas_luar_panel.h"
+DinasLuarDialog::DinasLuarDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
 {
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
 	
@@ -62,23 +61,23 @@ IzinDialog::IzinDialog( wxWindow* parent, wxWindowID id, const wxString& title, 
 	this->Centre( wxBOTH );
 	
 	// Connect Events
-	FID_textCtrl->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( IzinDialog::OnDaftarPegawaiDialog ), NULL, this );
-	nama_textCtrl->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( IzinDialog::OnDaftarPegawaiDialog ), NULL, this );
-        keterangan_textCtrl->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( IzinDialog::OnSimpan ), NULL, this );
-	simpan_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IzinDialog::OnSimpan ), NULL, this );
+	FID_textCtrl->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( DinasLuarDialog::OnDaftarPegawaiDialog ), NULL, this );
+	nama_textCtrl->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( DinasLuarDialog::OnDaftarPegawaiDialog ), NULL, this );
+        keterangan_textCtrl->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( DinasLuarDialog::OnSimpan ), NULL, this );
+	simpan_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DinasLuarDialog::OnSimpan ), NULL, this );
 }
 
-IzinDialog::~IzinDialog()
+DinasLuarDialog::~DinasLuarDialog()
 {
 	// Disconnect Events
-	FID_textCtrl->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( IzinDialog::OnDaftarPegawaiDialog ), NULL, this );
-	nama_textCtrl->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( IzinDialog::OnDaftarPegawaiDialog ), NULL, this );
-        keterangan_textCtrl->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( IzinDialog::OnSimpan ), NULL, this );
-	simpan_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IzinDialog::OnSimpan ), NULL, this );
+	FID_textCtrl->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( DinasLuarDialog::OnDaftarPegawaiDialog ), NULL, this );
+	nama_textCtrl->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( DinasLuarDialog::OnDaftarPegawaiDialog ), NULL, this );
+        keterangan_textCtrl->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( DinasLuarDialog::OnSimpan ), NULL, this );
+	simpan_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DinasLuarDialog::OnSimpan ), NULL, this );
 	
 }
 
-void IzinDialog::InputMode(char* p_input_mode, int p_ref_id, wxString p_ref_tgl){
+void DinasLuarDialog::InputMode(char* p_input_mode, int p_ref_id, wxString p_ref_tgl){
     input_mode=p_input_mode;
     if(p_input_mode=="update"){
         if((p_ref_id!=-1)&&(p_ref_tgl!=wxEmptyString)){
@@ -89,28 +88,28 @@ void IzinDialog::InputMode(char* p_input_mode, int p_ref_id, wxString p_ref_tgl)
         }
     }
 }
-void IzinDialog::OnDaftarPegawaiDialog( wxMouseEvent& event ){
-    izin_daftar_pegawai_dialog=new IzinDaftarPegawaiDialog(this);
-    izin_daftar_pegawai_dialog->Center();
-    izin_daftar_pegawai_dialog->ShowModal();
+void DinasLuarDialog::OnDaftarPegawaiDialog( wxMouseEvent& event ){
+    dinas_luar_daftar_pegawai_dialog=new DinasLuarDaftarPegawaiDialog(this);
+    dinas_luar_daftar_pegawai_dialog->Center();
+    dinas_luar_daftar_pegawai_dialog->ShowModal();
 }
-void IzinDialog::PilihPegawai(wxString p_FID, wxString p_nama){
+void DinasLuarDialog::PilihPegawai(wxString p_FID, wxString p_nama){
     FID_textCtrl->SetValue(p_FID);
     nama_textCtrl->SetValue(p_nama);
 }
-void IzinDialog::OnSimpan( wxCommandEvent& event ){
+void DinasLuarDialog::OnSimpan( wxCommandEvent& event ){
     if(FID_textCtrl->GetValue()!=wxEmptyString){
         if(conn.connected()){
             try{
                 mysqlpp::Query qry=conn.query();
                 if(input_mode=="create"){
-                    qry<<"INSERT INTO bizin(FID, tgl, keterangan) VALUES("
+                    qry<<"INSERT INTO bdinas_luar(FID, tgl, keterangan) VALUES("
                             <<mysqlpp::quote<<(const_cast<char*>((const char*)FID_textCtrl->GetValue().mb_str()))<<","
                             <<mysqlpp::quote<<(const_cast<char*>((const char*)tgl_datePicker->GetValue().FormatISODate().mb_str()))<<","
                             <<mysqlpp::quote<<(const_cast<char*>((const char*)keterangan_textCtrl->GetValue().mb_str()))
                         <<")";
                 }else if(input_mode=="update"){
-                    qry<<"UPDATE bizin SET "
+                    qry<<"UPDATE bdinas_luar SET "
                         <<"FID="<<mysqlpp::quote<<(const_cast<char*>((const char*)FID_textCtrl->GetValue().mb_str()))<<","
                         <<"tgl="<<mysqlpp::quote<<(const_cast<char*>((const char*)tgl_datePicker->GetValue().FormatISODate().mb_str()))<<","
                         <<"keterangan="<<mysqlpp::quote<<(const_cast<char*>((const char*)keterangan_textCtrl->GetValue().mb_str()))
@@ -120,14 +119,14 @@ void IzinDialog::OnSimpan( wxCommandEvent& event ){
                 }
                 bool res=qry.execute();
                 if(res){
-                    ((IzinPanel*)GetParent())->RefreshDataView();
+                    ((DinasLuarPanel*)GetParent())->RefreshDataView();
                     if(input_mode=="create"){
                         ResetInput();
                     }else if(input_mode=="update"){
                         Close();
                     }
                 }else{
-                    wxString error_msg=wxString("Error saat input data izin: ");
+                    wxString error_msg=wxString("Error saat input data dinas luar: ");
                     error_msg.Append(qry.error());
                     wxLogError(error_msg);
                 }
@@ -141,13 +140,13 @@ void IzinDialog::OnSimpan( wxCommandEvent& event ){
         wxLogError("Harap mengisi input pegawai!");
     }
 }
-void IzinDialog::ResetInput(){
+void DinasLuarDialog::ResetInput(){
     FID_textCtrl->SetValue(wxEmptyString);
     nama_textCtrl->SetValue(wxEmptyString);
     tgl_datePicker->SetValue(wxDateTime::Today());
     keterangan_textCtrl->SetValue(wxEmptyString);
 }
-void IzinDialog::SetUpdateValue(wxString p_FID, wxString p_nama, wxString p_tgl, wxString p_keterangan){
+void DinasLuarDialog::SetUpdateValue(wxString p_FID, wxString p_nama, wxString p_tgl, wxString p_keterangan){
     FID_textCtrl->SetValue(p_FID);
     nama_textCtrl->SetValue(p_nama);
     

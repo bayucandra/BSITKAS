@@ -157,6 +157,35 @@ inline bool BSetXMLConfig(wxString p_key,wxString p_value){
         return true;
     }
 }
+wxString BGetMonthName(wxString p_month_decimal){
+    wxString ret_str;
+    if(p_month_decimal==wxT("01")){
+        ret_str=wxString("Januari");
+    }else if(p_month_decimal==wxT("02")){
+        ret_str=wxString("Februari");
+    }else if(p_month_decimal==wxT("03")){
+        ret_str=wxString("Maret");
+    }else if(p_month_decimal==wxT("04")){
+        ret_str=wxString("April");
+    }else if(p_month_decimal==wxT("05")){
+        ret_str=wxString("Mei");
+    }else if(p_month_decimal==wxT("06")){
+        ret_str=wxString("Juni");
+    }else if(p_month_decimal==wxT("07")){
+        ret_str=wxString("Juli");
+    }else if(p_month_decimal==wxT("08")){
+        ret_str=wxString("Agustus");
+    }else if(p_month_decimal==wxT("09")){
+        ret_str=wxString("September");
+    }else if(p_month_decimal==wxT("10")){
+        ret_str=wxString("Oktober");
+    }else if(p_month_decimal==wxT("11")){
+        ret_str=wxString("November");
+    }else if(p_month_decimal==wxT("12")){
+        ret_str=wxString("Desember");
+    }
+    return ret_str;
+}
 //int getArrayIndex(wxString p_str,const wxString *p_arr){
 //    int idx=-1;
 //    int len=WXSIZEOF(p_arr);

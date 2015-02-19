@@ -1,28 +1,29 @@
 /* 
- * File:   izin_panel.h
+ * File:   dinas_luar_panel.h
  * Author: bayucandra@gmail.com
  *
- * Created on January 22, 2015, 9:57 PM
+ * Created on January 25, 2015, 8:23 PM
  */
 
-#ifndef IZIN_PANEL_H
-#define	IZIN_PANEL_H
+#ifndef DINAS_LUAR_PANEL_H
+#define	DINAS_LUAR_PANEL_H
 
-#include "izin_dialog.h"
+#include "dinas_luar_dialog.h"
 
-class IzinPanel : public wxPanel 
+class DinasLuarPanel : public wxPanel 
 {
 	private:
             //BEGIN BAYU=============
             void InitDataView();
             void InitDateRange();
-            IzinDialog* izin_dialog;
-            //END BAYU*******
+            DinasLuarDialog *dinas_luar_dialog;
+            //END BAYU**************
+	
 	protected:
 		wxButton* tambah_button;
 		wxButton* ubah_button;
 		wxButton* hapus_button;
-		wxDataViewListCtrl* izin_dataViewListCtrl;
+		wxDataViewListCtrl* dinas_luar_dataViewListCtrl;
 		wxPanel* footer_panel;
 		wxStaticText* m_staticText20;
 		wxDatePickerCtrl* start_datePicker;
@@ -41,12 +42,13 @@ class IzinPanel : public wxPanel
 	
 	public:
 		
-		IzinPanel( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL ); 
-		~IzinPanel();
+		DinasLuarPanel( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL ); 
+		~DinasLuarPanel();
+	
                 //BEGIN BAYU===========
                 void RefreshDataView();
                 //END BAYU**************
 };
 
-#endif	/* IZIN_PANEL_H */
+#endif	/* DINAS_LUAR_PANEL_H */
 

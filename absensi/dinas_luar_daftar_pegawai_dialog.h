@@ -1,14 +1,14 @@
 /* 
- * File:   izin_daftar_pegawai_dialog.h
+ * File:   dinas_luar_daftar_pegawai_dialog.h
  * Author: bayucandra@gmail.com
  *
- * Created on January 23, 2015, 8:30 PM
+ * Created on January 25, 2015, 9:18 PM
  */
 
-#ifndef IZIN_DAFTAR_PEGAWAI_DIALOG_H
-#define	IZIN_DAFTAR_PEGAWAI_DIALOG_H
+#ifndef DINAS_LUAR_DAFTAR_PEGAWAI_DIALOG_H
+#define	DINAS_LUAR_DAFTAR_PEGAWAI_DIALOG_H
 
-class IzinDaftarPegawaiDialog : public wxDialog 
+class DinasLuarDaftarPegawaiDialog : public wxDialog 
 {
 	private:
             //BEGIN BAYU==================
@@ -27,13 +27,13 @@ class IzinDaftarPegawaiDialog : public wxDialog
 	
 	public:
 		
-		IzinDaftarPegawaiDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Daftar pegawai"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 450,350 ), long style = wxDEFAULT_DIALOG_STYLE ); 
-		~IzinDaftarPegawaiDialog();
+		DinasLuarDaftarPegawaiDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Daftar pegawai"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 450,350 ), long style = wxDEFAULT_DIALOG_STYLE ); 
+		~DinasLuarDaftarPegawaiDialog();
                 //BEGIN BAYU=================
                 void RefreshDataView();
                 //END BAYU****************
 	
 };
 
-#endif	/* IZIN_DAFTAR_PEGAWAI_DIALOG_H */
+#endif	/* DINAS_LUAR_DAFTAR_PEGAWAI_DIALOG_H */
 

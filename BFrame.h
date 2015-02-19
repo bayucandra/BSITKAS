@@ -35,12 +35,14 @@
 #include <wx/datectrl.h>
 #include <wx/dateevt.h>
 #include "wx/dialog.h"
+#include <wx/html/htmlwin.h>
 
 //#include "event_enum.h"
 #include "BSettingDialog.h"
 #include "kepank/kepank_notebook.h"
 #include "pegawai/pegawai_notebook.h"
 #include "absensi/absensi_notebook.h"
+#include "tukin/tukin_notebook.h"
 
 enum{
     ID_Minimize, ID_Maximize, ID_Setting, 
@@ -70,6 +72,7 @@ class BFrame : public wxFrame
             
             void OnBSettingDialog(wxCommandEvent& event);
             
+            void OnMenuTukin(wxCommandEvent& event);
             void OnMenuAbsensi(wxCommandEvent& event);
             void OnMenuPegawai(wxCommandEvent& event);
             void OnMenuKepank(wxCommandEvent& event);
@@ -92,6 +95,7 @@ class BFrame : public wxFrame
 		wxButton* menu_kepank_button;
 		wxSimplebook* main_notebook;
                 //BEGIN BAYU===========
+                TukinNotebook* tukin_notebook;
                 AbsensiNotebook* absensi_notebook;
                 PegawaiNotebook* pegawai_notebook;
                 KepankNotebook* kepank_notebook;

@@ -1,15 +1,16 @@
 /* 
- * File:   absensi_dialog.h
+ * File:   dinas_luar_dialog.h
  * Author: bayucandra@gmail.com
  *
- * Created on January 23, 2015, 7:15 PM
+ * Created on January 25, 2015, 9:14 PM
  */
 
-#ifndef ABSENSI_DIALOG_H
-#define	ABSENSI_DIALOG_H
-#include "izin_daftar_pegawai_dialog.h"
+#ifndef DINAS_LUAR_DIALOG_H
+#define	DINAS_LUAR_DIALOG_H
 
-class IzinDialog : public wxDialog 
+#include "dinas_luar_daftar_pegawai_dialog.h"
+
+class DinasLuarDialog : public wxDialog 
 {
 	private:
             //BEGIN BAYU=============
@@ -17,7 +18,7 @@ class IzinDialog : public wxDialog
             int ref_id;
             wxString ref_tgl;
             
-            IzinDaftarPegawaiDialog *izin_daftar_pegawai_dialog;
+            DinasLuarDaftarPegawaiDialog *dinas_luar_daftar_pegawai_dialog;
             void ResetInput();
             //END BAYU******************
 	
@@ -38,8 +39,8 @@ class IzinDialog : public wxDialog
 	
 	public:
 		
-		IzinDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 450,180 ), long style = wxDEFAULT_DIALOG_STYLE ); 
-		~IzinDialog();
+		DinasLuarDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 450,180 ), long style = wxDEFAULT_DIALOG_STYLE ); 
+		~DinasLuarDialog();
                 //BEGIN BAYU============
                 void InputMode(char* p_input_mode, int p_ref_id=-1, wxString p_ref_tgl=wxEmptyString);
                 void PilihPegawai(wxString p_FID, wxString p_nama);
@@ -48,5 +49,5 @@ class IzinDialog : public wxDialog
 	
 };
 
-#endif	/* ABSENSI_DIALOG_H */
+#endif	/* DINAS_LUAR_DIALOG_H */
 

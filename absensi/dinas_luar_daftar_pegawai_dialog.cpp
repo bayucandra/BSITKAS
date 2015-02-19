@@ -1,7 +1,7 @@
-#include "izin_daftar_pegawai_dialog.h"
-#include "izin_dialog.h"
+#include "dinas_luar_daftar_pegawai_dialog.h"
+#include "dinas_luar_dialog.h"
 
-IzinDaftarPegawaiDialog::IzinDaftarPegawaiDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+DinasLuarDaftarPegawaiDialog::DinasLuarDaftarPegawaiDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
 {
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
 	
@@ -30,23 +30,23 @@ IzinDaftarPegawaiDialog::IzinDaftarPegawaiDialog( wxWindow* parent, wxWindowID i
 	this->Centre( wxBOTH );
 	
 	// Connect Events
-	cari_textCtrl->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( IzinDaftarPegawaiDialog::OnCari ), NULL, this );
-	cari_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IzinDaftarPegawaiDialog::OnCari ), NULL, this );
-	this->Connect( wxID_ANY, wxEVT_COMMAND_DATAVIEW_ITEM_ACTIVATED, wxDataViewEventHandler( IzinDaftarPegawaiDialog::OnPilih ) );
+	cari_textCtrl->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( DinasLuarDaftarPegawaiDialog::OnCari ), NULL, this );
+	cari_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DinasLuarDaftarPegawaiDialog::OnCari ), NULL, this );
+	this->Connect( wxID_ANY, wxEVT_COMMAND_DATAVIEW_ITEM_ACTIVATED, wxDataViewEventHandler( DinasLuarDaftarPegawaiDialog::OnPilih ) );
         //BEGIN BAYU===========
         InitDataView();
 }
 
-IzinDaftarPegawaiDialog::~IzinDaftarPegawaiDialog()
+DinasLuarDaftarPegawaiDialog::~DinasLuarDaftarPegawaiDialog()
 {
 	// Disconnect Events
-	cari_textCtrl->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( IzinDaftarPegawaiDialog::OnCari ), NULL, this );
-	cari_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IzinDaftarPegawaiDialog::OnCari ), NULL, this );
-	this->Disconnect( wxID_ANY, wxEVT_COMMAND_DATAVIEW_ITEM_ACTIVATED, wxDataViewEventHandler( IzinDaftarPegawaiDialog::OnPilih ) );
+	cari_textCtrl->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( DinasLuarDaftarPegawaiDialog::OnCari ), NULL, this );
+	cari_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DinasLuarDaftarPegawaiDialog::OnCari ), NULL, this );
+	this->Disconnect( wxID_ANY, wxEVT_COMMAND_DATAVIEW_ITEM_ACTIVATED, wxDataViewEventHandler( DinasLuarDaftarPegawaiDialog::OnPilih ) );
 	
 }
 
-void IzinDaftarPegawaiDialog::InitDataView(){
+void DinasLuarDaftarPegawaiDialog::InitDataView(){
     wxDataViewListStore* pegawai_store=new wxDataViewListStore();
     pegawai_dataViewListCtrl->AssociateModel(pegawai_store);
     pegawai_store->DecRef();
@@ -60,10 +60,10 @@ void IzinDaftarPegawaiDialog::InitDataView(){
     
     RefreshDataView();
 }
-void IzinDaftarPegawaiDialog::OnCari( wxCommandEvent& event ){
+void DinasLuarDaftarPegawaiDialog::OnCari( wxCommandEvent& event ){
     RefreshDataView();
 }
-void IzinDaftarPegawaiDialog::RefreshDataView(){
+void DinasLuarDaftarPegawaiDialog::RefreshDataView(){
     if(conn.connected()){
         pegawai_dataViewListCtrl->DeleteAllItems();
         try{
@@ -103,16 +103,17 @@ void IzinDaftarPegawaiDialog::RefreshDataView(){
         wxLogError("Error, database tidak terkoneksi.");
     }
 }
-void IzinDaftarPegawaiDialog::OnPilih( wxDataViewEvent& event ){
+void DinasLuarDaftarPegawaiDialog::OnPilih( wxDataViewEvent& event ){
     Pilih();
 }
-void IzinDaftarPegawaiDialog::Pilih(){
+void DinasLuarDaftarPegawaiDialog::Pilih(){
     if(pegawai_dataViewListCtrl->HasSelection()){
         int selected_row=pegawai_dataViewListCtrl->GetSelectedRow();
-        ((IzinDialog*)GetParent())->PilihPegawai(
+        ((DinasLuarDialog*)GetParent())->PilihPegawai(
                 pegawai_dataViewListCtrl->GetTextValue(selected_row, 1),
                 pegawai_dataViewListCtrl->GetTextValue(selected_row, 2)
             );
         Close();
     }
 }
+

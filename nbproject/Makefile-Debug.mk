@@ -37,7 +37,15 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/absensi/absensi_notebook.o \
 	${OBJECTDIR}/absensi/absensi_panel.o \
+	${OBJECTDIR}/absensi/dinas_luar_daftar_pegawai_dialog.o \
+	${OBJECTDIR}/absensi/dinas_luar_dialog.o \
+	${OBJECTDIR}/absensi/dinas_luar_panel.o \
+	${OBJECTDIR}/absensi/izin_daftar_pegawai_dialog.o \
+	${OBJECTDIR}/absensi/izin_dialog.o \
 	${OBJECTDIR}/absensi/izin_panel.o \
+	${OBJECTDIR}/absensi/surat_tugas_daftar_pegawai_dialog.o \
+	${OBJECTDIR}/absensi/surat_tugas_dialog.o \
+	${OBJECTDIR}/absensi/surat_tugas_panel.o \
 	${OBJECTDIR}/kepank/kelas_input_dialog.o \
 	${OBJECTDIR}/kepank/kelas_panel.o \
 	${OBJECTDIR}/kepank/kepank_notebook.o \
@@ -46,7 +54,9 @@ OBJECTFILES= \
 	${OBJECTDIR}/main.o \
 	${OBJECTDIR}/pegawai/pegawai_notebook.o \
 	${OBJECTDIR}/pegawai/pegawai_panel.o \
-	${OBJECTDIR}/pegawai/pegawai_salin_dialog.o
+	${OBJECTDIR}/pegawai/pegawai_salin_dialog.o \
+	${OBJECTDIR}/tukin/tukin_notebook.o \
+	${OBJECTDIR}/tukin/tukin_panel.o
 
 
 # C Compiler Flags
@@ -87,10 +97,50 @@ ${OBJECTDIR}/absensi/absensi_panel.o: absensi/absensi_panel.cpp
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -D_UNICODE -D__WXMSW__ -I/D/wxWidgets-3.0.2/include -I../../../wxWidgets-3.0.2/lib/gcc_lib/mswud -I/D/IDE/mysql-connector-c++-noinstall-1.1.5-win32/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/absensi/absensi_panel.o absensi/absensi_panel.cpp
 
+${OBJECTDIR}/absensi/dinas_luar_daftar_pegawai_dialog.o: absensi/dinas_luar_daftar_pegawai_dialog.cpp 
+	${MKDIR} -p ${OBJECTDIR}/absensi
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -D_UNICODE -D__WXMSW__ -I/D/wxWidgets-3.0.2/include -I../../../wxWidgets-3.0.2/lib/gcc_lib/mswud -I/D/IDE/mysql-connector-c++-noinstall-1.1.5-win32/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/absensi/dinas_luar_daftar_pegawai_dialog.o absensi/dinas_luar_daftar_pegawai_dialog.cpp
+
+${OBJECTDIR}/absensi/dinas_luar_dialog.o: absensi/dinas_luar_dialog.cpp 
+	${MKDIR} -p ${OBJECTDIR}/absensi
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -D_UNICODE -D__WXMSW__ -I/D/wxWidgets-3.0.2/include -I../../../wxWidgets-3.0.2/lib/gcc_lib/mswud -I/D/IDE/mysql-connector-c++-noinstall-1.1.5-win32/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/absensi/dinas_luar_dialog.o absensi/dinas_luar_dialog.cpp
+
+${OBJECTDIR}/absensi/dinas_luar_panel.o: absensi/dinas_luar_panel.cpp 
+	${MKDIR} -p ${OBJECTDIR}/absensi
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -D_UNICODE -D__WXMSW__ -I/D/wxWidgets-3.0.2/include -I../../../wxWidgets-3.0.2/lib/gcc_lib/mswud -I/D/IDE/mysql-connector-c++-noinstall-1.1.5-win32/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/absensi/dinas_luar_panel.o absensi/dinas_luar_panel.cpp
+
+${OBJECTDIR}/absensi/izin_daftar_pegawai_dialog.o: absensi/izin_daftar_pegawai_dialog.cpp 
+	${MKDIR} -p ${OBJECTDIR}/absensi
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -D_UNICODE -D__WXMSW__ -I/D/wxWidgets-3.0.2/include -I../../../wxWidgets-3.0.2/lib/gcc_lib/mswud -I/D/IDE/mysql-connector-c++-noinstall-1.1.5-win32/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/absensi/izin_daftar_pegawai_dialog.o absensi/izin_daftar_pegawai_dialog.cpp
+
+${OBJECTDIR}/absensi/izin_dialog.o: absensi/izin_dialog.cpp 
+	${MKDIR} -p ${OBJECTDIR}/absensi
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -D_UNICODE -D__WXMSW__ -I/D/wxWidgets-3.0.2/include -I../../../wxWidgets-3.0.2/lib/gcc_lib/mswud -I/D/IDE/mysql-connector-c++-noinstall-1.1.5-win32/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/absensi/izin_dialog.o absensi/izin_dialog.cpp
+
 ${OBJECTDIR}/absensi/izin_panel.o: absensi/izin_panel.cpp 
 	${MKDIR} -p ${OBJECTDIR}/absensi
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -D_UNICODE -D__WXMSW__ -I/D/wxWidgets-3.0.2/include -I../../../wxWidgets-3.0.2/lib/gcc_lib/mswud -I/D/IDE/mysql-connector-c++-noinstall-1.1.5-win32/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/absensi/izin_panel.o absensi/izin_panel.cpp
+
+${OBJECTDIR}/absensi/surat_tugas_daftar_pegawai_dialog.o: absensi/surat_tugas_daftar_pegawai_dialog.cpp 
+	${MKDIR} -p ${OBJECTDIR}/absensi
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -D_UNICODE -D__WXMSW__ -I/D/wxWidgets-3.0.2/include -I../../../wxWidgets-3.0.2/lib/gcc_lib/mswud -I/D/IDE/mysql-connector-c++-noinstall-1.1.5-win32/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/absensi/surat_tugas_daftar_pegawai_dialog.o absensi/surat_tugas_daftar_pegawai_dialog.cpp
+
+${OBJECTDIR}/absensi/surat_tugas_dialog.o: absensi/surat_tugas_dialog.cpp 
+	${MKDIR} -p ${OBJECTDIR}/absensi
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -D_UNICODE -D__WXMSW__ -I/D/wxWidgets-3.0.2/include -I../../../wxWidgets-3.0.2/lib/gcc_lib/mswud -I/D/IDE/mysql-connector-c++-noinstall-1.1.5-win32/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/absensi/surat_tugas_dialog.o absensi/surat_tugas_dialog.cpp
+
+${OBJECTDIR}/absensi/surat_tugas_panel.o: absensi/surat_tugas_panel.cpp 
+	${MKDIR} -p ${OBJECTDIR}/absensi
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -D_UNICODE -D__WXMSW__ -I/D/wxWidgets-3.0.2/include -I../../../wxWidgets-3.0.2/lib/gcc_lib/mswud -I/D/IDE/mysql-connector-c++-noinstall-1.1.5-win32/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/absensi/surat_tugas_panel.o absensi/surat_tugas_panel.cpp
 
 ${OBJECTDIR}/kepank/kelas_input_dialog.o: kepank/kelas_input_dialog.cpp 
 	${MKDIR} -p ${OBJECTDIR}/kepank
@@ -136,6 +186,16 @@ ${OBJECTDIR}/pegawai/pegawai_salin_dialog.o: pegawai/pegawai_salin_dialog.cpp
 	${MKDIR} -p ${OBJECTDIR}/pegawai
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -D_UNICODE -D__WXMSW__ -I/D/wxWidgets-3.0.2/include -I../../../wxWidgets-3.0.2/lib/gcc_lib/mswud -I/D/IDE/mysql-connector-c++-noinstall-1.1.5-win32/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/pegawai/pegawai_salin_dialog.o pegawai/pegawai_salin_dialog.cpp
+
+${OBJECTDIR}/tukin/tukin_notebook.o: tukin/tukin_notebook.cpp 
+	${MKDIR} -p ${OBJECTDIR}/tukin
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -D_UNICODE -D__WXMSW__ -I/D/wxWidgets-3.0.2/include -I../../../wxWidgets-3.0.2/lib/gcc_lib/mswud -I/D/IDE/mysql-connector-c++-noinstall-1.1.5-win32/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/tukin/tukin_notebook.o tukin/tukin_notebook.cpp
+
+${OBJECTDIR}/tukin/tukin_panel.o: tukin/tukin_panel.cpp 
+	${MKDIR} -p ${OBJECTDIR}/tukin
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -D_UNICODE -D__WXMSW__ -I/D/wxWidgets-3.0.2/include -I../../../wxWidgets-3.0.2/lib/gcc_lib/mswud -I/D/IDE/mysql-connector-c++-noinstall-1.1.5-win32/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/tukin/tukin_panel.o tukin/tukin_panel.cpp
 
 # Subprojects
 .build-subprojects:

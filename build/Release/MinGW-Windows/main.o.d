@@ -3,7 +3,7 @@ build/Release/MinGW-Windows/main.o: main.cpp \
  d:/wxWidgets-3.0.2/include/wx/defs.h \
  d:/wxWidgets-3.0.2/include/wx/platform.h \
  d:/wxWidgets-3.0.2/include/wx/compiler.h \
- ../../../wxWidgets-3.0.2/lib/gcc_lib/mswu/wx/setup.h \
+ ../../wxWidgets-3.0.2/lib/gcc_lib/mswu/wx/setup.h \
  d:/wxWidgets-3.0.2/include/wx/msw/libraries.h \
  d:/wxWidgets-3.0.2/include/wx/msw/gccpriv.h \
  d:/wxWidgets-3.0.2/include/wx/chkconf.h \
@@ -230,9 +230,11 @@ build/Release/MinGW-Windows/main.o: main.cpp \
  d:/wxWidgets-3.0.2/include/wx/msw/filedlg.h \
  d:/wxWidgets-3.0.2/include/wx/mdi.h \
  d:/wxWidgets-3.0.2/include/wx/msw/mdi.h \
- ../../../IDE/MySQL++/include/mysql++.h \
- ../../../IDE/MySQL++/include/connection.h \
- ../../../IDE/MySQL++/include/common.h \
+ d:/wxWidgets-3.0.2/include/wx/splash.h \
+ d:/wxWidgets-3.0.2/include/wx/generic/splash.h \
+ ../../IDE/MySQL++/include/mysql++.h \
+ ../../IDE/MySQL++/include/connection.h \
+ ../../IDE/MySQL++/include/common.h \
  c:/Program\ Files/MySQL/MySQL\ Server\ 5.6/include/mysql_version.h \
  c:/Program\ Files/MySQL/MySQL\ Server\ 5.6/include/mysql.h \
  c:/Program\ Files/MySQL/MySQL\ Server\ 5.6/include/mysql_version.h \
@@ -241,40 +243,32 @@ build/Release/MinGW-Windows/main.o: main.cpp \
  c:/Program\ Files/MySQL/MySQL\ Server\ 5.6/include/my_list.h \
  c:/Program\ Files/MySQL/MySQL\ Server\ 5.6/include/typelib.h \
  c:/Program\ Files/MySQL/MySQL\ Server\ 5.6/include/my_alloc.h \
- ../../../IDE/MySQL++/include/noexceptions.h \
- ../../../IDE/MySQL++/include/options.h \
- ../../../IDE/MySQL++/include/tcp_connection.h \
- ../../../IDE/MySQL++/include/uds_connection.h \
- ../../../IDE/MySQL++/include/wnp_connection.h \
- ../../../IDE/MySQL++/include/cpool.h \
- ../../../IDE/MySQL++/include/beemutex.h \
- ../../../IDE/MySQL++/include/exceptions.h \
- ../../../IDE/MySQL++/include/query.h \
- ../../../IDE/MySQL++/include/qparms.h \
- ../../../IDE/MySQL++/include/stadapter.h \
- ../../../IDE/MySQL++/include/datetime.h \
- ../../../IDE/MySQL++/include/comparable.h \
- ../../../IDE/MySQL++/include/null.h \
- ../../../IDE/MySQL++/include/sql_buffer.h \
- ../../../IDE/MySQL++/include/refcounted.h \
- ../../../IDE/MySQL++/include/type_info.h \
- ../../../IDE/MySQL++/include/tiny_int.h \
- ../../../IDE/MySQL++/include/querydef.h \
- ../../../IDE/MySQL++/include/result.h \
- ../../../IDE/MySQL++/include/field.h \
- ../../../IDE/MySQL++/include/field_names.h \
- ../../../IDE/MySQL++/include/field_types.h \
- ../../../IDE/MySQL++/include/row.h \
- ../../../IDE/MySQL++/include/mystring.h \
- ../../../IDE/MySQL++/include/vallist.h \
- ../../../IDE/MySQL++/include/manip.h \
- ../../../IDE/MySQL++/include/myset.h \
- ../../../IDE/MySQL++/include/stream2string.h \
- ../../../IDE/MySQL++/include/sqlstream.h \
- ../../../IDE/MySQL++/include/transaction.h \
- ../../../IDE/MySQL++/include/insertpolicy.h \
- ../../../IDE/MySQL++/include/scopedconnection.h \
- ../../../IDE/MySQL++/include/sql_types.h functions/general.h \
+ ../../IDE/MySQL++/include/noexceptions.h \
+ ../../IDE/MySQL++/include/options.h \
+ ../../IDE/MySQL++/include/tcp_connection.h \
+ ../../IDE/MySQL++/include/uds_connection.h \
+ ../../IDE/MySQL++/include/wnp_connection.h \
+ ../../IDE/MySQL++/include/cpool.h ../../IDE/MySQL++/include/beemutex.h \
+ ../../IDE/MySQL++/include/exceptions.h ../../IDE/MySQL++/include/query.h \
+ ../../IDE/MySQL++/include/qparms.h ../../IDE/MySQL++/include/stadapter.h \
+ ../../IDE/MySQL++/include/datetime.h \
+ ../../IDE/MySQL++/include/comparable.h ../../IDE/MySQL++/include/null.h \
+ ../../IDE/MySQL++/include/sql_buffer.h \
+ ../../IDE/MySQL++/include/refcounted.h \
+ ../../IDE/MySQL++/include/type_info.h \
+ ../../IDE/MySQL++/include/tiny_int.h \
+ ../../IDE/MySQL++/include/querydef.h ../../IDE/MySQL++/include/result.h \
+ ../../IDE/MySQL++/include/field.h \
+ ../../IDE/MySQL++/include/field_names.h \
+ ../../IDE/MySQL++/include/field_types.h ../../IDE/MySQL++/include/row.h \
+ ../../IDE/MySQL++/include/mystring.h ../../IDE/MySQL++/include/vallist.h \
+ ../../IDE/MySQL++/include/manip.h ../../IDE/MySQL++/include/myset.h \
+ ../../IDE/MySQL++/include/stream2string.h \
+ ../../IDE/MySQL++/include/sqlstream.h \
+ ../../IDE/MySQL++/include/transaction.h \
+ ../../IDE/MySQL++/include/insertpolicy.h \
+ ../../IDE/MySQL++/include/scopedconnection.h \
+ ../../IDE/MySQL++/include/sql_types.h functions/general.h \
  d:/wxWidgets-3.0.2/include/wx/file.h \
  d:/wxWidgets-3.0.2/include/wx/convauto.h \
  d:/wxWidgets-3.0.2/include/wx/cmdline.h \
@@ -310,19 +304,44 @@ build/Release/MinGW-Windows/main.o: main.cpp \
  d:/wxWidgets-3.0.2/include/wx/datetimectrl.h \
  d:/wxWidgets-3.0.2/include/wx/msw/datetimectrl.h \
  d:/wxWidgets-3.0.2/include/wx/msw/datectrl.h \
- d:/wxWidgets-3.0.2/include/wx/dateevt.h BSettingDialog.h \
+ d:/wxWidgets-3.0.2/include/wx/dateevt.h \
+ d:/wxWidgets-3.0.2/include/wx/html/htmlwin.h \
+ d:/wxWidgets-3.0.2/include/wx/config.h \
+ d:/wxWidgets-3.0.2/include/wx/confbase.h \
+ d:/wxWidgets-3.0.2/include/wx/base64.h \
+ d:/wxWidgets-3.0.2/include/wx/msw/regconf.h \
+ d:/wxWidgets-3.0.2/include/wx/msw/registry.h \
+ d:/wxWidgets-3.0.2/include/wx/html/winpars.h \
+ d:/wxWidgets-3.0.2/include/wx/html/htmlpars.h \
+ d:/wxWidgets-3.0.2/include/wx/html/htmltag.h \
+ d:/wxWidgets-3.0.2/include/wx/hashset.h \
+ d:/wxWidgets-3.0.2/include/wx/html/htmlcell.h \
+ d:/wxWidgets-3.0.2/include/wx/html/htmldefs.h \
+ d:/wxWidgets-3.0.2/include/wx/encconv.h \
+ d:/wxWidgets-3.0.2/include/wx/html/htmlfilt.h BSettingDialog.h \
  kepank/kepank_notebook.h kepank/kelas_panel.h \
  kepank/kelas_input_dialog.h kepank/pangkat_panel.h \
  kepank/pangkat_input_dialog.h pegawai/pegawai_notebook.h \
  pegawai/pegawai_panel.h pegawai/pegawai_salin_dialog.h \
  absensi/absensi_notebook.h absensi/absensi_panel.h absensi/izin_panel.h \
- kepank/kepank_notebook.cpp kepank/kepank_notebook.h \
- kepank/kelas_panel.cpp kepank/kelas_input_dialog.cpp \
- kepank/pangkat_panel.cpp kepank/pangkat_input_dialog.cpp \
- pegawai/pegawai_notebook.cpp pegawai/pegawai_notebook.h \
- pegawai/pegawai_panel.cpp pegawai/pegawai_salin_dialog.cpp \
- absensi/absensi_notebook.cpp absensi/absensi_notebook.h \
- absensi/absensi_panel.cpp absensi/izin_panel.cpp BSettingDialog.cpp
+ absensi/izin_dialog.h absensi/izin_daftar_pegawai_dialog.h \
+ absensi/dinas_luar_panel.h absensi/dinas_luar_dialog.h \
+ absensi/dinas_luar_daftar_pegawai_dialog.h absensi/surat_tugas_panel.h \
+ absensi/surat_tugas_dialog.h absensi/surat_tugas_daftar_pegawai_dialog.h \
+ tukin/tukin_notebook.h tukin/tukin_panel.h kepank/kepank_notebook.cpp \
+ kepank/kepank_notebook.h kepank/kelas_panel.cpp \
+ kepank/kelas_input_dialog.cpp kepank/pangkat_panel.cpp \
+ kepank/pangkat_input_dialog.cpp pegawai/pegawai_notebook.cpp \
+ pegawai/pegawai_notebook.h pegawai/pegawai_panel.cpp \
+ pegawai/pegawai_salin_dialog.cpp absensi/absensi_notebook.cpp \
+ absensi/absensi_notebook.h absensi/absensi_panel.cpp \
+ absensi/izin_panel.cpp absensi/izin_dialog.cpp \
+ absensi/izin_daftar_pegawai_dialog.cpp absensi/dinas_luar_panel.cpp \
+ absensi/dinas_luar_dialog.cpp \
+ absensi/dinas_luar_daftar_pegawai_dialog.cpp \
+ absensi/surat_tugas_panel.cpp absensi/surat_tugas_dialog.cpp \
+ absensi/surat_tugas_daftar_pegawai_dialog.cpp tukin/tukin_notebook.cpp \
+ tukin/tukin_notebook.h tukin/tukin_panel.cpp BSettingDialog.cpp
 
 d:/wxWidgets-3.0.2/include/wx/wxprec.h:
 
@@ -332,7 +351,7 @@ d:/wxWidgets-3.0.2/include/wx/platform.h:
 
 d:/wxWidgets-3.0.2/include/wx/compiler.h:
 
-../../../wxWidgets-3.0.2/lib/gcc_lib/mswu/wx/setup.h:
+../../wxWidgets-3.0.2/lib/gcc_lib/mswu/wx/setup.h:
 
 d:/wxWidgets-3.0.2/include/wx/msw/libraries.h:
 
@@ -790,11 +809,15 @@ d:/wxWidgets-3.0.2/include/wx/mdi.h:
 
 d:/wxWidgets-3.0.2/include/wx/msw/mdi.h:
 
-../../../IDE/MySQL++/include/mysql++.h:
+d:/wxWidgets-3.0.2/include/wx/splash.h:
 
-../../../IDE/MySQL++/include/connection.h:
+d:/wxWidgets-3.0.2/include/wx/generic/splash.h:
 
-../../../IDE/MySQL++/include/common.h:
+../../IDE/MySQL++/include/mysql++.h:
+
+../../IDE/MySQL++/include/connection.h:
+
+../../IDE/MySQL++/include/common.h:
 
 c:/Program\ Files/MySQL/MySQL\ Server\ 5.6/include/mysql_version.h:
 
@@ -812,73 +835,73 @@ c:/Program\ Files/MySQL/MySQL\ Server\ 5.6/include/typelib.h:
 
 c:/Program\ Files/MySQL/MySQL\ Server\ 5.6/include/my_alloc.h:
 
-../../../IDE/MySQL++/include/noexceptions.h:
+../../IDE/MySQL++/include/noexceptions.h:
 
-../../../IDE/MySQL++/include/options.h:
+../../IDE/MySQL++/include/options.h:
 
-../../../IDE/MySQL++/include/tcp_connection.h:
+../../IDE/MySQL++/include/tcp_connection.h:
 
-../../../IDE/MySQL++/include/uds_connection.h:
+../../IDE/MySQL++/include/uds_connection.h:
 
-../../../IDE/MySQL++/include/wnp_connection.h:
+../../IDE/MySQL++/include/wnp_connection.h:
 
-../../../IDE/MySQL++/include/cpool.h:
+../../IDE/MySQL++/include/cpool.h:
 
-../../../IDE/MySQL++/include/beemutex.h:
+../../IDE/MySQL++/include/beemutex.h:
 
-../../../IDE/MySQL++/include/exceptions.h:
+../../IDE/MySQL++/include/exceptions.h:
 
-../../../IDE/MySQL++/include/query.h:
+../../IDE/MySQL++/include/query.h:
 
-../../../IDE/MySQL++/include/qparms.h:
+../../IDE/MySQL++/include/qparms.h:
 
-../../../IDE/MySQL++/include/stadapter.h:
+../../IDE/MySQL++/include/stadapter.h:
 
-../../../IDE/MySQL++/include/datetime.h:
+../../IDE/MySQL++/include/datetime.h:
 
-../../../IDE/MySQL++/include/comparable.h:
+../../IDE/MySQL++/include/comparable.h:
 
-../../../IDE/MySQL++/include/null.h:
+../../IDE/MySQL++/include/null.h:
 
-../../../IDE/MySQL++/include/sql_buffer.h:
+../../IDE/MySQL++/include/sql_buffer.h:
 
-../../../IDE/MySQL++/include/refcounted.h:
+../../IDE/MySQL++/include/refcounted.h:
 
-../../../IDE/MySQL++/include/type_info.h:
+../../IDE/MySQL++/include/type_info.h:
 
-../../../IDE/MySQL++/include/tiny_int.h:
+../../IDE/MySQL++/include/tiny_int.h:
 
-../../../IDE/MySQL++/include/querydef.h:
+../../IDE/MySQL++/include/querydef.h:
 
-../../../IDE/MySQL++/include/result.h:
+../../IDE/MySQL++/include/result.h:
 
-../../../IDE/MySQL++/include/field.h:
+../../IDE/MySQL++/include/field.h:
 
-../../../IDE/MySQL++/include/field_names.h:
+../../IDE/MySQL++/include/field_names.h:
 
-../../../IDE/MySQL++/include/field_types.h:
+../../IDE/MySQL++/include/field_types.h:
 
-../../../IDE/MySQL++/include/row.h:
+../../IDE/MySQL++/include/row.h:
 
-../../../IDE/MySQL++/include/mystring.h:
+../../IDE/MySQL++/include/mystring.h:
 
-../../../IDE/MySQL++/include/vallist.h:
+../../IDE/MySQL++/include/vallist.h:
 
-../../../IDE/MySQL++/include/manip.h:
+../../IDE/MySQL++/include/manip.h:
 
-../../../IDE/MySQL++/include/myset.h:
+../../IDE/MySQL++/include/myset.h:
 
-../../../IDE/MySQL++/include/stream2string.h:
+../../IDE/MySQL++/include/stream2string.h:
 
-../../../IDE/MySQL++/include/sqlstream.h:
+../../IDE/MySQL++/include/sqlstream.h:
 
-../../../IDE/MySQL++/include/transaction.h:
+../../IDE/MySQL++/include/transaction.h:
 
-../../../IDE/MySQL++/include/insertpolicy.h:
+../../IDE/MySQL++/include/insertpolicy.h:
 
-../../../IDE/MySQL++/include/scopedconnection.h:
+../../IDE/MySQL++/include/scopedconnection.h:
 
-../../../IDE/MySQL++/include/sql_types.h:
+../../IDE/MySQL++/include/sql_types.h:
 
 functions/general.h:
 
@@ -960,6 +983,34 @@ d:/wxWidgets-3.0.2/include/wx/msw/datectrl.h:
 
 d:/wxWidgets-3.0.2/include/wx/dateevt.h:
 
+d:/wxWidgets-3.0.2/include/wx/html/htmlwin.h:
+
+d:/wxWidgets-3.0.2/include/wx/config.h:
+
+d:/wxWidgets-3.0.2/include/wx/confbase.h:
+
+d:/wxWidgets-3.0.2/include/wx/base64.h:
+
+d:/wxWidgets-3.0.2/include/wx/msw/regconf.h:
+
+d:/wxWidgets-3.0.2/include/wx/msw/registry.h:
+
+d:/wxWidgets-3.0.2/include/wx/html/winpars.h:
+
+d:/wxWidgets-3.0.2/include/wx/html/htmlpars.h:
+
+d:/wxWidgets-3.0.2/include/wx/html/htmltag.h:
+
+d:/wxWidgets-3.0.2/include/wx/hashset.h:
+
+d:/wxWidgets-3.0.2/include/wx/html/htmlcell.h:
+
+d:/wxWidgets-3.0.2/include/wx/html/htmldefs.h:
+
+d:/wxWidgets-3.0.2/include/wx/encconv.h:
+
+d:/wxWidgets-3.0.2/include/wx/html/htmlfilt.h:
+
 BSettingDialog.h:
 
 kepank/kepank_notebook.h:
@@ -983,6 +1034,26 @@ absensi/absensi_notebook.h:
 absensi/absensi_panel.h:
 
 absensi/izin_panel.h:
+
+absensi/izin_dialog.h:
+
+absensi/izin_daftar_pegawai_dialog.h:
+
+absensi/dinas_luar_panel.h:
+
+absensi/dinas_luar_dialog.h:
+
+absensi/dinas_luar_daftar_pegawai_dialog.h:
+
+absensi/surat_tugas_panel.h:
+
+absensi/surat_tugas_dialog.h:
+
+absensi/surat_tugas_daftar_pegawai_dialog.h:
+
+tukin/tukin_notebook.h:
+
+tukin/tukin_panel.h:
 
 kepank/kepank_notebook.cpp:
 
@@ -1011,5 +1082,27 @@ absensi/absensi_notebook.h:
 absensi/absensi_panel.cpp:
 
 absensi/izin_panel.cpp:
+
+absensi/izin_dialog.cpp:
+
+absensi/izin_daftar_pegawai_dialog.cpp:
+
+absensi/dinas_luar_panel.cpp:
+
+absensi/dinas_luar_dialog.cpp:
+
+absensi/dinas_luar_daftar_pegawai_dialog.cpp:
+
+absensi/surat_tugas_panel.cpp:
+
+absensi/surat_tugas_dialog.cpp:
+
+absensi/surat_tugas_daftar_pegawai_dialog.cpp:
+
+tukin/tukin_notebook.cpp:
+
+tukin/tukin_notebook.h:
+
+tukin/tukin_panel.cpp:
 
 BSettingDialog.cpp:
