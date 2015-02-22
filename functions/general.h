@@ -186,6 +186,47 @@ wxString BGetMonthName(wxString p_month_decimal){
     }
     return ret_str;
 }
+wxString BFloatToWxString(float p_float){
+    wxString ret_str=wxEmptyString;
+    wxString tmp_str=wxString::Format(wxT("%f"),p_float);
+    size_t str_len=tmp_str.Len();
+//    wxString(str_len);
+    bool init_number=false;
+    for(size_t i=str_len;i>0;i--){
+        wxString cur_char=tmp_str.Mid(i-1,1);
+//        wxLogMessage(cur_char);
+//        wxLogMessage(wxString::Format(wxT("%i"),i));
+        if(
+                (cur_char!=wxString(wxT("0")))
+                &&(cur_char!=wxString(wxT(".")))
+            )
+        {
+            ret_str.Prepend(cur_char);
+        }else if(init_number){
+            ret_str.Prepend(cur_char);
+        }
+        if(!init_number){
+            if(cur_char!=wxString(wxT("0"))){
+                init_number=true;
+            }
+        }
+    }
+    return ret_str;
+}
+wxString BCurrencyFormat(wxString p_num_str, wxString p_currency_str){
+    wxString ret_str;
+    size_t digit_count=0;
+    for(size_t i=p_num_str.Len() ; i>0 ; i--){
+        digit_count++;
+        ret_str.Prepend(p_num_str.Mid(i-1,1));
+        if( ((digit_count%3)==0) && (digit_count<p_num_str.Len()) ){
+            ret_str.Prepend(".");
+        }
+    }
+    ret_str.Prepend(" ");
+    ret_str.Prepend(p_currency_str);
+    return ret_str;
+}
 //int getArrayIndex(wxString p_str,const wxString *p_arr){
 //    int idx=-1;
 //    int len=WXSIZEOF(p_arr);

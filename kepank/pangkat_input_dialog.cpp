@@ -77,9 +77,9 @@ PangkatInputDialog::~PangkatInputDialog()
 	reset_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PangkatInputDialog::OnReset ), NULL, this );
 	
 }
-void PangkatInputDialog::InputMode(char* p_input_mode, int p_ref_id){
+void PangkatInputDialog::InputMode(wxString p_input_mode, int p_ref_id){
     input_mode=p_input_mode;
-    if(p_input_mode=="update"){
+    if(p_input_mode==wxString("update")){
         if(p_ref_id!=-1){
             ref_id=p_ref_id;
         }else{
@@ -91,13 +91,13 @@ void PangkatInputDialog::OnSimpan( wxCommandEvent& event ){
     if(conn.connected()){
         try{
             mysqlpp::Query qry=conn.query();
-            if(input_mode=="create"){
+            if(input_mode==wxString("create")){
                 qry<<"INSERT INTO bpangkat_golongan(pangkat_golongan, keterangan, uang_makan)VALUES("
                     <<mysqlpp::quote<<(const_cast<char*>((const char*)pangkat_textCtrl->GetValue().mb_str()))<<","
                     <<mysqlpp::quote<<(const_cast<char*>((const char*)keterangan_textCtrl->GetValue().mb_str()))<<","
                     <<mysqlpp::quote<<(const_cast<char*>((const char*)uang_makan_textCtrl->GetValue().mb_str()))
                     <<")";
-            }else if(input_mode=="update"){
+            }else if(input_mode==wxString("update")){
                 qry<<"UPDATE bpangkat_golongan SET "
                     <<"pangkat_golongan="<<mysqlpp::quote<<(const_cast<char*>((const char*)pangkat_textCtrl->GetValue().mb_str()))<<","
                     <<"keterangan="<<mysqlpp::quote<<(const_cast<char*>((const char*)keterangan_textCtrl->GetValue().mb_str()))<<","
@@ -112,9 +112,9 @@ void PangkatInputDialog::OnSimpan( wxCommandEvent& event ){
                 wxLogError(error_msg);
             }else{
                 ((PangkatPanel*)GetParent())->RefreshDataView();
-                if(input_mode=="create"){
+                if(input_mode==wxString("create")){
                     ResetInput();
-                }else if(input_mode=="update"){
+                }else if(input_mode==wxString("update")){
                     Close();
                 }
             }

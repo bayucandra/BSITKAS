@@ -95,7 +95,7 @@ void PangkatPanel::RefreshDataView(){
 }
 void PangkatPanel::OnTambahPangkat(wxCommandEvent& event){
     pangkat_input_dialog=new PangkatInputDialog(this);
-    pangkat_input_dialog->InputMode("create");
+    pangkat_input_dialog->InputMode(wxString("create"));
     pangkat_input_dialog->Center();
     pangkat_input_dialog->SetTitle("Tambah Pangkat/Golongan");
     pangkat_input_dialog->ShowModal();
@@ -106,7 +106,7 @@ void PangkatPanel::OnUbahPangkat( wxCommandEvent& event ){
         int idbpangkat_golongan=wxAtoi(pangkat_dataViewListCtrl->GetTextValue(selected_row,0));
         
         pangkat_input_dialog=new PangkatInputDialog(this);
-        pangkat_input_dialog->InputMode("update", idbpangkat_golongan);
+        pangkat_input_dialog->InputMode(wxString("update"), idbpangkat_golongan);
         
         wxString title=wxString("Ubah pangkat/golongan: ");
         title.Append(pangkat_dataViewListCtrl->GetTextValue(selected_row,1));

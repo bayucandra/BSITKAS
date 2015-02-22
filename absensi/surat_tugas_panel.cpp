@@ -196,7 +196,7 @@ void SuratTugasPanel::OnFilterData( wxCommandEvent& event ){
 }
 void SuratTugasPanel::OnTambah( wxCommandEvent& event ){
     surat_tugas_dialog=new SuratTugasDialog(this);
-    surat_tugas_dialog->InputMode("create");
+    surat_tugas_dialog->InputMode(wxString("create"));
     surat_tugas_dialog->SetTitle("Tambah surat tugas");
     surat_tugas_dialog->Center();
     surat_tugas_dialog->ShowModal();
@@ -208,7 +208,7 @@ void SuratTugasPanel::OnUbah(wxCommandEvent& event){
         wxString tgl=surat_tugas_dataViewListCtrl->GetTextValue(selected_row,3);
         surat_tugas_dialog=new SuratTugasDialog(this);
 
-        surat_tugas_dialog->InputMode("update",FID,tgl);
+        surat_tugas_dialog->InputMode(wxString("update"),FID,tgl);
         
         wxString title=wxString("Ubah surat tugas: ");
         title.Append(surat_tugas_dataViewListCtrl->GetTextValue(selected_row,1));

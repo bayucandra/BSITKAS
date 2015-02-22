@@ -40,6 +40,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/absensi/dinas_luar_daftar_pegawai_dialog.o \
 	${OBJECTDIR}/absensi/dinas_luar_dialog.o \
 	${OBJECTDIR}/absensi/dinas_luar_panel.o \
+	${OBJECTDIR}/absensi/hari_libur_dialog.o \
+	${OBJECTDIR}/absensi/hari_libur_panel.o \
 	${OBJECTDIR}/absensi/izin_daftar_pegawai_dialog.o \
 	${OBJECTDIR}/absensi/izin_dialog.o \
 	${OBJECTDIR}/absensi/izin_panel.o \
@@ -83,10 +85,6 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bsitkas.exe: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bsitkas ${OBJECTFILES} ${LDLIBSOPTIONS}
 
-: /D/Projects/Windows/BSITKAS/resource.rc 
-	@echo Building resource.o
-	windres.exe resource.rc resource.o
-
 ${OBJECTDIR}/absensi/absensi_notebook.o: absensi/absensi_notebook.cpp 
 	${MKDIR} -p ${OBJECTDIR}/absensi
 	${RM} "$@.d"
@@ -111,6 +109,16 @@ ${OBJECTDIR}/absensi/dinas_luar_panel.o: absensi/dinas_luar_panel.cpp
 	${MKDIR} -p ${OBJECTDIR}/absensi
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -D_UNICODE -D__WXMSW__ -I/D/wxWidgets-3.0.2/include -I../../../wxWidgets-3.0.2/lib/gcc_lib/mswud -I/D/IDE/mysql-connector-c++-noinstall-1.1.5-win32/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/absensi/dinas_luar_panel.o absensi/dinas_luar_panel.cpp
+
+${OBJECTDIR}/absensi/hari_libur_dialog.o: absensi/hari_libur_dialog.cpp 
+	${MKDIR} -p ${OBJECTDIR}/absensi
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -D_UNICODE -D__WXMSW__ -I/D/wxWidgets-3.0.2/include -I../../../wxWidgets-3.0.2/lib/gcc_lib/mswud -I/D/IDE/mysql-connector-c++-noinstall-1.1.5-win32/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/absensi/hari_libur_dialog.o absensi/hari_libur_dialog.cpp
+
+${OBJECTDIR}/absensi/hari_libur_panel.o: absensi/hari_libur_panel.cpp 
+	${MKDIR} -p ${OBJECTDIR}/absensi
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -D_UNICODE -D__WXMSW__ -I/D/wxWidgets-3.0.2/include -I../../../wxWidgets-3.0.2/lib/gcc_lib/mswud -I/D/IDE/mysql-connector-c++-noinstall-1.1.5-win32/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/absensi/hari_libur_panel.o absensi/hari_libur_panel.cpp
 
 ${OBJECTDIR}/absensi/izin_daftar_pegawai_dialog.o: absensi/izin_daftar_pegawai_dialog.cpp 
 	${MKDIR} -p ${OBJECTDIR}/absensi
@@ -204,7 +212,6 @@ ${OBJECTDIR}/tukin/tukin_panel.o: tukin/tukin_panel.cpp
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r ${CND_BUILDDIR}/${CND_CONF}
 	${RM} ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/bsitkas.exe
-	${RM} 
 
 # Subprojects
 .clean-subprojects:

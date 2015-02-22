@@ -15,6 +15,10 @@
         <itemPath>absensi/dinas_luar_dialog.h</itemPath>
         <itemPath>absensi/dinas_luar_panel.cpp</itemPath>
         <itemPath>absensi/dinas_luar_panel.h</itemPath>
+        <itemPath>absensi/hari_libur_dialog.cpp</itemPath>
+        <itemPath>absensi/hari_libur_dialog.h</itemPath>
+        <itemPath>absensi/hari_libur_panel.cpp</itemPath>
+        <itemPath>absensi/hari_libur_panel.h</itemPath>
         <itemPath>absensi/izin_daftar_pegawai_dialog.cpp</itemPath>
         <itemPath>absensi/izin_daftar_pegawai_dialog.h</itemPath>
         <itemPath>absensi/izin_dialog.cpp</itemPath>
@@ -65,7 +69,7 @@
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
                    projectFiles="true">
-      <itemPath>D:/Projects/Windows/BSITKAS/resource.rc</itemPath>
+      <itemPath>resource.rc</itemPath>
     </logicalFolder>
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
@@ -147,15 +151,6 @@
       </item>
       <item path="BSettingDialog.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="D:/Projects/Windows/BSITKAS/resource.rc"
-            ex="false"
-            tool="3"
-            flavor2="0">
-        <customTool>
-          <customToolCommandline>windres.exe resource.rc resource.o</customToolCommandline>
-          <customToolDescription>Building resource.o</customToolDescription>
-        </customTool>
-      </item>
       <item path="README.md" ex="false" tool="3" flavor2="0">
       </item>
       <item path="absensi/absensi_notebook.cpp" ex="false" tool="1" flavor2="0">
@@ -183,6 +178,14 @@
       <item path="absensi/dinas_luar_panel.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="absensi/dinas_luar_panel.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="absensi/hari_libur_dialog.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="absensi/hari_libur_dialog.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="absensi/hari_libur_panel.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="absensi/hari_libur_panel.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="absensi/izin_daftar_pegawai_dialog.cpp"
             ex="false"
@@ -255,6 +258,8 @@
       <item path="pegawai/pegawai_salin_dialog.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="pegawai/pegawai_salin_dialog.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="resource.rc" ex="false" tool="3" flavor2="0">
       </item>
       <item path="ssql_tpl.h" ex="false" tool="3" flavor2="0">
       </item>
@@ -338,15 +343,6 @@
       <item path="BSettingDialog.cpp" ex="true" tool="1" flavor2="9">
       </item>
       <item path="BSettingDialog.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="D:/Projects/Windows/BSITKAS/resource.rc"
-            ex="false"
-            tool="3"
-            flavor2="0">
-        <customTool>
-          <customToolCommandline>windres.exe resource.rc resource.o</customToolCommandline>
-          <customToolDescription>Building resource.o</customToolDescription>
-        </customTool>
       </item>
       <item path="README.md" ex="false" tool="3" flavor2="0">
       </item>

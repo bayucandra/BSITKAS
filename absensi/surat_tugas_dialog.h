@@ -13,7 +13,7 @@ class SuratTugasDialog : public wxDialog
 {
 	private:
             //BEGIN BAYU=============
-            char* input_mode;
+            wxString input_mode;
             int ref_id;
             wxString ref_tgl;
             
@@ -41,7 +41,7 @@ class SuratTugasDialog : public wxDialog
 		SuratTugasDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 450,180 ), long style = wxDEFAULT_DIALOG_STYLE ); 
 		~SuratTugasDialog();
                 //BEGIN BAYU============
-                void InputMode(char* p_input_mode, int p_ref_id=-1, wxString p_ref_tgl=wxEmptyString);
+                void InputMode(wxString p_input_mode, int p_ref_id=-1, wxString p_ref_tgl=wxEmptyString);
                 void PilihPegawai(wxString p_FID, wxString p_nama);
                 void SetUpdateValue(wxString p_FID, wxString p_nama, wxString p_tgl, wxString p_keterangan);
                 //END BAYU*******

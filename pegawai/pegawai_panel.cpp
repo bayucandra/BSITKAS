@@ -7,7 +7,6 @@ PegawaiPanel::PegawaiPanel( wxWindow* parent, wxWindowID id, const wxPoint& pos,
 	wrapperSizer = new wxBoxSizer( wxVERTICAL );
 	
 	pegawai_splitter = new wxSplitterWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
-        pegawai_splitter->SetSashSize( 2 );
 	pegawai_splitter->Connect( wxEVT_IDLE, wxIdleEventHandler( PegawaiPanel::pegawai_splitterOnIdle ), NULL, this );
 	pegawai_splitter->SetMinimumPaneSize( 100 );
 	

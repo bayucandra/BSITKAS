@@ -89,13 +89,13 @@ void KelasInputDialog::OnSimpan(wxCommandEvent& event) {
     if(conn.connected()){
         try{
             mysqlpp::Query qry=conn.query();
-            if(this->GetInputMode()=="create"){
+            if(this->GetInputMode()==wxString(wxT("create"))){
                 qry<<"INSERT INTO bkelas(kelas,keterangan,tunjangan_perbulan) VALUES("
                     <<mysqlpp::quote<<(const_cast<char*>((const char*)kelas_textCtrl->GetValue().mb_str()))<<","
                     <<mysqlpp::quote<<(const_cast<char*>((const char*)keterangan_textCtrl->GetValue().mb_str()))<<","
                     <<(const_cast<char*>((const char*)tunjangan_perbulan_textCtrl->GetValue().mb_str()))
                     <<")";
-            }else if(this->GetInputMode()=="update"){
+            }else if(this->GetInputMode()==wxString(wxT("update"))){
                 qry<<"UPDATE bkelas SET "
                     <<"kelas="<<mysqlpp::quote<<(const_cast<char*>((const char*)kelas_textCtrl->GetValue().mb_str()))<<","
                     <<"keterangan="<<mysqlpp::quote<<(const_cast<char*>((const char*)keterangan_textCtrl->GetValue().mb_str()))<<","
@@ -110,9 +110,9 @@ void KelasInputDialog::OnSimpan(wxCommandEvent& event) {
                 wxLogError(error_msg);
             }else{
                 ((KelasPanel*)GetParent())->RefreshDataView();
-                if(input_mode=="create"){
+                if(input_mode==wxString(wxT("create"))){
                     ResetInput();
-                }else if(input_mode=="update"){
+                }else if(input_mode==wxString(wxT("update"))){
                     Close();
                 }
             }
@@ -123,9 +123,9 @@ void KelasInputDialog::OnSimpan(wxCommandEvent& event) {
         wxLogError(wxT("Error: Database tidak terkoneksi!"));
     }
 }
-void KelasInputDialog::InputMode(char* p_input_mode,int p_ref_id){
+void KelasInputDialog::InputMode(wxString p_input_mode,int p_ref_id){
     input_mode=p_input_mode;
-    if(p_input_mode=="update"){
+    if(p_input_mode==wxString("update")){
         if(p_ref_id!=-1){
             ref_id=p_ref_id;
         }else{
@@ -133,7 +133,7 @@ void KelasInputDialog::InputMode(char* p_input_mode,int p_ref_id){
         }
     }
 }
-char* KelasInputDialog::GetInputMode(){
+wxString KelasInputDialog::GetInputMode(){
     return input_mode;
 }
 

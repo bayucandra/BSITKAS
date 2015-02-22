@@ -156,7 +156,7 @@ void IzinPanel::InitDateRange(){
 }
 void IzinPanel::OnTambah( wxCommandEvent& event ){
     izin_dialog=new IzinDialog(this);
-    izin_dialog->InputMode("create");
+    izin_dialog->InputMode(wxString("create"));
     izin_dialog->SetTitle("Tambah izin pegawai");
     izin_dialog->Center();
     izin_dialog->ShowModal();
@@ -168,7 +168,7 @@ void IzinPanel::OnUbah(wxCommandEvent& event){
         wxString tgl=izin_dataViewListCtrl->GetTextValue(selected_row,3);
         izin_dialog=new IzinDialog(this);
 
-        izin_dialog->InputMode("update",FID,tgl);
+        izin_dialog->InputMode(wxString("update"),FID,tgl);
         
         wxString title=wxString("Ubah izin pegawai: ");
         title.Append(izin_dataViewListCtrl->GetTextValue(selected_row,1));

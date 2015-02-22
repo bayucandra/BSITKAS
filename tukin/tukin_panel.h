@@ -15,6 +15,8 @@ class TukinPanel : public wxPanel
             void InitMonth();
             void InitCurDateCombo();
             int TotalDaySelected();
+            wxString GetAlasan(wxDateTime p_date, wxString p_FID);
+            wxString CheckHoliday(wxString p_date_str);
             wxString GenTukin();
             wxString HeaderTukin(wxString p_year, wxString p_month);
 	protected:

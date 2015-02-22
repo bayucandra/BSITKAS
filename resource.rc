@@ -1,1 +1,2 @@
+MAINICON ICON DISCARDABLE "images/icon.ico"
 #include "wx/msw/wx.rc"

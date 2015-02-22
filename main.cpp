@@ -15,12 +15,12 @@
 #include "mysql++.h"
 //#include "ssql_tpl.h"
 
+mysqlpp::Connection conn(false);
 #include "functions/general.h"
 wxDateTime gjam_masuk(8,0,0,0);
 wxDateTime gjam_masuk_awal(7,30,0,0);
 wxDateTime gjam_pulang(16,30,0,0);
 const wxString bmain_settings[]={"mysql_server","mysql_username","mysql_password","mysql_db"};
-mysqlpp::Connection conn(false);
 
 #include "BFrame.cpp"
 #include "BSettingDialog.cpp"
@@ -69,6 +69,11 @@ bool BApp::OnInit()
             frame->Show(true);
             SetTopWindow(frame);
             //END MAIN FRAME*******************
+//            wxLogMessage(BCurrencyFormat(wxString("2000000"),wxString("Rp")));
+//            wxLogMessage(BCurrencyFormat(wxString("200000"),wxString("Rp")));
+//            wxLogMessage(BCurrencyFormat(wxString("20000"),wxString("Rp")));
+//            wxLogMessage(BCurrencyFormat(wxString("2000"),wxString("Rp")));
+//            wxLogMessage(BCurrencyFormat(wxString("200"),wxString("Rp")));
         }
     }else{
         wxLogError(wxT("Error: Harap periksa setting konfigurasi database."));

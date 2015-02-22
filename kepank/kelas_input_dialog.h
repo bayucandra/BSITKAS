@@ -12,7 +12,7 @@ class KelasInputDialog : public wxDialog
 {
 	private:
             //BEGIN BAYU==============
-            char* input_mode;
+            wxString input_mode;
             int ref_id;
             bool IsInputValid();
             //END BAYU***************
@@ -40,8 +40,8 @@ class KelasInputDialog : public wxDialog
 		~KelasInputDialog();
                 
             //BEGIN BAYU============
-            void InputMode(char* p_input_mode, int p_ref_id=-1);//create, update
-            char* GetInputMode();//return wxString
+            void InputMode(wxString p_input_mode, int p_ref_id=-1);//create, update
+            wxString GetInputMode();//return wxString
             int GetRefId();
             void SetUpdateValue(wxString kelas, wxString keterangan, wxString tunjangan_perbulan);
 };

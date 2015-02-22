@@ -12,7 +12,7 @@
 class PangkatInputDialog : public wxDialog 
 {
 	private:
-            char* input_mode;
+            wxString input_mode;
             int ref_id;
 	
 	protected:
@@ -36,7 +36,7 @@ class PangkatInputDialog : public wxDialog
 		~PangkatInputDialog();
                 
             //BEGIN BAYU==============
-                void InputMode(char* p_input_mode, int p_ref_id=-1);//create, update
+                void InputMode(wxString p_input_mode, int p_ref_id=-1);//create, update
                 void ResetInput();
                 void SetUpdateValue(wxString p_pangkat_golongan, wxString p_keterangan, wxString p_uang_makan);
 	

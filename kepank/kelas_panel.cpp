@@ -98,7 +98,7 @@ void KelasPanel::RefreshDataView(){
 }
 void KelasPanel::OnInputKelas(wxCommandEvent& event){
     kelas_input_dialog=new KelasInputDialog(this);
-    kelas_input_dialog->InputMode("create");
+    kelas_input_dialog->InputMode(wxString(wxT("create")));
     kelas_input_dialog->Center();
     kelas_input_dialog->SetTitle(wxT("Tambah Kelas"));
     kelas_input_dialog->ShowModal();
@@ -108,7 +108,7 @@ void KelasPanel::OnUbahKelas(wxCommandEvent& event){
         int selected_row=kelas_dataViewListCtrl->GetSelectedRow();
         int idbkelas=wxAtoi(kelas_dataViewListCtrl->GetTextValue(selected_row,0));
         kelas_input_dialog=new KelasInputDialog(this);
-        kelas_input_dialog->InputMode("update", idbkelas);
+        kelas_input_dialog->InputMode(wxString(wxT("update")), idbkelas);
         
         wxString title=wxString("Ubah kelas: ");
         title.Append(kelas_dataViewListCtrl->GetTextValue(selected_row,1));

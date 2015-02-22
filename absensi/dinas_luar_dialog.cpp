@@ -77,9 +77,9 @@ DinasLuarDialog::~DinasLuarDialog()
 	
 }
 
-void DinasLuarDialog::InputMode(char* p_input_mode, int p_ref_id, wxString p_ref_tgl){
+void DinasLuarDialog::InputMode(wxString p_input_mode, int p_ref_id, wxString p_ref_tgl){
     input_mode=p_input_mode;
-    if(p_input_mode=="update"){
+    if(p_input_mode==wxString("update")){
         if((p_ref_id!=-1)&&(p_ref_tgl!=wxEmptyString)){
             ref_id=p_ref_id;
             ref_tgl=p_ref_tgl;
@@ -102,13 +102,13 @@ void DinasLuarDialog::OnSimpan( wxCommandEvent& event ){
         if(conn.connected()){
             try{
                 mysqlpp::Query qry=conn.query();
-                if(input_mode=="create"){
+                if(input_mode==wxString("create")){
                     qry<<"INSERT INTO bdinas_luar(FID, tgl, keterangan) VALUES("
                             <<mysqlpp::quote<<(const_cast<char*>((const char*)FID_textCtrl->GetValue().mb_str()))<<","
                             <<mysqlpp::quote<<(const_cast<char*>((const char*)tgl_datePicker->GetValue().FormatISODate().mb_str()))<<","
                             <<mysqlpp::quote<<(const_cast<char*>((const char*)keterangan_textCtrl->GetValue().mb_str()))
                         <<")";
-                }else if(input_mode=="update"){
+                }else if(input_mode==wxString("update")){
                     qry<<"UPDATE bdinas_luar SET "
                         <<"FID="<<mysqlpp::quote<<(const_cast<char*>((const char*)FID_textCtrl->GetValue().mb_str()))<<","
                         <<"tgl="<<mysqlpp::quote<<(const_cast<char*>((const char*)tgl_datePicker->GetValue().FormatISODate().mb_str()))<<","
@@ -120,9 +120,9 @@ void DinasLuarDialog::OnSimpan( wxCommandEvent& event ){
                 bool res=qry.execute();
                 if(res){
                     ((DinasLuarPanel*)GetParent())->RefreshDataView();
-                    if(input_mode=="create"){
+                    if(input_mode==wxString("create")){
                         ResetInput();
-                    }else if(input_mode=="update"){
+                    }else if(input_mode==wxString("update")){
                         Close();
                     }
                 }else{

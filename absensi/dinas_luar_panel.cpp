@@ -196,7 +196,7 @@ void DinasLuarPanel::OnFilterData( wxCommandEvent& event ){
 }
 void DinasLuarPanel::OnTambah( wxCommandEvent& event ){
     dinas_luar_dialog=new DinasLuarDialog(this);
-    dinas_luar_dialog->InputMode("create");
+    dinas_luar_dialog->InputMode(wxString("create"));
     dinas_luar_dialog->SetTitle("Tambah dinas luar");
     dinas_luar_dialog->Center();
     dinas_luar_dialog->ShowModal();
@@ -208,7 +208,7 @@ void DinasLuarPanel::OnUbah(wxCommandEvent& event){
         wxString tgl=dinas_luar_dataViewListCtrl->GetTextValue(selected_row,3);
         dinas_luar_dialog=new DinasLuarDialog(this);
 
-        dinas_luar_dialog->InputMode("update",FID,tgl);
+        dinas_luar_dialog->InputMode(wxString("update"),FID,tgl);
         
         wxString title=wxString("Ubah dinas luar: ");
         title.Append(dinas_luar_dataViewListCtrl->GetTextValue(selected_row,1));

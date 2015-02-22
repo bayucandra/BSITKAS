@@ -8,7 +8,8 @@
 #ifndef ABSENSI_NOTEBOOK_H
 #define	ABSENSI_NOTEBOOK_H
 
-#include "absensi_panel.h"
+//#include "absensi_panel.h"
+#include "hari_libur_panel.h"
 #include "izin_panel.h"
 #include "dinas_luar_panel.h"
 #include "surat_tugas_panel.h"
@@ -16,7 +17,8 @@
 class AbsensiNotebook : public wxNotebook
 {
     private:
-        AbsensiPanel *absensi_panel;
+//        AbsensiPanel *absensi_panel;
+        HariLiburPanel *hari_libur_panel;
         IzinPanel *izin_panel;
         DinasLuarPanel *dinas_luar_panel;
         SuratTugasPanel *surat_tugas_panel;
