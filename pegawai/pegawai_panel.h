@@ -21,7 +21,6 @@ class PegawaiPanel : public wxPanel
 	protected:
 		wxSplitterWindow* pegawai_splitter;
 		wxPanel* pegawai_panel;
-		wxButton* tambah_button;
 		wxButton* ubah_button;
 		wxButton* hapus_button;
 		wxDataViewListCtrl* pegawai_dataViewListCtrl;
@@ -30,9 +29,8 @@ class PegawaiPanel : public wxPanel
 		wxDataViewListCtrl* pegawai_data_lama_dataViewListCtrl;
 		
 		// Virtual event handlers, overide them in your derived class
-		virtual void OnTambah( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnUbah( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnHapus( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnUbah( wxCommandEvent& event );
+		virtual void OnHapus( wxCommandEvent& event );
 		void OnSalin( wxCommandEvent& event );
 		
 	
@@ -50,6 +48,7 @@ class PegawaiPanel : public wxPanel
                 //BEGIN BAYU==============
                 void RefreshDataView();
                 void RefreshDataLamaView();
+                wxDataViewListCtrl* const GetPengawaiDataView(){return pegawai_dataViewListCtrl;};
                 //END BAYU********************
 	
 };

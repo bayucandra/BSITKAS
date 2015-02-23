@@ -100,14 +100,14 @@ BFrame::BFrame( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	menu_input_data_staticText->Wrap( -1 );
 	menu_bSizer->Add( menu_input_data_staticText, 0, wxALL, 5 );
 	
+	menu_absensi_button = new wxButton( menu_panel, ID_menu_absensi_btn, wxT("Absensi"), wxDefaultPosition, wxDefaultSize, 0 );
+	menu_bSizer->Add( menu_absensi_button, 0, wxEXPAND, 0 );
+	
 	menu_pegawai_button = new wxButton( menu_panel, ID_menu_pegawai_btn, wxT("Pegawai"), wxDefaultPosition, wxDefaultSize, 0 );
 	menu_bSizer->Add( menu_pegawai_button, 0, wxEXPAND, 0 );
 	
-	menu_kepank_button = new wxButton( menu_panel, ID_menu_kepank_btn, wxT("Kelas /Pangkat"), wxDefaultPosition, wxDefaultSize, 0 );
+	menu_kepank_button = new wxButton( menu_panel, ID_menu_kepank_btn, wxT("Kelas/Pangkat"), wxDefaultPosition, wxDefaultSize, 0 );
 	menu_bSizer->Add( menu_kepank_button, 0, wxEXPAND, 0 );
-	
-	menu_absensi_button = new wxButton( menu_panel, ID_menu_absensi_btn, wxT("Absensi"), wxDefaultPosition, wxDefaultSize, 0 );
-	menu_bSizer->Add( menu_absensi_button, 0, wxEXPAND, 0 );
 	
 	
 	menu_panel->SetSizer( menu_bSizer );
@@ -217,6 +217,7 @@ KelasPanel::KelasPanel( wxWindow* parent, wxWindowID id, const wxPoint& pos, con
 	
 	this->SetSizer( wrapperSizer );
 	this->Layout();
+	wrapperSizer->Fit( this );
 }
 
 KelasPanel::~KelasPanel()
@@ -320,6 +321,7 @@ PangkatPanel::PangkatPanel( wxWindow* parent, wxWindowID id, const wxPoint& pos,
 	
 	this->SetSizer( wrapperSizer );
 	this->Layout();
+	wrapperSizer->Fit( this );
 	
 	// Connect Events
 	tambah_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PangkatPanel::OnTambahPangkat ), NULL, this );
@@ -351,7 +353,7 @@ PangkatInputDialog::PangkatInputDialog( wxWindow* parent, wxWindowID id, const w
 	input_fgSizer->Add( staticText1, 0, wxALL, 5 );
 	
 	pangkat_textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER );
-	input_fgSizer->Add( pangkat_textCtrl, 0, wxALL, 5 );
+	input_fgSizer->Add( pangkat_textCtrl, 0, wxALL|wxEXPAND, 5 );
 	
 	staticText2 = new wxStaticText( this, wxID_ANY, wxT("Keterangan"), wxDefaultPosition, wxDefaultSize, 0 );
 	staticText2->Wrap( -1 );
@@ -404,5 +406,1244 @@ PangkatInputDialog::~PangkatInputDialog()
 	uang_makan_textCtrl->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( PangkatInputDialog::OnSimpan ), NULL, this );
 	simpan_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PangkatInputDialog::OnSimpan ), NULL, this );
 	reset_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PangkatInputDialog::OnReset ), NULL, this );
+	
+}
+
+PegawaiPanel::PegawaiPanel( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
+{
+	wxBoxSizer* wrapperSizer;
+	wrapperSizer = new wxBoxSizer( wxVERTICAL );
+	
+	pegawai_splitter = new wxSplitterWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
+	pegawai_splitter->Connect( wxEVT_IDLE, wxIdleEventHandler( PegawaiPanel::pegawai_splitterOnIdle ), NULL, this );
+	pegawai_splitter->SetMinimumPaneSize( 100 );
+	
+	pegawai_splitter->SetForegroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOW ) );
+	
+	pegawai_panel = new wxPanel( pegawai_splitter, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	pegawai_panel->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_INACTIVECAPTION ) );
+	
+	wxBoxSizer* pegawai_bSizer;
+	pegawai_bSizer = new wxBoxSizer( wxVERTICAL );
+	
+	wxBoxSizer* button_bSizer;
+	button_bSizer = new wxBoxSizer( wxHORIZONTAL );
+	
+	ubah_button = new wxButton( pegawai_panel, wxID_ANY, wxT("Ubah"), wxDefaultPosition, wxDefaultSize, 0 );
+	button_bSizer->Add( ubah_button, 0, wxALL, 5 );
+	
+	hapus_button = new wxButton( pegawai_panel, wxID_ANY, wxT("Hapus"), wxDefaultPosition, wxDefaultSize, 0 );
+	button_bSizer->Add( hapus_button, 0, wxALL, 5 );
+	
+	
+	pegawai_bSizer->Add( button_bSizer, 0, wxEXPAND, 5 );
+	
+	pegawai_dataViewListCtrl = new wxDataViewListCtrl( pegawai_panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxDV_HORIZ_RULES|wxDV_ROW_LINES );
+	pegawai_bSizer->Add( pegawai_dataViewListCtrl, 1, wxBOTTOM|wxEXPAND|wxLEFT|wxRIGHT, 5 );
+	
+	
+	pegawai_panel->SetSizer( pegawai_bSizer );
+	pegawai_panel->Layout();
+	pegawai_bSizer->Fit( pegawai_panel );
+	pegawai_data_lama_panel = new wxPanel( pegawai_splitter, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	pegawai_data_lama_panel->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_INACTIVECAPTION ) );
+	
+	wxBoxSizer* pegawai_data_lama_bSizer;
+	pegawai_data_lama_bSizer = new wxBoxSizer( wxVERTICAL );
+	
+	wxBoxSizer* button2_bSizer;
+	button2_bSizer = new wxBoxSizer( wxHORIZONTAL );
+	
+	salin_button = new wxButton( pegawai_data_lama_panel, wxID_ANY, wxT("Salin"), wxDefaultPosition, wxDefaultSize, 0 );
+	button2_bSizer->Add( salin_button, 0, wxALL, 5 );
+	
+	
+	pegawai_data_lama_bSizer->Add( button2_bSizer, 0, wxEXPAND, 5 );
+	
+	pegawai_data_lama_dataViewListCtrl = new wxDataViewListCtrl( pegawai_data_lama_panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxDV_HORIZ_RULES|wxDV_ROW_LINES );
+	pegawai_data_lama_bSizer->Add( pegawai_data_lama_dataViewListCtrl, 1, wxEXPAND|wxLEFT|wxRIGHT, 5 );
+	
+	
+	pegawai_data_lama_panel->SetSizer( pegawai_data_lama_bSizer );
+	pegawai_data_lama_panel->Layout();
+	pegawai_data_lama_bSizer->Fit( pegawai_data_lama_panel );
+	pegawai_splitter->SplitHorizontally( pegawai_panel, pegawai_data_lama_panel, 0 );
+	wrapperSizer->Add( pegawai_splitter, 1, wxEXPAND, 5 );
+	
+	
+	this->SetSizer( wrapperSizer );
+	this->Layout();
+	wrapperSizer->Fit( this );
+	
+	// Connect Events
+	ubah_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PegawaiPanel::OnUbah ), NULL, this );
+	hapus_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PegawaiPanel::OnHapus ), NULL, this );
+	salin_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PegawaiPanel::OnSalin ), NULL, this );
+}
+
+PegawaiPanel::~PegawaiPanel()
+{
+	// Disconnect Events
+	ubah_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PegawaiPanel::OnUbah ), NULL, this );
+	hapus_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PegawaiPanel::OnHapus ), NULL, this );
+	salin_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PegawaiPanel::OnSalin ), NULL, this );
+	
+}
+
+PegawaiSalinDialog::PegawaiSalinDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	wxBoxSizer* bSizer23;
+	bSizer23 = new wxBoxSizer( wxVERTICAL );
+	
+	wxBoxSizer* input_bSizer;
+	input_bSizer = new wxBoxSizer( wxHORIZONTAL );
+	
+	wxStaticBoxSizer* sbSizer1;
+	sbSizer1 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, wxT("Data pegawai") ), wxVERTICAL );
+	
+	wxFlexGridSizer* fgSizer5;
+	fgSizer5 = new wxFlexGridSizer( 0, 2, 0, 0 );
+	fgSizer5->AddGrowableCol( 1 );
+	fgSizer5->SetFlexibleDirection( wxBOTH );
+	fgSizer5->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	m_staticText15 = new wxStaticText( this, wxID_ANY, wxT("FID"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText15->Wrap( -1 );
+	fgSizer5->Add( m_staticText15, 0, wxALL, 5 );
+	
+	FID_textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 90,-1 ), 0 );
+	FID_textCtrl->Enable( false );
+	
+	fgSizer5->Add( FID_textCtrl, 0, wxALL, 5 );
+	
+	m_staticText16 = new wxStaticText( this, wxID_ANY, wxT("Nama"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText16->Wrap( -1 );
+	fgSizer5->Add( m_staticText16, 0, wxALL, 5 );
+	
+	Nama_textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	Nama_textCtrl->Enable( false );
+	
+	fgSizer5->Add( Nama_textCtrl, 0, wxALL|wxEXPAND, 5 );
+	
+	m_staticText17 = new wxStaticText( this, wxID_ANY, wxT("NIK"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText17->Wrap( -1 );
+	fgSizer5->Add( m_staticText17, 0, wxALL, 5 );
+	
+	NIK_textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	NIK_textCtrl->Enable( false );
+	
+	fgSizer5->Add( NIK_textCtrl, 0, wxALL|wxEXPAND, 5 );
+	
+	
+	sbSizer1->Add( fgSizer5, 1, wxEXPAND, 5 );
+	
+	
+	input_bSizer->Add( sbSizer1, 5, wxEXPAND, 5 );
+	
+	wxStaticBoxSizer* sbSizer2;
+	sbSizer2 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, wxT("Kelas - Pangkat") ), wxVERTICAL );
+	
+	wxFlexGridSizer* fgSizer6;
+	fgSizer6 = new wxFlexGridSizer( 0, 2, 0, 0 );
+	fgSizer6->SetFlexibleDirection( wxBOTH );
+	fgSizer6->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	m_staticText18 = new wxStaticText( this, wxID_ANY, wxT("Kelas"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText18->Wrap( -1 );
+	fgSizer6->Add( m_staticText18, 0, wxALL, 5 );
+	
+	kelas_comboBox = new wxComboBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 100,-1 ), 0, NULL, wxCB_READONLY|wxCB_SORT ); 
+	fgSizer6->Add( kelas_comboBox, 0, wxALL, 5 );
+	
+	m_staticText19 = new wxStaticText( this, wxID_ANY, wxT("Pangkat"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText19->Wrap( -1 );
+	fgSizer6->Add( m_staticText19, 0, wxALL, 5 );
+	
+	pangkat_comboBox = new wxComboBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 100,-1 ), 0, NULL, wxCB_READONLY|wxCB_SORT ); 
+	fgSizer6->Add( pangkat_comboBox, 0, wxALL, 5 );
+	
+	
+	sbSizer2->Add( fgSizer6, 1, wxEXPAND, 5 );
+	
+	
+	input_bSizer->Add( sbSizer2, 4, wxEXPAND, 5 );
+	
+	
+	bSizer23->Add( input_bSizer, 1, wxEXPAND, 5 );
+	
+	wxBoxSizer* button_bSizer;
+	button_bSizer = new wxBoxSizer( wxVERTICAL );
+	
+	salin_button = new wxButton( this, wxID_ANY, wxT("Salin"), wxDefaultPosition, wxDefaultSize, 0 );
+	button_bSizer->Add( salin_button, 0, wxALL, 15 );
+	
+	
+	bSizer23->Add( button_bSizer, 1, wxALIGN_RIGHT, 5 );
+	
+	
+	this->SetSizer( bSizer23 );
+	this->Layout();
+	
+	this->Centre( wxBOTH );
+	
+	// Connect Events
+	salin_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PegawaiSalinDialog::OnSalin ), NULL, this );
+}
+
+PegawaiSalinDialog::~PegawaiSalinDialog()
+{
+	// Disconnect Events
+	salin_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PegawaiSalinDialog::OnSalin ), NULL, this );
+	
+}
+
+AbsensiPanel::AbsensiPanel( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
+{
+	wxBoxSizer* wrapper_bSizer;
+	wrapper_bSizer = new wxBoxSizer( wxVERTICAL );
+	
+	wxBoxSizer* button_bSizer;
+	button_bSizer = new wxBoxSizer( wxHORIZONTAL );
+	
+	tambah_button = new wxButton( this, wxID_ANY, wxT("Tambah"), wxDefaultPosition, wxDefaultSize, 0 );
+	button_bSizer->Add( tambah_button, 0, wxALL, 5 );
+	
+	ubah_button = new wxButton( this, wxID_ANY, wxT("Ubah"), wxDefaultPosition, wxDefaultSize, 0 );
+	button_bSizer->Add( ubah_button, 0, wxALL, 5 );
+	
+	hapus_button = new wxButton( this, wxID_ANY, wxT("Hapus"), wxDefaultPosition, wxDefaultSize, 0 );
+	button_bSizer->Add( hapus_button, 0, wxALL, 5 );
+	
+	
+	wrapper_bSizer->Add( button_bSizer, 0, wxEXPAND, 5 );
+	
+	absensi_dataViewListCtrl = new wxDataViewListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxDV_HORIZ_RULES|wxDV_ROW_LINES );
+	wrapper_bSizer->Add( absensi_dataViewListCtrl, 1, wxEXPAND|wxLEFT|wxRIGHT, 5 );
+	
+	footer_panel = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxSize( -1,-1 ), wxTAB_TRAVERSAL );
+	footer_panel->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_ACTIVEBORDER ) );
+	
+	wxBoxSizer* footer_bSizer;
+	footer_bSizer = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText20 = new wxStaticText( footer_panel, wxID_ANY, wxT("Tampilkan Dari"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText20->Wrap( -1 );
+	footer_bSizer->Add( m_staticText20, 0, wxALL, 5 );
+	
+	start_datePicker = new wxDatePickerCtrl( footer_panel, wxID_ANY, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize, wxDP_DROPDOWN );
+	footer_bSizer->Add( start_datePicker, 0, wxALL, 5 );
+	
+	m_staticText21 = new wxStaticText( footer_panel, wxID_ANY, wxT("s/d"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText21->Wrap( -1 );
+	footer_bSizer->Add( m_staticText21, 0, wxALL, 5 );
+	
+	end_datePicker = new wxDatePickerCtrl( footer_panel, wxID_ANY, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize, wxDP_DROPDOWN );
+	footer_bSizer->Add( end_datePicker, 0, wxALL, 5 );
+	
+	
+	footer_bSizer->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	m_staticText22 = new wxStaticText( footer_panel, wxID_ANY, wxT("Cari Nama"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText22->Wrap( -1 );
+	footer_bSizer->Add( m_staticText22, 0, wxALL, 5 );
+	
+	m_textCtrl14 = new wxTextCtrl( footer_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER );
+	m_textCtrl14->SetMinSize( wxSize( 150,-1 ) );
+	
+	footer_bSizer->Add( m_textCtrl14, 0, wxALL|wxEXPAND, 5 );
+	
+	
+	footer_panel->SetSizer( footer_bSizer );
+	footer_panel->Layout();
+	footer_bSizer->Fit( footer_panel );
+	wrapper_bSizer->Add( footer_panel, 0, wxEXPAND|wxLEFT|wxRIGHT|wxTOP, 5 );
+	
+	
+	this->SetSizer( wrapper_bSizer );
+	this->Layout();
+	wrapper_bSizer->Fit( this );
+	
+	// Connect Events
+	tambah_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AbsensiPanel::OnTambah ), NULL, this );
+	ubah_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AbsensiPanel::OnUbah ), NULL, this );
+	hapus_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AbsensiPanel::OnHapus ), NULL, this );
+	start_datePicker->Connect( wxEVT_DATE_CHANGED, wxDateEventHandler( AbsensiPanel::OnFilterData ), NULL, this );
+	end_datePicker->Connect( wxEVT_DATE_CHANGED, wxDateEventHandler( AbsensiPanel::OnFilterData ), NULL, this );
+	m_textCtrl14->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( AbsensiPanel::OnFilterData ), NULL, this );
+}
+
+AbsensiPanel::~AbsensiPanel()
+{
+	// Disconnect Events
+	tambah_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AbsensiPanel::OnTambah ), NULL, this );
+	ubah_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AbsensiPanel::OnUbah ), NULL, this );
+	hapus_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AbsensiPanel::OnHapus ), NULL, this );
+	start_datePicker->Disconnect( wxEVT_DATE_CHANGED, wxDateEventHandler( AbsensiPanel::OnFilterData ), NULL, this );
+	end_datePicker->Disconnect( wxEVT_DATE_CHANGED, wxDateEventHandler( AbsensiPanel::OnFilterData ), NULL, this );
+	m_textCtrl14->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( AbsensiPanel::OnFilterData ), NULL, this );
+	
+}
+
+IzinPanel::IzinPanel( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
+{
+	wxBoxSizer* wrapper_bSizer;
+	wrapper_bSizer = new wxBoxSizer( wxVERTICAL );
+	
+	wxBoxSizer* button_bSizer;
+	button_bSizer = new wxBoxSizer( wxHORIZONTAL );
+	
+	tambah_button = new wxButton( this, wxID_ANY, wxT("Tambah"), wxDefaultPosition, wxDefaultSize, 0 );
+	button_bSizer->Add( tambah_button, 0, wxALL, 5 );
+	
+	ubah_button = new wxButton( this, wxID_ANY, wxT("Ubah"), wxDefaultPosition, wxDefaultSize, 0 );
+	button_bSizer->Add( ubah_button, 0, wxALL, 5 );
+	
+	hapus_button = new wxButton( this, wxID_ANY, wxT("Hapus"), wxDefaultPosition, wxDefaultSize, 0 );
+	button_bSizer->Add( hapus_button, 0, wxALL, 5 );
+	
+	
+	wrapper_bSizer->Add( button_bSizer, 0, wxEXPAND, 5 );
+	
+	izin_dataViewListCtrl = new wxDataViewListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxDV_HORIZ_RULES|wxDV_ROW_LINES );
+	wrapper_bSizer->Add( izin_dataViewListCtrl, 1, wxEXPAND|wxLEFT|wxRIGHT, 5 );
+	
+	footer_panel = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxSize( -1,-1 ), wxTAB_TRAVERSAL );
+	footer_panel->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_ACTIVEBORDER ) );
+	
+	wxBoxSizer* footer_bSizer;
+	footer_bSizer = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText20 = new wxStaticText( footer_panel, wxID_ANY, wxT("Tampilkan Dari"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText20->Wrap( -1 );
+	footer_bSizer->Add( m_staticText20, 0, wxALL, 5 );
+	
+	start_datePicker = new wxDatePickerCtrl( footer_panel, wxID_ANY, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize, wxDP_DROPDOWN );
+	footer_bSizer->Add( start_datePicker, 0, wxALL, 5 );
+	
+	m_staticText21 = new wxStaticText( footer_panel, wxID_ANY, wxT("s/d"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText21->Wrap( -1 );
+	footer_bSizer->Add( m_staticText21, 0, wxALL, 5 );
+	
+	end_datePicker = new wxDatePickerCtrl( footer_panel, wxID_ANY, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize, wxDP_DROPDOWN );
+	footer_bSizer->Add( end_datePicker, 0, wxALL, 5 );
+	
+	
+	footer_bSizer->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	m_staticText22 = new wxStaticText( footer_panel, wxID_ANY, wxT("Cari Nama"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText22->Wrap( -1 );
+	footer_bSizer->Add( m_staticText22, 0, wxALL, 5 );
+	
+	filter_nama_textCtrl = new wxTextCtrl( footer_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER );
+	filter_nama_textCtrl->SetMinSize( wxSize( 150,-1 ) );
+	
+	footer_bSizer->Add( filter_nama_textCtrl, 0, wxALL|wxEXPAND, 5 );
+	
+	
+	footer_panel->SetSizer( footer_bSizer );
+	footer_panel->Layout();
+	footer_bSizer->Fit( footer_panel );
+	wrapper_bSizer->Add( footer_panel, 0, wxEXPAND|wxLEFT|wxRIGHT|wxTOP, 5 );
+	
+	
+	this->SetSizer( wrapper_bSizer );
+	this->Layout();
+	wrapper_bSizer->Fit( this );
+	
+	// Connect Events
+	tambah_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IzinPanel::OnTambah ), NULL, this );
+	ubah_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IzinPanel::OnUbah ), NULL, this );
+	hapus_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IzinPanel::OnHapus ), NULL, this );
+	start_datePicker->Connect( wxEVT_DATE_CHANGED, wxDateEventHandler( IzinPanel::OnFilterData ), NULL, this );
+	end_datePicker->Connect( wxEVT_DATE_CHANGED, wxDateEventHandler( IzinPanel::OnFilterData ), NULL, this );
+	filter_nama_textCtrl->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( IzinPanel::OnFilterData ), NULL, this );
+}
+
+IzinPanel::~IzinPanel()
+{
+	// Disconnect Events
+	tambah_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IzinPanel::OnTambah ), NULL, this );
+	ubah_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IzinPanel::OnUbah ), NULL, this );
+	hapus_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IzinPanel::OnHapus ), NULL, this );
+	start_datePicker->Disconnect( wxEVT_DATE_CHANGED, wxDateEventHandler( IzinPanel::OnFilterData ), NULL, this );
+	end_datePicker->Disconnect( wxEVT_DATE_CHANGED, wxDateEventHandler( IzinPanel::OnFilterData ), NULL, this );
+	filter_nama_textCtrl->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( IzinPanel::OnFilterData ), NULL, this );
+	
+}
+
+IzinDialog::IzinDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	wxBoxSizer* wrapper_bSizer;
+	wrapper_bSizer = new wxBoxSizer( wxVERTICAL );
+	
+	wxFlexGridSizer* fgSizer6;
+	fgSizer6 = new wxFlexGridSizer( 0, 2, 0, 0 );
+	fgSizer6->AddGrowableCol( 1 );
+	fgSizer6->SetFlexibleDirection( wxBOTH );
+	fgSizer6->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	m_staticText26 = new wxStaticText( this, wxID_ANY, wxT("Pegawai"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText26->Wrap( -1 );
+	fgSizer6->Add( m_staticText26, 0, wxALL, 5 );
+	
+	wxBoxSizer* bSizer30;
+	bSizer30 = new wxBoxSizer( wxHORIZONTAL );
+	
+	FID_textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 100,-1 ), wxTE_READONLY );
+	FID_textCtrl->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_HIGHLIGHTTEXT ) );
+	
+	bSizer30->Add( FID_textCtrl, 0, wxALL, 5 );
+	
+	nama_textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY );
+	nama_textCtrl->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_HIGHLIGHTTEXT ) );
+	
+	bSizer30->Add( nama_textCtrl, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	fgSizer6->Add( bSizer30, 1, wxEXPAND, 5 );
+	
+	m_staticText27 = new wxStaticText( this, wxID_ANY, wxT("Tanggal"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText27->Wrap( -1 );
+	fgSizer6->Add( m_staticText27, 0, wxALL, 5 );
+	
+	tgl_datePicker = new wxDatePickerCtrl( this, wxID_ANY, wxDefaultDateTime, wxDefaultPosition, wxSize( 100,-1 ), wxDP_DROPDOWN );
+	fgSizer6->Add( tgl_datePicker, 0, wxALL, 5 );
+	
+	m_staticText28 = new wxStaticText( this, wxID_ANY, wxT("Keterangan"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText28->Wrap( -1 );
+	fgSizer6->Add( m_staticText28, 0, wxALL, 5 );
+	
+	keterangan_textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER );
+	fgSizer6->Add( keterangan_textCtrl, 0, wxALL|wxEXPAND, 5 );
+	
+	
+	wrapper_bSizer->Add( fgSizer6, 1, wxEXPAND, 5 );
+	
+	simpan_button = new wxButton( this, wxID_ANY, wxT("Simpan"), wxDefaultPosition, wxDefaultSize, 0 );
+	wrapper_bSizer->Add( simpan_button, 0, wxALIGN_RIGHT|wxBOTTOM|wxRIGHT, 5 );
+	
+	
+	this->SetSizer( wrapper_bSizer );
+	this->Layout();
+	
+	this->Centre( wxBOTH );
+	
+	// Connect Events
+	FID_textCtrl->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( IzinDialog::OnDaftarPegawaiDialog ), NULL, this );
+	nama_textCtrl->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( IzinDialog::OnDaftarPegawaiDialog ), NULL, this );
+	keterangan_textCtrl->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( IzinDialog::OnSimpan ), NULL, this );
+	simpan_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IzinDialog::OnSimpan ), NULL, this );
+}
+
+IzinDialog::~IzinDialog()
+{
+	// Disconnect Events
+	FID_textCtrl->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( IzinDialog::OnDaftarPegawaiDialog ), NULL, this );
+	nama_textCtrl->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( IzinDialog::OnDaftarPegawaiDialog ), NULL, this );
+	keterangan_textCtrl->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( IzinDialog::OnSimpan ), NULL, this );
+	simpan_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IzinDialog::OnSimpan ), NULL, this );
+	
+}
+
+IzinDaftarPegawaiDialog::IzinDaftarPegawaiDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	wxBoxSizer* wrapper_bSizer;
+	wrapper_bSizer = new wxBoxSizer( wxVERTICAL );
+	
+	wxBoxSizer* cari_bSizer;
+	cari_bSizer = new wxBoxSizer( wxHORIZONTAL );
+	
+	cari_textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER );
+	cari_bSizer->Add( cari_textCtrl, 1, wxALL|wxEXPAND, 5 );
+	
+	cari_button = new wxButton( this, wxID_ANY, wxT("Cari"), wxDefaultPosition, wxDefaultSize, 0 );
+	cari_bSizer->Add( cari_button, 0, wxALL, 5 );
+	
+	
+	wrapper_bSizer->Add( cari_bSizer, 0, wxEXPAND, 5 );
+	
+	pegawai_dataViewListCtrl = new wxDataViewListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
+	wrapper_bSizer->Add( pegawai_dataViewListCtrl, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	this->SetSizer( wrapper_bSizer );
+	this->Layout();
+	
+	this->Centre( wxBOTH );
+	
+	// Connect Events
+	cari_textCtrl->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( IzinDaftarPegawaiDialog::OnCari ), NULL, this );
+	cari_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IzinDaftarPegawaiDialog::OnCari ), NULL, this );
+	this->Connect( wxID_ANY, wxEVT_COMMAND_DATAVIEW_ITEM_ACTIVATED, wxDataViewEventHandler( IzinDaftarPegawaiDialog::OnPilih ) );
+}
+
+IzinDaftarPegawaiDialog::~IzinDaftarPegawaiDialog()
+{
+	// Disconnect Events
+	cari_textCtrl->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( IzinDaftarPegawaiDialog::OnCari ), NULL, this );
+	cari_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( IzinDaftarPegawaiDialog::OnCari ), NULL, this );
+	this->Disconnect( wxID_ANY, wxEVT_COMMAND_DATAVIEW_ITEM_ACTIVATED, wxDataViewEventHandler( IzinDaftarPegawaiDialog::OnPilih ) );
+	
+}
+
+DinasLuarPanel::DinasLuarPanel( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
+{
+	wxBoxSizer* wrapper_bSizer;
+	wrapper_bSizer = new wxBoxSizer( wxVERTICAL );
+	
+	wxBoxSizer* button_bSizer;
+	button_bSizer = new wxBoxSizer( wxHORIZONTAL );
+	
+	tambah_button = new wxButton( this, wxID_ANY, wxT("Tambah"), wxDefaultPosition, wxDefaultSize, 0 );
+	button_bSizer->Add( tambah_button, 0, wxALL, 5 );
+	
+	ubah_button = new wxButton( this, wxID_ANY, wxT("Ubah"), wxDefaultPosition, wxDefaultSize, 0 );
+	button_bSizer->Add( ubah_button, 0, wxALL, 5 );
+	
+	hapus_button = new wxButton( this, wxID_ANY, wxT("Hapus"), wxDefaultPosition, wxDefaultSize, 0 );
+	button_bSizer->Add( hapus_button, 0, wxALL, 5 );
+	
+	
+	wrapper_bSizer->Add( button_bSizer, 0, wxEXPAND, 5 );
+	
+	dinas_luar_dataViewListCtrl = new wxDataViewListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxDV_HORIZ_RULES|wxDV_ROW_LINES );
+	wrapper_bSizer->Add( dinas_luar_dataViewListCtrl, 1, wxEXPAND|wxLEFT|wxRIGHT, 5 );
+	
+	footer_panel = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxSize( -1,-1 ), wxTAB_TRAVERSAL );
+	footer_panel->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_ACTIVEBORDER ) );
+	
+	wxBoxSizer* footer_bSizer;
+	footer_bSizer = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText20 = new wxStaticText( footer_panel, wxID_ANY, wxT("Tampilkan Dari"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText20->Wrap( -1 );
+	footer_bSizer->Add( m_staticText20, 0, wxALL, 5 );
+	
+	start_datePicker = new wxDatePickerCtrl( footer_panel, wxID_ANY, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize, wxDP_DROPDOWN );
+	footer_bSizer->Add( start_datePicker, 0, wxALL, 5 );
+	
+	m_staticText21 = new wxStaticText( footer_panel, wxID_ANY, wxT("s/d"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText21->Wrap( -1 );
+	footer_bSizer->Add( m_staticText21, 0, wxALL, 5 );
+	
+	end_datePicker = new wxDatePickerCtrl( footer_panel, wxID_ANY, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize, wxDP_DROPDOWN );
+	footer_bSizer->Add( end_datePicker, 0, wxALL, 5 );
+	
+	
+	footer_bSizer->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	m_staticText22 = new wxStaticText( footer_panel, wxID_ANY, wxT("Cari Nama"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText22->Wrap( -1 );
+	footer_bSizer->Add( m_staticText22, 0, wxALL, 5 );
+	
+	filter_nama_textCtrl = new wxTextCtrl( footer_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER );
+	filter_nama_textCtrl->SetMinSize( wxSize( 150,-1 ) );
+	
+	footer_bSizer->Add( filter_nama_textCtrl, 0, wxALL|wxEXPAND, 5 );
+	
+	
+	footer_panel->SetSizer( footer_bSizer );
+	footer_panel->Layout();
+	footer_bSizer->Fit( footer_panel );
+	wrapper_bSizer->Add( footer_panel, 0, wxEXPAND|wxLEFT|wxRIGHT|wxTOP, 5 );
+	
+	
+	this->SetSizer( wrapper_bSizer );
+	this->Layout();
+	wrapper_bSizer->Fit( this );
+	
+	// Connect Events
+	tambah_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DinasLuarPanel::OnTambah ), NULL, this );
+	ubah_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DinasLuarPanel::OnUbah ), NULL, this );
+	hapus_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DinasLuarPanel::OnHapus ), NULL, this );
+	start_datePicker->Connect( wxEVT_DATE_CHANGED, wxDateEventHandler( DinasLuarPanel::OnFilterData ), NULL, this );
+	end_datePicker->Connect( wxEVT_DATE_CHANGED, wxDateEventHandler( DinasLuarPanel::OnFilterData ), NULL, this );
+	filter_nama_textCtrl->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( DinasLuarPanel::OnFilterData ), NULL, this );
+}
+
+DinasLuarPanel::~DinasLuarPanel()
+{
+	// Disconnect Events
+	tambah_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DinasLuarPanel::OnTambah ), NULL, this );
+	ubah_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DinasLuarPanel::OnUbah ), NULL, this );
+	hapus_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DinasLuarPanel::OnHapus ), NULL, this );
+	start_datePicker->Disconnect( wxEVT_DATE_CHANGED, wxDateEventHandler( DinasLuarPanel::OnFilterData ), NULL, this );
+	end_datePicker->Disconnect( wxEVT_DATE_CHANGED, wxDateEventHandler( DinasLuarPanel::OnFilterData ), NULL, this );
+	filter_nama_textCtrl->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( DinasLuarPanel::OnFilterData ), NULL, this );
+	
+}
+
+DinasLuarDialog::DinasLuarDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	wxBoxSizer* wrapper_bSizer;
+	wrapper_bSizer = new wxBoxSizer( wxVERTICAL );
+	
+	wxFlexGridSizer* fgSizer6;
+	fgSizer6 = new wxFlexGridSizer( 0, 2, 0, 0 );
+	fgSizer6->AddGrowableCol( 1 );
+	fgSizer6->SetFlexibleDirection( wxBOTH );
+	fgSizer6->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	m_staticText26 = new wxStaticText( this, wxID_ANY, wxT("Pegawai"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText26->Wrap( -1 );
+	fgSizer6->Add( m_staticText26, 0, wxALL, 5 );
+	
+	wxBoxSizer* bSizer30;
+	bSizer30 = new wxBoxSizer( wxHORIZONTAL );
+	
+	FID_textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 100,-1 ), wxTE_READONLY );
+	FID_textCtrl->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_HIGHLIGHTTEXT ) );
+	
+	bSizer30->Add( FID_textCtrl, 0, wxALL, 5 );
+	
+	nama_textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY );
+	nama_textCtrl->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_HIGHLIGHTTEXT ) );
+	
+	bSizer30->Add( nama_textCtrl, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	fgSizer6->Add( bSizer30, 1, wxEXPAND, 5 );
+	
+	m_staticText27 = new wxStaticText( this, wxID_ANY, wxT("Tanggal"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText27->Wrap( -1 );
+	fgSizer6->Add( m_staticText27, 0, wxALL, 5 );
+	
+	tgl_datePicker = new wxDatePickerCtrl( this, wxID_ANY, wxDefaultDateTime, wxDefaultPosition, wxSize( 100,-1 ), wxDP_DROPDOWN );
+	fgSizer6->Add( tgl_datePicker, 0, wxALL, 5 );
+	
+	m_staticText28 = new wxStaticText( this, wxID_ANY, wxT("Keterangan"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText28->Wrap( -1 );
+	fgSizer6->Add( m_staticText28, 0, wxALL, 5 );
+	
+	keterangan_textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER );
+	fgSizer6->Add( keterangan_textCtrl, 0, wxALL|wxEXPAND, 5 );
+	
+	
+	wrapper_bSizer->Add( fgSizer6, 1, wxEXPAND, 5 );
+	
+	simpan_button = new wxButton( this, wxID_ANY, wxT("Simpan"), wxDefaultPosition, wxDefaultSize, 0 );
+	wrapper_bSizer->Add( simpan_button, 0, wxALIGN_RIGHT|wxBOTTOM|wxRIGHT, 5 );
+	
+	
+	this->SetSizer( wrapper_bSizer );
+	this->Layout();
+	
+	this->Centre( wxBOTH );
+	
+	// Connect Events
+	FID_textCtrl->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( DinasLuarDialog::OnDaftarPegawaiDialog ), NULL, this );
+	nama_textCtrl->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( DinasLuarDialog::OnDaftarPegawaiDialog ), NULL, this );
+	keterangan_textCtrl->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( DinasLuarDialog::OnSimpan ), NULL, this );
+	simpan_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DinasLuarDialog::OnSimpan ), NULL, this );
+}
+
+DinasLuarDialog::~DinasLuarDialog()
+{
+	// Disconnect Events
+	FID_textCtrl->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( DinasLuarDialog::OnDaftarPegawaiDialog ), NULL, this );
+	nama_textCtrl->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( DinasLuarDialog::OnDaftarPegawaiDialog ), NULL, this );
+	keterangan_textCtrl->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( DinasLuarDialog::OnSimpan ), NULL, this );
+	simpan_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DinasLuarDialog::OnSimpan ), NULL, this );
+	
+}
+
+DinasLuarDaftarPegawaiDialog::DinasLuarDaftarPegawaiDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	wxBoxSizer* wrapper_bSizer;
+	wrapper_bSizer = new wxBoxSizer( wxVERTICAL );
+	
+	wxBoxSizer* cari_bSizer;
+	cari_bSizer = new wxBoxSizer( wxHORIZONTAL );
+	
+	cari_textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER );
+	cari_bSizer->Add( cari_textCtrl, 1, wxALL|wxEXPAND, 5 );
+	
+	cari_button = new wxButton( this, wxID_ANY, wxT("Cari"), wxDefaultPosition, wxDefaultSize, 0 );
+	cari_bSizer->Add( cari_button, 0, wxALL, 5 );
+	
+	
+	wrapper_bSizer->Add( cari_bSizer, 0, wxEXPAND, 5 );
+	
+	pegawai_dataViewListCtrl = new wxDataViewListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
+	wrapper_bSizer->Add( pegawai_dataViewListCtrl, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	this->SetSizer( wrapper_bSizer );
+	this->Layout();
+	
+	this->Centre( wxBOTH );
+	
+	// Connect Events
+	cari_textCtrl->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( DinasLuarDaftarPegawaiDialog::OnCari ), NULL, this );
+	cari_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DinasLuarDaftarPegawaiDialog::OnCari ), NULL, this );
+	this->Connect( wxID_ANY, wxEVT_COMMAND_DATAVIEW_ITEM_ACTIVATED, wxDataViewEventHandler( DinasLuarDaftarPegawaiDialog::OnPilih ) );
+}
+
+DinasLuarDaftarPegawaiDialog::~DinasLuarDaftarPegawaiDialog()
+{
+	// Disconnect Events
+	cari_textCtrl->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( DinasLuarDaftarPegawaiDialog::OnCari ), NULL, this );
+	cari_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( DinasLuarDaftarPegawaiDialog::OnCari ), NULL, this );
+	this->Disconnect( wxID_ANY, wxEVT_COMMAND_DATAVIEW_ITEM_ACTIVATED, wxDataViewEventHandler( DinasLuarDaftarPegawaiDialog::OnPilih ) );
+	
+}
+
+SuratTugasPanel::SuratTugasPanel( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
+{
+	wxBoxSizer* wrapper_bSizer;
+	wrapper_bSizer = new wxBoxSizer( wxVERTICAL );
+	
+	wxBoxSizer* button_bSizer;
+	button_bSizer = new wxBoxSizer( wxHORIZONTAL );
+	
+	tambah_button = new wxButton( this, wxID_ANY, wxT("Tambah"), wxDefaultPosition, wxDefaultSize, 0 );
+	button_bSizer->Add( tambah_button, 0, wxALL, 5 );
+	
+	ubah_button = new wxButton( this, wxID_ANY, wxT("Ubah"), wxDefaultPosition, wxDefaultSize, 0 );
+	button_bSizer->Add( ubah_button, 0, wxALL, 5 );
+	
+	hapus_button = new wxButton( this, wxID_ANY, wxT("Hapus"), wxDefaultPosition, wxDefaultSize, 0 );
+	button_bSizer->Add( hapus_button, 0, wxALL, 5 );
+	
+	
+	wrapper_bSizer->Add( button_bSizer, 0, wxEXPAND, 5 );
+	
+	surat_tugas_dataViewListCtrl = new wxDataViewListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxDV_HORIZ_RULES|wxDV_ROW_LINES );
+	wrapper_bSizer->Add( surat_tugas_dataViewListCtrl, 1, wxEXPAND|wxLEFT|wxRIGHT, 5 );
+	
+	footer_panel = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxSize( -1,-1 ), wxTAB_TRAVERSAL );
+	footer_panel->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_ACTIVEBORDER ) );
+	
+	wxBoxSizer* footer_bSizer;
+	footer_bSizer = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText20 = new wxStaticText( footer_panel, wxID_ANY, wxT("Tampilkan Dari"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText20->Wrap( -1 );
+	footer_bSizer->Add( m_staticText20, 0, wxALL, 5 );
+	
+	start_datePicker = new wxDatePickerCtrl( footer_panel, wxID_ANY, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize, wxDP_DROPDOWN );
+	footer_bSizer->Add( start_datePicker, 0, wxALL, 5 );
+	
+	m_staticText21 = new wxStaticText( footer_panel, wxID_ANY, wxT("s/d"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText21->Wrap( -1 );
+	footer_bSizer->Add( m_staticText21, 0, wxALL, 5 );
+	
+	end_datePicker = new wxDatePickerCtrl( footer_panel, wxID_ANY, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize, wxDP_DROPDOWN );
+	footer_bSizer->Add( end_datePicker, 0, wxALL, 5 );
+	
+	
+	footer_bSizer->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	m_staticText22 = new wxStaticText( footer_panel, wxID_ANY, wxT("Cari Nama"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText22->Wrap( -1 );
+	footer_bSizer->Add( m_staticText22, 0, wxALL, 5 );
+	
+	filter_nama_textCtrl = new wxTextCtrl( footer_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER );
+	filter_nama_textCtrl->SetMinSize( wxSize( 150,-1 ) );
+	
+	footer_bSizer->Add( filter_nama_textCtrl, 0, wxALL|wxEXPAND, 5 );
+	
+	
+	footer_panel->SetSizer( footer_bSizer );
+	footer_panel->Layout();
+	footer_bSizer->Fit( footer_panel );
+	wrapper_bSizer->Add( footer_panel, 0, wxEXPAND|wxLEFT|wxRIGHT|wxTOP, 5 );
+	
+	
+	this->SetSizer( wrapper_bSizer );
+	this->Layout();
+	wrapper_bSizer->Fit( this );
+	
+	// Connect Events
+	tambah_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SuratTugasPanel::OnTambah ), NULL, this );
+	ubah_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SuratTugasPanel::OnUbah ), NULL, this );
+	hapus_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SuratTugasPanel::OnHapus ), NULL, this );
+	start_datePicker->Connect( wxEVT_DATE_CHANGED, wxDateEventHandler( SuratTugasPanel::OnFilterData ), NULL, this );
+	end_datePicker->Connect( wxEVT_DATE_CHANGED, wxDateEventHandler( SuratTugasPanel::OnFilterData ), NULL, this );
+	filter_nama_textCtrl->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( SuratTugasPanel::OnFilterData ), NULL, this );
+}
+
+SuratTugasPanel::~SuratTugasPanel()
+{
+	// Disconnect Events
+	tambah_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SuratTugasPanel::OnTambah ), NULL, this );
+	ubah_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SuratTugasPanel::OnUbah ), NULL, this );
+	hapus_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SuratTugasPanel::OnHapus ), NULL, this );
+	start_datePicker->Disconnect( wxEVT_DATE_CHANGED, wxDateEventHandler( SuratTugasPanel::OnFilterData ), NULL, this );
+	end_datePicker->Disconnect( wxEVT_DATE_CHANGED, wxDateEventHandler( SuratTugasPanel::OnFilterData ), NULL, this );
+	filter_nama_textCtrl->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( SuratTugasPanel::OnFilterData ), NULL, this );
+	
+}
+
+SuratTugasDialog::SuratTugasDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	wxBoxSizer* wrapper_bSizer;
+	wrapper_bSizer = new wxBoxSizer( wxVERTICAL );
+	
+	wxFlexGridSizer* fgSizer6;
+	fgSizer6 = new wxFlexGridSizer( 0, 2, 0, 0 );
+	fgSizer6->AddGrowableCol( 1 );
+	fgSizer6->SetFlexibleDirection( wxBOTH );
+	fgSizer6->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	m_staticText26 = new wxStaticText( this, wxID_ANY, wxT("Pegawai"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText26->Wrap( -1 );
+	fgSizer6->Add( m_staticText26, 0, wxALL, 5 );
+	
+	wxBoxSizer* bSizer30;
+	bSizer30 = new wxBoxSizer( wxHORIZONTAL );
+	
+	FID_textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 100,-1 ), wxTE_READONLY );
+	FID_textCtrl->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_HIGHLIGHTTEXT ) );
+	
+	bSizer30->Add( FID_textCtrl, 0, wxALL, 5 );
+	
+	nama_textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY );
+	nama_textCtrl->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_HIGHLIGHTTEXT ) );
+	
+	bSizer30->Add( nama_textCtrl, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	fgSizer6->Add( bSizer30, 1, wxEXPAND, 5 );
+	
+	m_staticText27 = new wxStaticText( this, wxID_ANY, wxT("Tanggal"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText27->Wrap( -1 );
+	fgSizer6->Add( m_staticText27, 0, wxALL, 5 );
+	
+	tgl_datePicker = new wxDatePickerCtrl( this, wxID_ANY, wxDefaultDateTime, wxDefaultPosition, wxSize( 100,-1 ), wxDP_DROPDOWN );
+	fgSizer6->Add( tgl_datePicker, 0, wxALL, 5 );
+	
+	m_staticText28 = new wxStaticText( this, wxID_ANY, wxT("Keterangan"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText28->Wrap( -1 );
+	fgSizer6->Add( m_staticText28, 0, wxALL, 5 );
+	
+	keterangan_textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER );
+	fgSizer6->Add( keterangan_textCtrl, 0, wxALL|wxEXPAND, 5 );
+	
+	
+	wrapper_bSizer->Add( fgSizer6, 1, wxEXPAND, 5 );
+	
+	simpan_button = new wxButton( this, wxID_ANY, wxT("Simpan"), wxDefaultPosition, wxDefaultSize, 0 );
+	wrapper_bSizer->Add( simpan_button, 0, wxALIGN_RIGHT|wxBOTTOM|wxRIGHT, 5 );
+	
+	
+	this->SetSizer( wrapper_bSizer );
+	this->Layout();
+	
+	this->Centre( wxBOTH );
+	
+	// Connect Events
+	FID_textCtrl->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( SuratTugasDialog::OnDaftarPegawaiDialog ), NULL, this );
+	nama_textCtrl->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( SuratTugasDialog::OnDaftarPegawaiDialog ), NULL, this );
+	keterangan_textCtrl->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( SuratTugasDialog::OnSimpan ), NULL, this );
+	simpan_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SuratTugasDialog::OnSimpan ), NULL, this );
+}
+
+SuratTugasDialog::~SuratTugasDialog()
+{
+	// Disconnect Events
+	FID_textCtrl->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( SuratTugasDialog::OnDaftarPegawaiDialog ), NULL, this );
+	nama_textCtrl->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( SuratTugasDialog::OnDaftarPegawaiDialog ), NULL, this );
+	keterangan_textCtrl->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( SuratTugasDialog::OnSimpan ), NULL, this );
+	simpan_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SuratTugasDialog::OnSimpan ), NULL, this );
+	
+}
+
+SuratTugasDaftarPegawaiDialog::SuratTugasDaftarPegawaiDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	wxBoxSizer* wrapper_bSizer;
+	wrapper_bSizer = new wxBoxSizer( wxVERTICAL );
+	
+	wxBoxSizer* cari_bSizer;
+	cari_bSizer = new wxBoxSizer( wxHORIZONTAL );
+	
+	cari_textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER );
+	cari_bSizer->Add( cari_textCtrl, 1, wxALL|wxEXPAND, 5 );
+	
+	cari_button = new wxButton( this, wxID_ANY, wxT("Cari"), wxDefaultPosition, wxDefaultSize, 0 );
+	cari_bSizer->Add( cari_button, 0, wxALL, 5 );
+	
+	
+	wrapper_bSizer->Add( cari_bSizer, 0, wxEXPAND, 5 );
+	
+	pegawai_dataViewListCtrl = new wxDataViewListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
+	wrapper_bSizer->Add( pegawai_dataViewListCtrl, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	this->SetSizer( wrapper_bSizer );
+	this->Layout();
+	
+	this->Centre( wxBOTH );
+	
+	// Connect Events
+	cari_textCtrl->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( SuratTugasDaftarPegawaiDialog::OnCari ), NULL, this );
+	cari_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SuratTugasDaftarPegawaiDialog::OnCari ), NULL, this );
+	this->Connect( wxID_ANY, wxEVT_COMMAND_DATAVIEW_ITEM_ACTIVATED, wxDataViewEventHandler( SuratTugasDaftarPegawaiDialog::OnPilih ) );
+}
+
+SuratTugasDaftarPegawaiDialog::~SuratTugasDaftarPegawaiDialog()
+{
+	// Disconnect Events
+	cari_textCtrl->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( SuratTugasDaftarPegawaiDialog::OnCari ), NULL, this );
+	cari_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( SuratTugasDaftarPegawaiDialog::OnCari ), NULL, this );
+	this->Disconnect( wxID_ANY, wxEVT_COMMAND_DATAVIEW_ITEM_ACTIVATED, wxDataViewEventHandler( SuratTugasDaftarPegawaiDialog::OnPilih ) );
+	
+}
+
+TukinPanel::TukinPanel( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
+{
+	wxBoxSizer* bSizer47;
+	bSizer47 = new wxBoxSizer( wxVERTICAL );
+	
+	wxStaticBoxSizer* sbSizer3;
+	sbSizer3 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, wxT("Periode") ), wxHORIZONTAL );
+	
+	m_staticText41 = new wxStaticText( this, wxID_ANY, wxT("Tahun:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText41->Wrap( -1 );
+	m_staticText41->SetFont( wxFont( 10, 70, 90, 90, false, wxEmptyString ) );
+	
+	sbSizer3->Add( m_staticText41, 0, wxLEFT|wxTOP, 8 );
+	
+	year_comboBox = new wxComboBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 120,-1 ), 0, NULL, wxCB_READONLY ); 
+	sbSizer3->Add( year_comboBox, 0, wxALL, 5 );
+	
+	m_staticText42 = new wxStaticText( this, wxID_ANY, wxT("Bulan:"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText42->Wrap( -1 );
+	m_staticText42->SetFont( wxFont( 10, 70, 90, 90, false, wxEmptyString ) );
+	
+	sbSizer3->Add( m_staticText42, 0, wxLEFT|wxTOP, 8 );
+	
+	month_comboBox = new wxComboBox( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 70,-1 ), 0, NULL, wxCB_READONLY ); 
+	sbSizer3->Add( month_comboBox, 0, wxALL, 5 );
+	
+	tampilkan_button = new wxButton( this, wxID_ANY, wxT("Tampilkan"), wxDefaultPosition, wxDefaultSize, 0 );
+	sbSizer3->Add( tampilkan_button, 0, wxALL, 5 );
+	
+	cetak_button = new wxButton( this, wxID_ANY, wxT("Cetak PDF"), wxDefaultPosition, wxDefaultSize, 0 );
+	sbSizer3->Add( cetak_button, 0, wxALL, 5 );
+	
+	
+	bSizer47->Add( sbSizer3, 0, wxEXPAND, 5 );
+	
+	tukin_htmlWin = new wxHtmlWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHW_SCROLLBAR_AUTO|wxSTATIC_BORDER );
+	bSizer47->Add( tukin_htmlWin, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	this->SetSizer( bSizer47 );
+	this->Layout();
+	bSizer47->Fit( this );
+	
+	// Connect Events
+	tampilkan_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( TukinPanel::OnTampilTukin ), NULL, this );
+}
+
+TukinPanel::~TukinPanel()
+{
+	// Disconnect Events
+	tampilkan_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( TukinPanel::OnTampilTukin ), NULL, this );
+	
+}
+
+HariLiburPanel::HariLiburPanel( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
+{
+	wxBoxSizer* wrapper_bSizer;
+	wrapper_bSizer = new wxBoxSizer( wxVERTICAL );
+	
+	wxBoxSizer* button_bSizer;
+	button_bSizer = new wxBoxSizer( wxHORIZONTAL );
+	
+	tambah_button = new wxButton( this, wxID_ANY, wxT("Tambah"), wxDefaultPosition, wxDefaultSize, 0 );
+	button_bSizer->Add( tambah_button, 0, wxALL, 5 );
+	
+	ubah_button = new wxButton( this, wxID_ANY, wxT("Ubah"), wxDefaultPosition, wxDefaultSize, 0 );
+	button_bSizer->Add( ubah_button, 0, wxALL, 5 );
+	
+	hapus_button = new wxButton( this, wxID_ANY, wxT("Hapus"), wxDefaultPosition, wxDefaultSize, 0 );
+	button_bSizer->Add( hapus_button, 0, wxALL, 5 );
+	
+	
+	wrapper_bSizer->Add( button_bSizer, 0, wxEXPAND, 5 );
+	
+	hari_libur_dataViewListCtrl = new wxDataViewListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
+	wrapper_bSizer->Add( hari_libur_dataViewListCtrl, 1, wxALL|wxEXPAND, 5 );
+	
+	footer_panel = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxSize( -1,-1 ), wxTAB_TRAVERSAL );
+	footer_panel->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_ACTIVEBORDER ) );
+	
+	wxBoxSizer* footer_bSizer;
+	footer_bSizer = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText20 = new wxStaticText( footer_panel, wxID_ANY, wxT("Tampilkan Dari"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText20->Wrap( -1 );
+	footer_bSizer->Add( m_staticText20, 0, wxALL, 5 );
+	
+	start_datePicker = new wxDatePickerCtrl( footer_panel, wxID_ANY, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize, wxDP_DROPDOWN );
+	footer_bSizer->Add( start_datePicker, 0, wxALL, 5 );
+	
+	m_staticText21 = new wxStaticText( footer_panel, wxID_ANY, wxT("s/d"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText21->Wrap( -1 );
+	footer_bSizer->Add( m_staticText21, 0, wxALL, 5 );
+	
+	end_datePicker = new wxDatePickerCtrl( footer_panel, wxID_ANY, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize, wxDP_DROPDOWN );
+	footer_bSizer->Add( end_datePicker, 0, wxALL, 5 );
+	
+	
+	footer_bSizer->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	
+	footer_panel->SetSizer( footer_bSizer );
+	footer_panel->Layout();
+	footer_bSizer->Fit( footer_panel );
+	wrapper_bSizer->Add( footer_panel, 0, wxEXPAND | wxALL, 5 );
+	
+	
+	this->SetSizer( wrapper_bSizer );
+	this->Layout();
+	
+	// Connect Events
+	tambah_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HariLiburPanel::OnTambah ), NULL, this );
+	ubah_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HariLiburPanel::OnUbah ), NULL, this );
+	hapus_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HariLiburPanel::OnHapus ), NULL, this );
+	start_datePicker->Connect( wxEVT_DATE_CHANGED, wxDateEventHandler( HariLiburPanel::OnFilterData ), NULL, this );
+	end_datePicker->Connect( wxEVT_DATE_CHANGED, wxDateEventHandler( HariLiburPanel::OnFilterData ), NULL, this );
+}
+
+HariLiburPanel::~HariLiburPanel()
+{
+	// Disconnect Events
+	tambah_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HariLiburPanel::OnTambah ), NULL, this );
+	ubah_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HariLiburPanel::OnUbah ), NULL, this );
+	hapus_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HariLiburPanel::OnHapus ), NULL, this );
+	start_datePicker->Disconnect( wxEVT_DATE_CHANGED, wxDateEventHandler( HariLiburPanel::OnFilterData ), NULL, this );
+	end_datePicker->Disconnect( wxEVT_DATE_CHANGED, wxDateEventHandler( HariLiburPanel::OnFilterData ), NULL, this );
+	
+}
+
+HariLiburDialog::HariLiburDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	wxBoxSizer* wrapper_bSizer;
+	wrapper_bSizer = new wxBoxSizer( wxVERTICAL );
+	
+	wxFlexGridSizer* fgSizer6;
+	fgSizer6 = new wxFlexGridSizer( 0, 2, 0, 0 );
+	fgSizer6->AddGrowableCol( 1 );
+	fgSizer6->SetFlexibleDirection( wxBOTH );
+	fgSizer6->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	m_staticText27 = new wxStaticText( this, wxID_ANY, wxT("Tanggal Libur"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText27->Wrap( -1 );
+	fgSizer6->Add( m_staticText27, 0, wxALL, 5 );
+	
+	tgl_datePicker = new wxDatePickerCtrl( this, wxID_ANY, wxDefaultDateTime, wxDefaultPosition, wxSize( 100,-1 ), wxDP_DROPDOWN );
+	fgSizer6->Add( tgl_datePicker, 0, wxALL, 5 );
+	
+	m_staticText28 = new wxStaticText( this, wxID_ANY, wxT("Keterangan"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText28->Wrap( -1 );
+	fgSizer6->Add( m_staticText28, 0, wxALL, 5 );
+	
+	keterangan_textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER );
+	fgSizer6->Add( keterangan_textCtrl, 0, wxALL|wxEXPAND, 5 );
+	
+	
+	wrapper_bSizer->Add( fgSizer6, 1, wxEXPAND, 5 );
+	
+	simpan_button = new wxButton( this, wxID_ANY, wxT("Simpan"), wxDefaultPosition, wxDefaultSize, 0 );
+	wrapper_bSizer->Add( simpan_button, 0, wxALIGN_RIGHT|wxBOTTOM|wxRIGHT, 5 );
+	
+	
+	this->SetSizer( wrapper_bSizer );
+	this->Layout();
+	
+	this->Centre( wxBOTH );
+	
+	// Connect Events
+	keterangan_textCtrl->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( HariLiburDialog::OnSimpan ), NULL, this );
+	simpan_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HariLiburDialog::OnSimpan ), NULL, this );
+}
+
+HariLiburDialog::~HariLiburDialog()
+{
+	// Disconnect Events
+	keterangan_textCtrl->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( HariLiburDialog::OnSimpan ), NULL, this );
+	simpan_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( HariLiburDialog::OnSimpan ), NULL, this );
+	
+}
+
+LupaAbsenPanel::LupaAbsenPanel( wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style ) : wxPanel( parent, id, pos, size, style )
+{
+	wxBoxSizer* wrapper_bSizer;
+	wrapper_bSizer = new wxBoxSizer( wxVERTICAL );
+	
+	wxBoxSizer* button_bSizer;
+	button_bSizer = new wxBoxSizer( wxHORIZONTAL );
+	
+	tambah_button = new wxButton( this, wxID_ANY, wxT("Tambah"), wxDefaultPosition, wxDefaultSize, 0 );
+	button_bSizer->Add( tambah_button, 0, wxALL, 5 );
+	
+	ubah_button = new wxButton( this, wxID_ANY, wxT("Ubah"), wxDefaultPosition, wxDefaultSize, 0 );
+	button_bSizer->Add( ubah_button, 0, wxALL, 5 );
+	
+	hapus_button = new wxButton( this, wxID_ANY, wxT("Hapus"), wxDefaultPosition, wxDefaultSize, 0 );
+	button_bSizer->Add( hapus_button, 0, wxALL, 5 );
+	
+	
+	wrapper_bSizer->Add( button_bSizer, 0, wxEXPAND, 5 );
+	
+	dinas_luar_dataViewListCtrl = new wxDataViewListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxDV_HORIZ_RULES|wxDV_ROW_LINES );
+	wrapper_bSizer->Add( dinas_luar_dataViewListCtrl, 1, wxEXPAND|wxLEFT|wxRIGHT, 5 );
+	
+	footer_panel = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxSize( -1,-1 ), wxTAB_TRAVERSAL );
+	footer_panel->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_ACTIVEBORDER ) );
+	
+	wxBoxSizer* footer_bSizer;
+	footer_bSizer = new wxBoxSizer( wxHORIZONTAL );
+	
+	m_staticText20 = new wxStaticText( footer_panel, wxID_ANY, wxT("Tampilkan Dari"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText20->Wrap( -1 );
+	footer_bSizer->Add( m_staticText20, 0, wxALL, 5 );
+	
+	start_datePicker = new wxDatePickerCtrl( footer_panel, wxID_ANY, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize, wxDP_DROPDOWN );
+	footer_bSizer->Add( start_datePicker, 0, wxALL, 5 );
+	
+	m_staticText21 = new wxStaticText( footer_panel, wxID_ANY, wxT("s/d"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText21->Wrap( -1 );
+	footer_bSizer->Add( m_staticText21, 0, wxALL, 5 );
+	
+	end_datePicker = new wxDatePickerCtrl( footer_panel, wxID_ANY, wxDefaultDateTime, wxDefaultPosition, wxDefaultSize, wxDP_DROPDOWN );
+	footer_bSizer->Add( end_datePicker, 0, wxALL, 5 );
+	
+	
+	footer_bSizer->Add( 0, 0, 1, wxEXPAND, 5 );
+	
+	m_staticText22 = new wxStaticText( footer_panel, wxID_ANY, wxT("Cari Nama"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText22->Wrap( -1 );
+	footer_bSizer->Add( m_staticText22, 0, wxALL, 5 );
+	
+	filter_nama_textCtrl = new wxTextCtrl( footer_panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER );
+	filter_nama_textCtrl->SetMinSize( wxSize( 150,-1 ) );
+	
+	footer_bSizer->Add( filter_nama_textCtrl, 0, wxALL|wxEXPAND, 5 );
+	
+	
+	footer_panel->SetSizer( footer_bSizer );
+	footer_panel->Layout();
+	footer_bSizer->Fit( footer_panel );
+	wrapper_bSizer->Add( footer_panel, 0, wxEXPAND|wxLEFT|wxRIGHT|wxTOP, 5 );
+	
+	
+	this->SetSizer( wrapper_bSizer );
+	this->Layout();
+	wrapper_bSizer->Fit( this );
+	
+	// Connect Events
+	tambah_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LupaAbsenPanel::OnTambah ), NULL, this );
+	ubah_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LupaAbsenPanel::OnUbah ), NULL, this );
+	hapus_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LupaAbsenPanel::OnHapus ), NULL, this );
+	start_datePicker->Connect( wxEVT_DATE_CHANGED, wxDateEventHandler( LupaAbsenPanel::OnFilterData ), NULL, this );
+	end_datePicker->Connect( wxEVT_DATE_CHANGED, wxDateEventHandler( LupaAbsenPanel::OnFilterData ), NULL, this );
+	filter_nama_textCtrl->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( LupaAbsenPanel::OnFilterData ), NULL, this );
+}
+
+LupaAbsenPanel::~LupaAbsenPanel()
+{
+	// Disconnect Events
+	tambah_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LupaAbsenPanel::OnTambah ), NULL, this );
+	ubah_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LupaAbsenPanel::OnUbah ), NULL, this );
+	hapus_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LupaAbsenPanel::OnHapus ), NULL, this );
+	start_datePicker->Disconnect( wxEVT_DATE_CHANGED, wxDateEventHandler( LupaAbsenPanel::OnFilterData ), NULL, this );
+	end_datePicker->Disconnect( wxEVT_DATE_CHANGED, wxDateEventHandler( LupaAbsenPanel::OnFilterData ), NULL, this );
+	filter_nama_textCtrl->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( LupaAbsenPanel::OnFilterData ), NULL, this );
+	
+}
+
+LupaAbsenDialog::LupaAbsenDialog( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxDialog( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+	
+	wxBoxSizer* wrapper_bSizer;
+	wrapper_bSizer = new wxBoxSizer( wxVERTICAL );
+	
+	wxFlexGridSizer* fgSizer6;
+	fgSizer6 = new wxFlexGridSizer( 0, 2, 0, 0 );
+	fgSizer6->AddGrowableCol( 1 );
+	fgSizer6->SetFlexibleDirection( wxBOTH );
+	fgSizer6->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+	
+	m_staticText26 = new wxStaticText( this, wxID_ANY, wxT("Pegawai"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText26->Wrap( -1 );
+	fgSizer6->Add( m_staticText26, 0, wxALL, 5 );
+	
+	wxBoxSizer* bSizer30;
+	bSizer30 = new wxBoxSizer( wxHORIZONTAL );
+	
+	FID_textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize( 100,-1 ), wxTE_READONLY );
+	FID_textCtrl->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_HIGHLIGHTTEXT ) );
+	
+	bSizer30->Add( FID_textCtrl, 0, wxALL, 5 );
+	
+	nama_textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY );
+	nama_textCtrl->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_HIGHLIGHTTEXT ) );
+	
+	bSizer30->Add( nama_textCtrl, 1, wxALL|wxEXPAND, 5 );
+	
+	
+	fgSizer6->Add( bSizer30, 1, wxEXPAND, 5 );
+	
+	m_staticText27 = new wxStaticText( this, wxID_ANY, wxT("Tanggal"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText27->Wrap( -1 );
+	fgSizer6->Add( m_staticText27, 0, wxALL, 5 );
+	
+	tgl_datePicker = new wxDatePickerCtrl( this, wxID_ANY, wxDefaultDateTime, wxDefaultPosition, wxSize( 100,-1 ), wxDP_DROPDOWN );
+	fgSizer6->Add( tgl_datePicker, 0, wxALL, 5 );
+	
+	m_staticText28 = new wxStaticText( this, wxID_ANY, wxT("Keterangan"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText28->Wrap( -1 );
+	fgSizer6->Add( m_staticText28, 0, wxALL, 5 );
+	
+	keterangan_textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER );
+	fgSizer6->Add( keterangan_textCtrl, 0, wxALL|wxEXPAND, 5 );
+	
+	
+	wrapper_bSizer->Add( fgSizer6, 1, wxEXPAND, 5 );
+	
+	simpan_button = new wxButton( this, wxID_ANY, wxT("Simpan"), wxDefaultPosition, wxDefaultSize, 0 );
+	wrapper_bSizer->Add( simpan_button, 0, wxALIGN_RIGHT|wxBOTTOM|wxRIGHT, 5 );
+	
+	
+	this->SetSizer( wrapper_bSizer );
+	this->Layout();
+	
+	this->Centre( wxBOTH );
+	
+	// Connect Events
+	FID_textCtrl->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( LupaAbsenDialog::OnDaftarPegawaiDialog ), NULL, this );
+	nama_textCtrl->Connect( wxEVT_LEFT_DOWN, wxMouseEventHandler( LupaAbsenDialog::OnDaftarPegawaiDialog ), NULL, this );
+	keterangan_textCtrl->Connect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( LupaAbsenDialog::OnSimpan ), NULL, this );
+	simpan_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LupaAbsenDialog::OnSimpan ), NULL, this );
+}
+
+LupaAbsenDialog::~LupaAbsenDialog()
+{
+	// Disconnect Events
+	FID_textCtrl->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( LupaAbsenDialog::OnDaftarPegawaiDialog ), NULL, this );
+	nama_textCtrl->Disconnect( wxEVT_LEFT_DOWN, wxMouseEventHandler( LupaAbsenDialog::OnDaftarPegawaiDialog ), NULL, this );
+	keterangan_textCtrl->Disconnect( wxEVT_COMMAND_TEXT_ENTER, wxCommandEventHandler( LupaAbsenDialog::OnSimpan ), NULL, this );
+	simpan_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( LupaAbsenDialog::OnSimpan ), NULL, this );
 	
 }

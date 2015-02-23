@@ -318,7 +318,13 @@ build/Release/MinGW-Windows/main.o: main.cpp \
  d:/wxWidgets-3.0.2/include/wx/html/htmlcell.h \
  d:/wxWidgets-3.0.2/include/wx/html/htmldefs.h \
  d:/wxWidgets-3.0.2/include/wx/encconv.h \
- d:/wxWidgets-3.0.2/include/wx/html/htmlfilt.h BSettingDialog.h \
+ d:/wxWidgets-3.0.2/include/wx/html/htmlfilt.h \
+ d:/wxWidgets-3.0.2/include/wx/html/htmprint.h \
+ d:/wxWidgets-3.0.2/include/wx/print.h \
+ d:/wxWidgets-3.0.2/include/wx/msw/printwin.h \
+ d:/wxWidgets-3.0.2/include/wx/prntbase.h \
+ d:/wxWidgets-3.0.2/include/wx/cmndata.h \
+ d:/wxWidgets-3.0.2/include/wx/printdlg.h BSettingDialog.h \
  kepank/kepank_notebook.h kepank/kelas_panel.h \
  kepank/kelas_input_dialog.h kepank/pangkat_panel.h \
  kepank/pangkat_input_dialog.h pegawai/pegawai_notebook.h \
@@ -1011,6 +1017,18 @@ d:/wxWidgets-3.0.2/include/wx/html/htmldefs.h:
 d:/wxWidgets-3.0.2/include/wx/encconv.h:
 
 d:/wxWidgets-3.0.2/include/wx/html/htmlfilt.h:
+
+d:/wxWidgets-3.0.2/include/wx/html/htmprint.h:
+
+d:/wxWidgets-3.0.2/include/wx/print.h:
+
+d:/wxWidgets-3.0.2/include/wx/msw/printwin.h:
+
+d:/wxWidgets-3.0.2/include/wx/prntbase.h:
+
+d:/wxWidgets-3.0.2/include/wx/cmndata.h:
+
+d:/wxWidgets-3.0.2/include/wx/printdlg.h:
 
 BSettingDialog.h:
 

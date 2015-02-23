@@ -20,9 +20,6 @@ PegawaiPanel::PegawaiPanel( wxWindow* parent, wxWindowID id, const wxPoint& pos,
 	wxBoxSizer* button_bSizer;
 	button_bSizer = new wxBoxSizer( wxHORIZONTAL );
 	
-	tambah_button = new wxButton( pegawai_panel, wxID_ANY, wxT("Tambah"), wxDefaultPosition, wxDefaultSize, 0 );
-	button_bSizer->Add( tambah_button, 0, wxALL, 5 );
-	
 	ubah_button = new wxButton( pegawai_panel, wxID_ANY, wxT("Ubah"), wxDefaultPosition, wxDefaultSize, 0 );
 	button_bSizer->Add( ubah_button, 0, wxALL, 5 );
 	
@@ -69,7 +66,6 @@ PegawaiPanel::PegawaiPanel( wxWindow* parent, wxWindowID id, const wxPoint& pos,
 	wrapperSizer->Fit( this );
 	
 	// Connect Events
-	tambah_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PegawaiPanel::OnTambah ), NULL, this );
 	ubah_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PegawaiPanel::OnUbah ), NULL, this );
 	hapus_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PegawaiPanel::OnHapus ), NULL, this );
 	salin_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PegawaiPanel::OnSalin ), NULL, this );
@@ -81,7 +77,6 @@ PegawaiPanel::PegawaiPanel( wxWindow* parent, wxWindowID id, const wxPoint& pos,
 PegawaiPanel::~PegawaiPanel()
 {
 	// Disconnect Events
-	tambah_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PegawaiPanel::OnTambah ), NULL, this );
 	ubah_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PegawaiPanel::OnUbah ), NULL, this );
 	hapus_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PegawaiPanel::OnHapus ), NULL, this );
 	salin_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PegawaiPanel::OnSalin ), NULL, this );
@@ -107,7 +102,7 @@ void PegawaiPanel::RefreshDataView(){
         pegawai_dataViewListCtrl->DeleteAllItems();
         try{
             mysqlpp::Query qry=conn.query();
-            qry<<"SELECT s.idbstaff, s.FID, s.nama, s.NIK, k.kelas, CONCAT(p.keterangan, ' (', p.pangkat_golongan, ')') AS pangkat_golongan"
+            qry<<"SELECT s.idbstaff, s.FID, s.nama, s.NIK, k.kelas, p.pangkat_golongan"
                 <<" FROM bstaff s"
                     <<" LEFT JOIN bkelas k ON(s.idbkelas = k.idbkelas)"
                     <<" LEFT JOIN bpangkat_golongan p ON(s.idbpangkat_golongan = p.idbpangkat_golongan)";
@@ -181,6 +176,7 @@ void PegawaiPanel::OnSalin( wxCommandEvent& event ){
     if(pegawai_data_lama_dataViewListCtrl->HasSelection()){
         int selected_row=pegawai_data_lama_dataViewListCtrl->GetSelectedRow();
         pegawai_salin_dialog=new PegawaiSalinDialog(this);
+        pegawai_salin_dialog->InputMode(wxString("create"));
         pegawai_salin_dialog->SalinDataLama(
             pegawai_data_lama_dataViewListCtrl->GetTextValue(selected_row,0),
             pegawai_data_lama_dataViewListCtrl->GetTextValue(selected_row,1),
@@ -189,5 +185,50 @@ void PegawaiPanel::OnSalin( wxCommandEvent& event ){
         pegawai_salin_dialog->ShowModal();
     }else{
         wxLogError("Harap pilih baris data lama pegawai untuk disalin.");
+    }
+}
+void PegawaiPanel::OnUbah( wxCommandEvent& event ){
+    if(pegawai_dataViewListCtrl->HasSelection()){
+        int selected_row = pegawai_dataViewListCtrl->GetSelectedRow();
+        wxString idbstaff=pegawai_dataViewListCtrl->GetTextValue(selected_row,0);
+        pegawai_salin_dialog = new PegawaiSalinDialog(this);
+        pegawai_salin_dialog->SetTitle(wxT("Ubah data pegawai"));
+        pegawai_salin_dialog->InputMode("update", idbstaff);
+        pegawai_salin_dialog->SetUpdateValue();
+        pegawai_salin_dialog->ShowModal();
+    }else{
+        wxLogError("Harap pilih baris data pegawai untuk diubah");
+    }
+}
+void PegawaiPanel::OnHapus( wxCommandEvent& event ){
+    if(pegawai_dataViewListCtrl->HasSelection()){
+        int selected_row=pegawai_dataViewListCtrl->GetSelectedRow();
+        if(wxMessageBox(wxString("Yakin untuk menghapus data pegawai terpilih: ")<<pegawai_dataViewListCtrl->GetTextValue(selected_row, 2)<<"?",
+             wxT("Konfirmasi"),
+                wxICON_QUESTION | wxYES_NO, this) == wxYES
+        ){
+            if(conn.connected()){
+                try{
+                    mysqlpp::Query qry=conn.query();
+                    qry<<"DELETE FROM bstaff"
+                        <<" WHERE idbstaff="<<(const_cast<char*>((const char*)pegawai_dataViewListCtrl->GetTextValue(selected_row,0).mb_str()))
+                        <<" LIMIT 1";
+                    if(qry.execute()){
+                        RefreshDataView();
+                        RefreshDataLamaView();
+                    }else{
+                        wxString error_msg = wxString("Error, saat menghapus data: ");
+                        error_msg<<qry.error();
+                        wxLogError(error_msg);
+                    }
+                }catch(mysqlpp::Exception &e){
+                    wxLogError(e.what());
+                }
+            }else{
+                wxLogError("Error, database tidak terkoneksi.");
+            }
+        }
+    }else{
+        wxLogError("Error, harap pilih baris pegawai untuk dihapus.");
     }
 }

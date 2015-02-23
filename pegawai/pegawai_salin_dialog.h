@@ -14,8 +14,12 @@
 class PegawaiSalinDialog : public wxDialog 
 {
 	private:
+            //BEGIN BAYU===============
+            wxString input_mode;
+            wxString ref_id;
             void CbInitKelas();
             void CbInitPangkat();
+            //END BAYU*********
 	protected:
 		wxStaticText* m_staticText15;
 		wxTextCtrl* FID_textCtrl;
@@ -27,10 +31,10 @@ class PegawaiSalinDialog : public wxDialog
 		wxComboBox* kelas_comboBox;
 		wxStaticText* m_staticText19;
 		wxComboBox* pangkat_comboBox;
-		wxButton* salin_button;
+		wxButton* simpan_button;
 		
 		// Virtual event handlers, overide them in your derived class
-		void OnSalin( wxCommandEvent& event );
+		void OnSimpan( wxCommandEvent& event );
 		
 	
 	public:
@@ -40,6 +44,8 @@ class PegawaiSalinDialog : public wxDialog
 	
             //BEGIN BAYU===========
             void SalinDataLama(wxString p_FID, wxString p_Nama, wxString p_NIK);
+            void InputMode(wxString p_input_mode, wxString p_ref_id=wxEmptyString);
+            void SetUpdateValue();
             //END BAYU***************
 };
 

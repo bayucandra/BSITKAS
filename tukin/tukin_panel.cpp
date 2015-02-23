@@ -44,8 +44,20 @@ TukinPanel::TukinPanel( wxWindow* parent, wxWindowID id, const wxPoint& pos, con
 	
 	// Connect Events
 	tampilkan_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( TukinPanel::OnTampilTukin ), NULL, this );
+	cetak_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( TukinPanel::OnCetak ), NULL, this );
         
         //BEGIN BAYU=============
+        tukin_html=wxEmptyString;
+        
+        b_print = new wxHtmlEasyPrinting(wxT("Cetak Tukin"), this);
+        wxPageSetupDialogData* b_page_setup_data=b_print->GetPageSetupData();
+        b_page_setup_data->SetMarginBottomRight(wxPoint(10,10));
+        b_page_setup_data->SetMarginTopLeft(wxPoint(10,10));
+        
+        wxPrintData *b_print_data=b_print->GetPrintData();
+        b_print_data->SetPaperId(wxPAPER_A4);
+        b_print_data->SetOrientation(wxLANDSCAPE);
+        
         tukin_htmlWin->SetPage("<html><head><title>Init</title></head><body><br><br><br><center><img src=\"images/logo_report.png\"></center></body></html>");
         InitYear();
         InitMonth();
@@ -56,7 +68,9 @@ TukinPanel::~TukinPanel()
 {
 	// Disconnect Events
 	tampilkan_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( TukinPanel::OnTampilTukin ), NULL, this );
-	
+	cetak_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( TukinPanel::OnCetak ), NULL, this );
+	//BEGIN BAYU=================
+        wxDELETE(b_print);
 }
 
 void TukinPanel::InitCurDateCombo(){
@@ -249,22 +263,22 @@ wxString TukinPanel::GenTukin(){
                                 <<"</div>";
                             //BEGIN TABLE REPORT========================
                             ret_html<<"<table border=\"1\" cellspacing=\"0\">";
-                            ret_html<<"<tr>"
+                            ret_html<<"<tr bgcolor=\"#e0e0e0\">"
                                     <<"<td colspan=\"1\" rowspan=\"2\">Tgl.</td>"
                                     <<"<td colspan=\"1\" rowspan=\"2\">Jam Masuk</td>"
                                     <<"<td colspan=\"1\" rowspan=\"2\">Jam Pulang</td>"
                                     <<"<td colspan=\"4\" align=\"center\">Status Absensi (dalam menit)</td>"
-                                    <<"<td colspan=\"2\" align=\"center\">Total Keterlambatan (dalam menit)</td>"
+                                    <<"<td colspan=\"2\" align=\"center\">Keterlambatan (dalam menit)</td>"
                                     <<"<td colspan=\"1\" rowspan=\"2\" width=\"150\">Alasan absensi</td>"
                                     <<"<td colspan=\"2\" align=\"center\">Pengurangan</td>"
                                 <<"</tr>"
-                                <<"<tr>"
+                                <<"<tr bgcolor=\"#e0e0e0\">"
                                     <<"<td width=\"70\" align=\"center\">Masuk cepat</td>"
                                     <<"<td width=\"70\" align=\"center\">Masuk terlambat</td>"
                                     <<"<td width=\"70\" align=\"center\">Pulang cepat</td><td width=\"70\">Pulang Terlambat</td>"
                                     
-                                    <<"<td width=\"70\" align=\"center\"><font color=\"#FF0000\">Masuk terlambat</font></td>"
-                                    <<"<td width=\"70\" align=\"center\"><font color=\"#FF0000\">Pulang cepat</font></td>"
+                                    <<"<td width=\"80\" align=\"center\"><font color=\"#FF0000\">Masuk terlambat</font></td>"
+                                    <<"<td width=\"80\" align=\"center\"><font color=\"#FF0000\">Pulang cepat</font></td>"
                                     
                                     <<"<td width=\"120\">Rincian</td>"
                                     <<"<td width=\"50\">Total</td>"
@@ -536,8 +550,8 @@ wxString TukinPanel::GenTukin(){
                                 <<"<tr>"
                                     <<"<td colspan=\"9\" align=\"right\"><font size=\"+1\"><b>Total rupiah potongan</b></font></td>"
                                     <<"<td colspan=\"3\" align=\"left\">"
-                                        <<"<span style=\"font-size:9pt;\">"<<BCurrencyFormat(BFloatToWxString(tunjangan_perbulan),wxString("Rp"))
-                                            <<" x "<<BFloatToWxString(total_persentasi_potongan)<<"</span>"
+                                        <<BCurrencyFormat(BFloatToWxString(tunjangan_perbulan),wxString("Rp"))
+                                            <<" x "<<BFloatToWxString(total_persentasi_potongan)
                                         <<"% <br><b><font size=\"+1\">= "<<BCurrencyFormat(BFloatToWxString(total_rupiah_potongan),wxString("Rp"))
                                     <<"</b></font></td>"
                                 <<"</tr>"
@@ -575,7 +589,14 @@ wxString TukinPanel::GenTukin(){
 }
 
 void TukinPanel::OnTampilTukin( wxCommandEvent& event ){
-    tukin_htmlWin->SetPage(GenTukin());
+    tukin_html=GenTukin();
+    tukin_htmlWin->SetPage(tukin_html);
+}
+void TukinPanel::OnCetak( wxCommandEvent& event ){
+    if(tukin_html==wxEmptyString){
+        tukin_html=GenTukin();
+    }
+    b_print->PreviewText(tukin_html);
 }
 wxString TukinPanel::HeaderTukin(wxString p_year, wxString p_month){
     wxString ret_html;

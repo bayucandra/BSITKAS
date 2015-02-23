@@ -12,7 +12,7 @@ PegawaiSalinDialog::PegawaiSalinDialog( wxWindow* parent, wxWindowID id, const w
 	input_bSizer = new wxBoxSizer( wxHORIZONTAL );
 	
 	wxStaticBoxSizer* sbSizer1;
-	sbSizer1 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, wxT("Data salin pegawai") ), wxVERTICAL );
+	sbSizer1 = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, wxT("Data pegawai") ), wxVERTICAL );
 	
 	wxFlexGridSizer* fgSizer5;
 	fgSizer5 = new wxFlexGridSizer( 0, 2, 0, 0 );
@@ -89,8 +89,8 @@ PegawaiSalinDialog::PegawaiSalinDialog( wxWindow* parent, wxWindowID id, const w
 	wxBoxSizer* button_bSizer;
 	button_bSizer = new wxBoxSizer( wxVERTICAL );
 	
-	salin_button = new wxButton( this, wxID_ANY, wxT("Salin"), wxDefaultPosition, wxDefaultSize, 0 );
-	button_bSizer->Add( salin_button, 0, wxALL, 15 );
+	simpan_button = new wxButton( this, wxID_ANY, wxT("Salin"), wxDefaultPosition, wxDefaultSize, 0 );
+	button_bSizer->Add( simpan_button, 0, wxALL, 15 );
 	
 	
 	bSizer23->Add( button_bSizer, 1, wxALIGN_RIGHT, 5 );
@@ -102,7 +102,7 @@ PegawaiSalinDialog::PegawaiSalinDialog( wxWindow* parent, wxWindowID id, const w
 	this->Centre( wxBOTH );
 	
 	// Connect Events
-	salin_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PegawaiSalinDialog::OnSalin ), NULL, this );
+	simpan_button->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PegawaiSalinDialog::OnSimpan ), NULL, this );
         
         //BEGIN BAYU====================
         CbInitKelas();
@@ -112,7 +112,7 @@ PegawaiSalinDialog::PegawaiSalinDialog( wxWindow* parent, wxWindowID id, const w
 PegawaiSalinDialog::~PegawaiSalinDialog()
 {
 	// Disconnect Events
-	salin_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PegawaiSalinDialog::OnSalin ), NULL, this );
+	simpan_button->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( PegawaiSalinDialog::OnSimpan ), NULL, this );
 	
 }
 
@@ -166,23 +166,37 @@ void PegawaiSalinDialog::CbInitPangkat(){
         wxLogError("Error, database tidak terkoneksi.");
     }
 }
-void PegawaiSalinDialog::OnSalin( wxCommandEvent &event ){
+void PegawaiSalinDialog::OnSimpan( wxCommandEvent &event ){
     if((kelas_comboBox->GetValue()!=wxEmptyString)&&
         (pangkat_comboBox->GetValue()!=wxEmptyString)){
         if(conn.connected()){
             try{
                 mysqlpp::Query qry=conn.query();
-                qry<<"INSERT INTO bstaff(FID, nama, NIK, idbkelas, idbpangkat_golongan) VALUES("
-                    <<mysqlpp::quote<<(const_cast<char*>((const char*)FID_textCtrl->GetValue().mb_str()))<<","
-                    <<mysqlpp::quote<<(const_cast<char*>((const char*)Nama_textCtrl->GetValue().mb_str()))<<","
-                    <<mysqlpp::quote<<(const_cast<char*>((const char*)NIK_textCtrl->GetValue().mb_str()))<<","
-                    <<"(SELECT idbkelas FROM bkelas WHERE kelas="
-                        <<mysqlpp::quote<<(const_cast<char*>((const char*)kelas_comboBox->GetValue().mb_str()))
-                        <<" LIMIT 1)"<<","
-                    <<"(SELECT idbpangkat_golongan FROM bpangkat_golongan WHERE pangkat_golongan="
-                        <<mysqlpp::quote<<(const_cast<char*>((const char*)pangkat_comboBox->GetValue().mb_str()))
-                        <<" LIMIT 1)"
-                    <<")";
+                if(input_mode == wxString("create")){
+                    qry<<"INSERT INTO bstaff(FID, nama, NIK, idbkelas, idbpangkat_golongan) VALUES("
+                        <<mysqlpp::quote<<(const_cast<char*>((const char*)FID_textCtrl->GetValue().mb_str()))<<","
+                        <<mysqlpp::quote<<(const_cast<char*>((const char*)Nama_textCtrl->GetValue().mb_str()))<<","
+                        <<mysqlpp::quote<<(const_cast<char*>((const char*)NIK_textCtrl->GetValue().mb_str()))<<","
+                        <<"(SELECT idbkelas FROM bkelas WHERE kelas="
+                            <<mysqlpp::quote<<(const_cast<char*>((const char*)kelas_comboBox->GetValue().mb_str()))
+                            <<" LIMIT 1)"<<","
+                        <<"(SELECT idbpangkat_golongan FROM bpangkat_golongan WHERE pangkat_golongan="
+                            <<mysqlpp::quote<<(const_cast<char*>((const char*)pangkat_comboBox->GetValue().mb_str()))
+                            <<" LIMIT 1)"
+                        <<")";
+                }else if(input_mode == wxString("update")){
+                    qry<<"UPDATE bstaff SET"
+                            <<" idbkelas="
+                                <<"(SELECT idbkelas FROM bkelas WHERE kelas="
+                                    <<mysqlpp::quote<<(const_cast<char*>((const char*)kelas_comboBox->GetValue().mb_str()))
+                                    <<" LIMIT 1)"<<","
+                            <<" idbpangkat_golongan="
+                                <<"(SELECT idbpangkat_golongan FROM bpangkat_golongan WHERE pangkat_golongan="
+                                    <<mysqlpp::quote<<(const_cast<char*>((const char*)pangkat_comboBox->GetValue().mb_str()))
+                                    <<" LIMIT 1)"
+                        <<" WHERE idbstaff="<<(const_cast<char*>((const char*)ref_id.mb_str()))
+                        <<" LIMIT 1";
+                }
                 bool res_ins=qry.execute();
                 if(res_ins){
                     ((PegawaiPanel*)GetParent())->RefreshDataView();
@@ -192,6 +206,7 @@ void PegawaiSalinDialog::OnSalin( wxCommandEvent &event ){
                     wxString error_msg=wxString("Error input data Pegawai: ");
                     error_msg.Append(qry.error());
                     wxLogError(error_msg);
+                    wxLogError(wxString(qry.str()));
                 }
             }catch(mysqlpp::Exception &e){
                 wxLogError(e.what());
@@ -202,4 +217,26 @@ void PegawaiSalinDialog::OnSalin( wxCommandEvent &event ){
     }else{
         wxLogError("Harap mengisi input Kelas dan input Pangkat");
     }
+}
+
+void PegawaiSalinDialog::InputMode(wxString p_input_mode, wxString p_ref_id){
+    input_mode=p_input_mode;
+    if(p_input_mode==wxString("update")){
+        if(p_ref_id != wxEmptyString){
+            ref_id=p_ref_id;
+        }else{
+            wxLogError("Kesalahan pemrograman untuk parameter p_ref_id. Harap kontak administrator programmer.");
+        }
+    }
+}
+void PegawaiSalinDialog::SetUpdateValue(){
+    simpan_button->SetLabel("Ubah");
+    wxDataViewListCtrl *pegawai_dataViewListCtrl=((PegawaiPanel*)GetParent())->GetPengawaiDataView();
+//    wxLogMessage(pegawai_dataViewListCtrl->GetTextValue(1,1));
+    int selected_row = pegawai_dataViewListCtrl->GetSelectedRow();
+    FID_textCtrl->SetValue(pegawai_dataViewListCtrl->GetTextValue(selected_row, 1));
+    Nama_textCtrl->SetValue(pegawai_dataViewListCtrl->GetTextValue(selected_row, 2));
+    NIK_textCtrl->SetValue(pegawai_dataViewListCtrl->GetTextValue(selected_row, 3));
+    kelas_comboBox->SetValue(pegawai_dataViewListCtrl->GetTextValue(selected_row, 4));
+    pangkat_comboBox->SetValue(pegawai_dataViewListCtrl->GetTextValue(selected_row, 5));
 }

@@ -11,6 +11,8 @@
 class TukinPanel : public wxPanel 
 {
 	private:
+            //BEGIN BAYU======================
+            wxString tukin_html;
             void InitYear();
             void InitMonth();
             void InitCurDateCombo();
@@ -19,6 +21,9 @@ class TukinPanel : public wxPanel
             wxString CheckHoliday(wxString p_date_str);
             wxString GenTukin();
             wxString HeaderTukin(wxString p_year, wxString p_month);
+            wxHtmlEasyPrinting *b_print;
+            
+            //END BAYU*******************
 	protected:
 		wxStaticText* m_staticText41;
 		wxComboBox* year_comboBox;
@@ -30,7 +35,8 @@ class TukinPanel : public wxPanel
 		
 		// Virtual event handlers, overide them in your derived class
 		void OnTampilTukin( wxCommandEvent& event );
-		
+		virtual void OnCetak( wxCommandEvent& event );
+		virtual void OnPrintSeting( wxCommandEvent& event ) { event.Skip(); }
 	
 	public:
 		

@@ -36,6 +36,7 @@
 #include <wx/dateevt.h>
 #include "wx/dialog.h"
 #include <wx/html/htmlwin.h>
+#include <wx/html/htmprint.h>
 
 //#include "event_enum.h"
 #include "BSettingDialog.h"
