@@ -38,7 +38,7 @@ PegawaiSalinDialog::PegawaiSalinDialog( wxWindow* parent, wxWindowID id, const w
 	
 	fgSizer5->Add( Nama_textCtrl, 0, wxALL|wxEXPAND, 5 );
 	
-	m_staticText17 = new wxStaticText( this, wxID_ANY, wxT("NIK"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText17 = new wxStaticText( this, wxID_ANY, wxT("NIP"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticText17->Wrap( -1 );
 	fgSizer5->Add( m_staticText17, 0, wxALL, 5 );
 	

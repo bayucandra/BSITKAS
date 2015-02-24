@@ -19,9 +19,11 @@ class TukinPanel : public wxPanel
             int TotalDaySelected();
             wxString GetAlasan(wxDateTime p_date, wxString p_FID);
             wxString CheckHoliday(wxString p_date_str);
-            wxString GenTukin();
-            wxString HeaderTukin(wxString p_year, wxString p_month);
+            wxString GenReport();
+            wxString HeaderReport(wxString p_year, wxString p_month);
             wxHtmlEasyPrinting *b_print;
+            float GetPersenPengurangan(const wxString &p_int_str);
+            wxString GetRangeKeterlambatan(const wxString &p_int_str);
             
             //END BAYU*******************
 	protected:

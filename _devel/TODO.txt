@@ -1,8 +1,11 @@
 -Add validation for izin, dinas luar and surat tugas can't be have double of them
 -Holiday -> Done
--Forget absence
+-Forget absence -> Seem don't have to
 -Photo
--Delete pegawai
+-Delete pegawai -> Done
 -Cuti
 -Hukuman disiplin
 -Refresh data
+-Revise pengurangan keterlambatan tukin
+-icon laporan tukin dan uang makan
+-jam kerja terlambat diganti pulang terlambat 30 menit

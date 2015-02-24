@@ -10,6 +10,7 @@
 #include "pegawai/pegawai_notebook.cpp"
 #include "absensi/absensi_notebook.cpp"
 #include "tukin/tukin_notebook.cpp"
+#include "umak/umak_notebook.cpp"
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -110,7 +111,7 @@ BFrame::BFrame( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	menu_pegawai_button = new wxButton( menu_panel, ID_menu_pegawai_btn, wxT("Pegawai"), wxDefaultPosition, wxDefaultSize, 0 );
 	menu_bSizer->Add( menu_pegawai_button, 0, wxEXPAND, 0 );
 	
-	menu_kepank_button = new wxButton( menu_panel, ID_menu_kepank_btn, wxT("Kelas/Pangkat"), wxDefaultPosition, wxDefaultSize, 0 );
+	menu_kepank_button = new wxButton( menu_panel, ID_menu_kepank_btn, wxT("Pangkat && Jabatan"), wxDefaultPosition, wxDefaultSize, 0 );
 	menu_bSizer->Add( menu_kepank_button, 0, wxEXPAND, 0 );
 	
 	
@@ -136,6 +137,9 @@ BFrame::BFrame( wxWindow* parent, wxWindowID id, const wxString& title, const wx
         //BEGIN BAYU============
         tukin_notebook = new TukinNotebook(main_notebook);
         main_notebook->AddPage(tukin_notebook,"Tukin Notebook");
+        
+        umak_notebook = new UmakNotebook(main_notebook);
+        main_notebook->AddPage(umak_notebook, "Uangmakan Notebook");
         
         absensi_notebook=new AbsensiNotebook(main_notebook);
         main_notebook->AddPage(absensi_notebook, "Absensi Notebook");
@@ -217,6 +221,10 @@ void BFrame::OnMenuTukin(wxCommandEvent& event){
     int tukin_idx=main_notebook->FindPage(tukin_notebook);
     main_notebook->SetSelection(tukin_idx);
 }
+void BFrame::OnMenuUmak(wxCommandEvent& event){
+    int umak_idx=main_notebook->FindPage(umak_notebook);
+    main_notebook->SetSelection(umak_idx);
+}
 
 wxBEGIN_EVENT_TABLE(BFrame,wxFrame)
     EVT_LEFT_DOWN(BFrame::OnLeftDown)
@@ -228,7 +236,8 @@ wxBEGIN_EVENT_TABLE(BFrame,wxFrame)
     EVT_BUTTON(ID_Maximize, BFrame::OnMaximizeRestore)
     EVT_BUTTON(ID_Setting, BFrame::OnBSettingDialog)
 
-    EVT_BUTTON(ID_menu_tukin_btn,BFrame::OnMenuTukin)
+    EVT_BUTTON(ID_menu_tukin_btn, BFrame::OnMenuTukin)
+    EVT_BUTTON(ID_menu_umak_btn, BFrame::OnMenuUmak)
     EVT_BUTTON(ID_menu_absensi_btn, BFrame::OnMenuAbsensi)
     EVT_BUTTON(ID_menu_pegawai_btn, BFrame::OnMenuPegawai)
     EVT_BUTTON(ID_menu_kepank_btn, BFrame::OnMenuKepank)

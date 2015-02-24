@@ -50,6 +50,7 @@ TukinPanel::TukinPanel( wxWindow* parent, wxWindowID id, const wxPoint& pos, con
         tukin_html=wxEmptyString;
         
         b_print = new wxHtmlEasyPrinting(wxT("Cetak Tukin"), this);
+        b_print->SetFooter(wxString("halaman @PAGENUM@ dari @PAGESCNT@"),wxPAGE_ALL);
         wxPageSetupDialogData* b_page_setup_data=b_print->GetPageSetupData();
         b_page_setup_data->SetMarginBottomRight(wxPoint(10,10));
         b_page_setup_data->SetMarginTopLeft(wxPoint(10,10));
@@ -58,7 +59,12 @@ TukinPanel::TukinPanel( wxWindow* parent, wxWindowID id, const wxPoint& pos, con
         b_print_data->SetPaperId(wxPAPER_A4);
         b_print_data->SetOrientation(wxLANDSCAPE);
         
-        tukin_htmlWin->SetPage("<html><head><title>Init</title></head><body><br><br><br><center><img src=\"images/logo_report.png\"></center></body></html>");
+        wxString init_html;
+        init_html<<"<html><head><title>Init</title></head><body>"
+                <<"<br><br><br><center><img src=\"images/logo_report.png\"></center>"
+                <<"<h3 align=\"center\">Preview laporan tunjangan kinerja</h3>"
+            <<"</body></html>";
+        tukin_htmlWin->SetPage(init_html);
         InitYear();
         InitMonth();
         InitCurDateCombo();
@@ -209,16 +215,17 @@ wxString TukinPanel::CheckHoliday(wxString p_date_str){
     }
     return ret_str;
 }
-wxString TukinPanel::GenTukin(){
+wxString TukinPanel::GenReport(){
     wxString ret_html;
     if((year_comboBox->GetValue()!=wxEmptyString)&&(month_comboBox->GetValue()!=wxEmptyString)){
-        ret_html.Append("<html><head><title>Tukin view</title></head><body>");
+        ret_html.Append("<html><head><title>Tukin report</title></head><body>");
             if(conn.connected()){
                 try{
                     mysqlpp::Query qry_staff=conn.query();
-                    qry_staff<<"SELECT bs.FID, bs.nama, bs.NIK, bk.kelas, bk.tunjangan_perbulan,"
+                    qry_staff<<"SELECT bs.FID, bs.nama, bs.NIK, CONCAT(bk.keterangan,' (',bk.kelas,')') AS kelas, bk.tunjangan_perbulan,"
                             <<"CONCAT('Rp ',FORMAT(bk.tunjangan_perbulan,0,'id_ID'),',-') AS tunjangan_perbulan_rp,"
-                            <<"CONCAT(bpg.pangkat_golongan,' - ',bpg.keterangan) AS pangkat,"
+//                            <<"CONCAT(bpg.pangkat_golongan,' - ',bpg.keterangan) AS pangkat,"
+                            <<"pangkat_golongan AS pangkat,"
                             <<"bpg.uang_makan, CONCAT('Rp ', FORMAT(bpg.uang_makan,0,'id_ID'),',-') AS uang_makan_rp"
                         <<" FROM bstaff bs"
                             " lEFT JOIN bkelas bk ON(bs.idbkelas = bk.idbkelas)"
@@ -231,38 +238,38 @@ wxString TukinPanel::GenTukin(){
                             wxString NIK=wxString::FromUTF8(res_staff[i]["NIK"]);
                             wxString tunjangan_perbulan_str=wxString::FromUTF8(res_staff[i]["tunjangan_perbulan"]);
                             
-                            ret_html.Append(HeaderTukin(year_comboBox->GetValue(),month_comboBox->GetValue()));
+                            ret_html.Append(HeaderReport(year_comboBox->GetValue(),month_comboBox->GetValue()));
                                 ret_html<<"<div align=\"right\">"
-                                    <<"<table width=\"400\" cellspacing=\"0\">"
+                                    <<"<table width=\"400\" cellspacing=\"0\" cellpadding=\"1\">"
                                         <<"<tr>"
-                                            <<"<td width=\"120\">Nama</td>:<td></td><td>"
+                                            <<"<td width=\"120\">Nama</td><td>:</td><td>"
                                                 <<wxString::FromUTF8(res_staff[i]["nama"])
                                             <<"</td>"
                                         <<"</tr>"
                                         <<"<tr>"
-                                            <<"<td>NIP</td>:<td></td><td>"
+                                            <<"<td>NIP</td><td>:</td><td>"
                                                 <<wxString::FromUTF8(res_staff[i]["NIK"])
                                             <<"</td>"
                                         <<"</tr>"
                                         <<"<tr>"
-                                            <<"<td>Golongan/Jabatan</td>:<td></td><td>"
+                                            <<"<td>Jabatan</td><td>:</td><td>"
                                                 <<wxString::FromUTF8(res_staff[i]["pangkat"])
                                             <<"</td>"
                                         <<"</tr>"
                                         <<"<tr>"
-                                            <<"<td>Kelas jabatan</td>:<td></td><td>"
+                                            <<"<td>Pangkat / Gol</td><td>:</td><td>"
                                                 <<wxString::FromUTF8(res_staff[i]["kelas"])
                                             <<"</td>"
                                         <<"</tr>"
                                         <<"<tr>"
-                                            <<"<td>Tunjangan</td>:<td></td><td>"
+                                            <<"<td>Tunjangan</td><td>:</td><td>"
                                                 <<wxString::FromUTF8(res_staff[i]["tunjangan_perbulan_rp"])
                                             <<"</td>"
                                         <<"</tr>"
                                     <<"</table>"
                                 <<"</div>";
                             //BEGIN TABLE REPORT========================
-                            ret_html<<"<table border=\"1\" cellspacing=\"0\">";
+                            ret_html<<"<table border=\"1\" cellspacing=\"0\" style=\"border-collapse: collapse;\">";
                             ret_html<<"<tr bgcolor=\"#e0e0e0\">"
                                     <<"<td colspan=\"1\" rowspan=\"2\">Tgl.</td>"
                                     <<"<td colspan=\"1\" rowspan=\"2\">Jam Masuk</td>"
@@ -280,11 +287,12 @@ wxString TukinPanel::GenTukin(){
                                     <<"<td width=\"80\" align=\"center\"><font color=\"#FF0000\">Masuk terlambat</font></td>"
                                     <<"<td width=\"80\" align=\"center\"><font color=\"#FF0000\">Pulang cepat</font></td>"
                                     
-                                    <<"<td width=\"120\">Rincian</td>"
+                                    <<"<td width=\"170\">Rincian</td>"
                                     <<"<td width=\"50\">Total</td>"
                                 <<"</tr>"
                                 ;
 //                            ret_html.Append(report_header);
+                            //BEGIN LOOPING DAYS IN A SELECTED MONTH============================
                             float total_persentasi_potongan=0;
                             for(int i=0; i<TotalDaySelected(); i++){
                                 wxString date_attendance_str(year_comboBox->GetValue());
@@ -296,7 +304,7 @@ wxString TukinPanel::GenTukin(){
                                 if(day_attendance_num<10){
                                     day_attendance_str.Prepend("0");
                                 }
-                                ret_html<<"<tr>";//OPEN TR LINE========
+                                ret_html<<"<tr>";//OPEN TR TAG========
                                 date_attendance_str.Append(day_attendance_str);
                                 wxDateTime date_attendance;
                                 date_attendance.ParseFormat(date_attendance_str, "%Y-%m-%d");
@@ -451,7 +459,7 @@ wxString TukinPanel::GenTukin(){
                                     if(jam_pulang_terlambat_str!="-"){
                                         jam_pulang_lebih_int=wxAtoi(jam_pulang_terlambat_str);
                                     }
-                                    if(jam_masuk_kurang_int>jam_pulang_lebih_int){
+                                    if( (jam_masuk_kurang_int<31)&&(jam_masuk_kurang_int>jam_pulang_lebih_int) ){
                                         int total_jam_masuk_kurang=jam_masuk_kurang_int-jam_pulang_lebih_int;
                                         jam_masuk_kurang_str=wxString::Format(wxT("%i"),total_jam_masuk_kurang);
                                     }
@@ -492,24 +500,35 @@ wxString TukinPanel::GenTukin(){
                                 wxString rincian_pengurangan_str="-";
                                 wxString tmp_rincian_pengurangan_str=wxEmptyString;
                                 if(alasan_absensi_str==wxString("-")){
-                                    if(jam_masuk_kurang_str!="-"){
-                                        total_pengurangan=total_pengurangan+0.5;
-                                        tmp_rincian_pengurangan_str<<"-Masuk terlambat=0.5%<br>";
+                                    if(jam_masuk_kurang_str!="-"){//TERLAMBAT MASUK======
+                                        float pengurangan=GetPersenPengurangan(jam_masuk_kurang_str);
+                                        total_pengurangan=total_pengurangan+pengurangan;
+                                        tmp_rincian_pengurangan_str<<"-Masuk terlambat <i>("<<GetRangeKeterlambatan(jam_masuk_kurang_str)
+                                            <<")</i> = "<<BFloatToWxString(pengurangan)<<"%<br>";
                                     }
-                                    if(jam_pulang_kurang_str!="-"){
-                                        total_pengurangan=total_pengurangan+0.5;
-                                        tmp_rincian_pengurangan_str<<"-Pulang cepat=0.5%<br>";
+                                    if(jam_pulang_kurang_str!="-"){//PULANG AWAL==================
+                                        float pengurangan=GetPersenPengurangan(jam_pulang_kurang_str);
+                                        total_pengurangan=total_pengurangan+pengurangan;
+                                        tmp_rincian_pengurangan_str<<"-Pulang cepat <i>("<<GetRangeKeterlambatan(jam_pulang_kurang_str)
+                                            <<")</i> = "<<BFloatToWxString(pengurangan)<<"%<br>";
+                                    }
+                                    if( (jam_masuk_str == wxString("-")) && (jam_pulang_str != wxString("-")) ){
+                                        total_pengurangan=total_pengurangan+1.5;
+                                        tmp_rincian_pengurangan_str<<"-Tidak absen masuk = 1.5%<br>";
+                                    }
+                                    if( (jam_masuk_str != wxString("-")) && (jam_pulang_str == wxString("-")) ){
+                                        total_pengurangan=total_pengurangan+1.5;
+                                        tmp_rincian_pengurangan_str<<"-Tidak absen pulang = 1.5%<br>";
                                     }
                                     if(
-                                            (jam_masuk_str == wxString("-"))
-                                            &&(jam_pulang_str == wxString("-"))
+                                            (jam_masuk_str == wxString("-")) && (jam_pulang_str == wxString("-"))
                                     ){//TANPA KETERANGAN=========
                                         total_pengurangan=total_pengurangan+3;
-                                        tmp_rincian_pengurangan_str<<"-Tanpa keterangan=3%<br>";
+                                        tmp_rincian_pengurangan_str<<"-Tanpa keterangan = 3%<br>";
                                     }
                                 }else if(alasan_absensi_str==wxString("Izin")){
                                     total_pengurangan=total_pengurangan+1.5;
-                                    tmp_rincian_pengurangan_str<<"-Izin=1.5%<br>";
+                                    tmp_rincian_pengurangan_str<<"-Izin = 1.5%<br>";
                                 }
                                 if(tmp_rincian_pengurangan_str!=wxEmptyString){
                                     tmp_rincian_pengurangan_str=tmp_rincian_pengurangan_str.Mid(0,tmp_rincian_pengurangan_str.Len()-4);
@@ -530,8 +549,9 @@ wxString TukinPanel::GenTukin(){
                                     <<"</td>";
                                 total_persentasi_potongan=total_persentasi_potongan+total_pengurangan;
                                 //END TOTAL PENGURANGAN***************
-                                ret_html<<"</tr>";//CLOSE TR LINE**********************************************************************************
+                                ret_html<<"</tr>";//CLOSE TR TAG**********************************************************************************
                             }
+                            //END LOOPING DAYS IN A SELECTED MONTH************************************
                             //BEGIN SUMARY TABLE======================
                             double tunjangan_perbulan_double;
                             float tunjangan_perbulan;
@@ -540,7 +560,7 @@ wxString TukinPanel::GenTukin(){
                             float total_rupiah_potongan = tunjangan_perbulan*total_persentasi_potongan/100;
                             float total_tunjangan_diterima = tunjangan_perbulan - total_rupiah_potongan;
                             ret_html
-                                <<"<tr height=\"5\" bgcolor=\"#000000\" border=\"0\"><td colspan=\"12\"></td></tr>"
+                                <<"<tr height=\"3\" bgcolor=\"#000000\" border=\"0\"><td colspan=\"12\"></td></tr>"
                                 <<"<tr>"
                                     <<"<td colspan=\"9\" align=\"right\"><font size=\"+1\"><b>Total persentasi potongan</b></font></td>"
                                     <<"<td colspan=\"3\" align=\"left\"><font size=\"+1\"><b>"
@@ -565,9 +585,9 @@ wxString TukinPanel::GenTukin(){
                                 <<"</tr>";
                             //END SUMARY TABLE***********
                             ret_html<<"</table>";
-                            //END TABLE REPORT========================
+                            //END TABLE REPORT************************
                             
-                            ret_html.Append("<div style=\"page-break-before:always\"></div>");
+                            ret_html<<"<div style=\"page-break-before:always\"></div>";
                         }
                     }else{
                         wxString error_msg=wxString("Error saat query database pegawai: ");
@@ -589,36 +609,32 @@ wxString TukinPanel::GenTukin(){
 }
 
 void TukinPanel::OnTampilTukin( wxCommandEvent& event ){
-    tukin_html=GenTukin();
+    tukin_html=GenReport();
     tukin_htmlWin->SetPage(tukin_html);
 }
 void TukinPanel::OnCetak( wxCommandEvent& event ){
     if(tukin_html==wxEmptyString){
-        tukin_html=GenTukin();
+        tukin_html=GenReport();
     }
     b_print->PreviewText(tukin_html);
 }
-wxString TukinPanel::HeaderTukin(wxString p_year, wxString p_month){
+wxString TukinPanel::HeaderReport(wxString p_year, wxString p_month){
     wxString ret_html;
-//    wxString str_date_selected=p_year;
-//    str_date_selected.Append("-"); str_date_selected.Append(p_month);
-//    str_date_selected.Append("-"); str_date_selected.Append("01");
-//    wxDateTime date_selected=wxDateTime::ParseFormat(str_date_selected, "%Y-%m-%d");
     
-    ret_html.Append("<table>");
-        ret_html.Append("<tr>");
-            ret_html.Append("<td><img src=\"images/logo_report.png\" alt=\"Report logo\"></td>");
-            ret_html.Append("<td><font face=\"arial,helvetica, sans-serif, sans\" size=\"+1\"><b>Kantor Pertanahan Kabupaten Jepara</b></font>");
-                ret_html.Append("<br><font face=\"arial,helvetica, sans-serif, sans\" size=\"+1\">Tunjangan kinerja pegawai</font>");
-                ret_html.Append("<br><font face=\"arial,helvetica, sans-serif, sans\" size=\"+1\">");
-                    ret_html.Append("Bulan: ");
-                    ret_html.Append(BGetMonthName(p_month));
-                    ret_html.Append(", Tahun: ");
-                    ret_html.Append(p_year);
-                ret_html.Append("</font>");
-            ret_html.Append("</td>");
-        ret_html.Append("</tr>");
-    ret_html.Append("</table>");
+    ret_html<<"<table>"
+            <<"<tr>"
+                <<"<td><img src=\"images/logo_report.png\" alt=\"Report logo\"></td>"
+                <<"<td><font face=\"arial,helvetica, sans-serif, sans\" size=\"+1\"><b>Kantor Pertanahan Kabupaten Jepara</b></font>"
+                    <<"<br><font face=\"arial,helvetica, sans-serif, sans\" size=\"+1\">Tunjangan kinerja pegawai</font>"
+                    <<"<br><font face=\"arial,helvetica, sans-serif, sans\" size=\"+1\">"
+                        <<"Bulan: "
+                        <<BGetMonthName(p_month)
+                        <<", Tahun: "
+                        <<p_year
+                    <<"</font>"
+                <<"</td>"
+            <<"</tr>"
+        <<"</table>";
     return ret_html;
 }
 int TukinPanel::TotalDaySelected(){
@@ -636,4 +652,38 @@ int TukinPanel::TotalDaySelected(){
     date_last_day.SetToLastMonthDay();
     int total_day=date_last_day.GetDay();
     return total_day;
+}
+float TukinPanel::GetPersenPengurangan(const wxString &p_int_str){
+    float ret_pengurangan=0;
+    int menit_terlambat=wxAtoi(p_int_str);
+    if((menit_terlambat>0)
+        &&(menit_terlambat<31)
+    ){
+        ret_pengurangan=0.5;
+    }else if((menit_terlambat>30)
+        &&(menit_terlambat<61)
+    ){
+        ret_pengurangan=1;
+    }else if((menit_terlambat>60)
+        &&(menit_terlambat<91)
+    ){
+        ret_pengurangan=1.25;
+    }else if(menit_terlambat>90){
+        ret_pengurangan=1.5;
+    }
+    return ret_pengurangan;
+}
+wxString TukinPanel::GetRangeKeterlambatan(const wxString &p_int_str){
+    wxString ret_range;
+    int menit_terlambat=wxAtoi(p_int_str);
+    if( (menit_terlambat>0) && (menit_terlambat<31) ){
+        ret_range=wxString("1 s/d 30mnt");
+    }else if( (menit_terlambat>30) && (menit_terlambat<61) ){
+        ret_range=wxString("31 s/d 60mnt");
+    }else if( (menit_terlambat>60) && (menit_terlambat<91) ){
+        ret_range=wxString("1 s/d 30mnt");
+    }else if(menit_terlambat>90){
+        ret_range=wxString(">90mnt");
+    }
+    return ret_range;
 }

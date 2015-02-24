@@ -225,6 +225,7 @@ wxString BCurrencyFormat(wxString p_num_str, wxString p_currency_str){
     }
     ret_str.Prepend(" ");
     ret_str.Prepend(p_currency_str);
+    p_currency_str.Append(",-");
     return ret_str;
 }
 //int getArrayIndex(wxString p_str,const wxString *p_arr){

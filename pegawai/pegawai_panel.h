@@ -17,6 +17,7 @@ class PegawaiPanel : public wxPanel
             void InitDataView();
             void InitDataLamaView();
             PegawaiSalinDialog *pegawai_salin_dialog;
+            wxHtmlEasyPrinting *b_print;
             //END BAYU**************
 	protected:
 		wxSplitterWindow* pegawai_splitter;

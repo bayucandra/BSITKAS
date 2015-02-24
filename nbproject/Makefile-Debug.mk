@@ -58,7 +58,9 @@ OBJECTFILES= \
 	${OBJECTDIR}/pegawai/pegawai_panel.o \
 	${OBJECTDIR}/pegawai/pegawai_salin_dialog.o \
 	${OBJECTDIR}/tukin/tukin_notebook.o \
-	${OBJECTDIR}/tukin/tukin_panel.o
+	${OBJECTDIR}/tukin/tukin_panel.o \
+	${OBJECTDIR}/umak/umak_notebook.o \
+	${OBJECTDIR}/umak/umak_panel.o
 
 
 # C Compiler Flags
@@ -204,6 +206,16 @@ ${OBJECTDIR}/tukin/tukin_panel.o: tukin/tukin_panel.cpp
 	${MKDIR} -p ${OBJECTDIR}/tukin
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -D_UNICODE -D__WXMSW__ -I/D/wxWidgets-3.0.2/include -I../../../wxWidgets-3.0.2/lib/gcc_lib/mswud -I/D/IDE/mysql-connector-c++-noinstall-1.1.5-win32/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/tukin/tukin_panel.o tukin/tukin_panel.cpp
+
+${OBJECTDIR}/umak/umak_notebook.o: umak/umak_notebook.cpp 
+	${MKDIR} -p ${OBJECTDIR}/umak
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -D_UNICODE -D__WXMSW__ -I/D/wxWidgets-3.0.2/include -I../../../wxWidgets-3.0.2/lib/gcc_lib/mswud -I/D/IDE/mysql-connector-c++-noinstall-1.1.5-win32/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/umak/umak_notebook.o umak/umak_notebook.cpp
+
+${OBJECTDIR}/umak/umak_panel.o: umak/umak_panel.cpp 
+	${MKDIR} -p ${OBJECTDIR}/umak
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -D_UNICODE -D__WXMSW__ -I/D/wxWidgets-3.0.2/include -I../../../wxWidgets-3.0.2/lib/gcc_lib/mswud -I/D/IDE/mysql-connector-c++-noinstall-1.1.5-win32/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/umak/umak_panel.o umak/umak_panel.cpp
 
 # Subprojects
 .build-subprojects:

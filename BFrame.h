@@ -40,10 +40,11 @@
 
 //#include "event_enum.h"
 #include "BSettingDialog.h"
+#include "tukin/tukin_notebook.h"
+#include "umak/umak_notebook.h"
 #include "kepank/kepank_notebook.h"
 #include "pegawai/pegawai_notebook.h"
 #include "absensi/absensi_notebook.h"
-#include "tukin/tukin_notebook.h"
 
 enum{
     ID_Minimize, ID_Maximize, ID_Setting, 
@@ -74,6 +75,7 @@ class BFrame : public wxFrame
             void OnBSettingDialog(wxCommandEvent& event);
             
             void OnMenuTukin(wxCommandEvent& event);
+            void OnMenuUmak(wxCommandEvent& event);
             void OnMenuAbsensi(wxCommandEvent& event);
             void OnMenuPegawai(wxCommandEvent& event);
             void OnMenuKepank(wxCommandEvent& event);
@@ -97,6 +99,7 @@ class BFrame : public wxFrame
 		wxSimplebook* main_notebook;
                 //BEGIN BAYU===========
                 TukinNotebook* tukin_notebook;
+                UmakNotebook* umak_notebook;
                 AbsensiNotebook* absensi_notebook;
                 PegawaiNotebook* pegawai_notebook;
                 KepankNotebook* kepank_notebook;

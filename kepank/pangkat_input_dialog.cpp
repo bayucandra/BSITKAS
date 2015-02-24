@@ -19,10 +19,10 @@ PangkatInputDialog::PangkatInputDialog( wxWindow* parent, wxWindowID id, const w
 	
 	staticText1 = new wxStaticText( this, wxID_ANY, wxT("Pangkat / Golongan"), wxDefaultPosition, wxDefaultSize, 0 );
 	staticText1->Wrap( -1 );
-	input_fgSizer->Add( staticText1, 0, wxALL|wxEXPAND, 5 );
+	input_fgSizer->Add( staticText1, 0, wxALL, 5 );
 	
 	pangkat_textCtrl = new wxTextCtrl( this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_PROCESS_ENTER );
-	input_fgSizer->Add( pangkat_textCtrl, 0, wxALL, 5 );
+	input_fgSizer->Add( pangkat_textCtrl, 0, wxALL|wxEXPAND, 5 );
 	
 	staticText2 = new wxStaticText( this, wxID_ANY, wxT("Keterangan"), wxDefaultPosition, wxDefaultSize, 0 );
 	staticText2->Wrap( -1 );

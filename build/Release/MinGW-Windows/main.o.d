@@ -325,7 +325,8 @@ build/Release/MinGW-Windows/main.o: main.cpp \
  d:/wxWidgets-3.0.2/include/wx/prntbase.h \
  d:/wxWidgets-3.0.2/include/wx/cmndata.h \
  d:/wxWidgets-3.0.2/include/wx/printdlg.h BSettingDialog.h \
- kepank/kepank_notebook.h kepank/kelas_panel.h \
+ tukin/tukin_notebook.h tukin/tukin_panel.h umak/umak_notebook.h \
+ umak/umak_panel.h kepank/kepank_notebook.h kepank/kelas_panel.h \
  kepank/kelas_input_dialog.h kepank/pangkat_panel.h \
  kepank/pangkat_input_dialog.h pegawai/pegawai_notebook.h \
  pegawai/pegawai_panel.h pegawai/pegawai_salin_dialog.h \
@@ -334,21 +335,21 @@ build/Release/MinGW-Windows/main.o: main.cpp \
  absensi/izin_daftar_pegawai_dialog.h absensi/dinas_luar_panel.h \
  absensi/dinas_luar_dialog.h absensi/dinas_luar_daftar_pegawai_dialog.h \
  absensi/surat_tugas_panel.h absensi/surat_tugas_dialog.h \
- absensi/surat_tugas_daftar_pegawai_dialog.h tukin/tukin_notebook.h \
- tukin/tukin_panel.h kepank/kepank_notebook.cpp kepank/kepank_notebook.h \
- kepank/kelas_panel.cpp kepank/kelas_input_dialog.cpp \
- kepank/pangkat_panel.cpp kepank/pangkat_input_dialog.cpp \
- pegawai/pegawai_notebook.cpp pegawai/pegawai_notebook.h \
- pegawai/pegawai_panel.cpp pegawai/pegawai_salin_dialog.cpp \
- absensi/absensi_notebook.cpp absensi/absensi_notebook.h \
- absensi/hari_libur_panel.cpp absensi/hari_libur_dialog.cpp \
- absensi/izin_panel.cpp absensi/izin_dialog.cpp \
- absensi/izin_daftar_pegawai_dialog.cpp absensi/dinas_luar_panel.cpp \
- absensi/dinas_luar_dialog.cpp \
+ absensi/surat_tugas_daftar_pegawai_dialog.h kepank/kepank_notebook.cpp \
+ kepank/kepank_notebook.h kepank/kelas_panel.cpp \
+ kepank/kelas_input_dialog.cpp kepank/pangkat_panel.cpp \
+ kepank/pangkat_input_dialog.cpp pegawai/pegawai_notebook.cpp \
+ pegawai/pegawai_notebook.h pegawai/pegawai_panel.cpp \
+ pegawai/pegawai_salin_dialog.cpp absensi/absensi_notebook.cpp \
+ absensi/absensi_notebook.h absensi/hari_libur_panel.cpp \
+ absensi/hari_libur_dialog.cpp absensi/izin_panel.cpp \
+ absensi/izin_dialog.cpp absensi/izin_daftar_pegawai_dialog.cpp \
+ absensi/dinas_luar_panel.cpp absensi/dinas_luar_dialog.cpp \
  absensi/dinas_luar_daftar_pegawai_dialog.cpp \
  absensi/surat_tugas_panel.cpp absensi/surat_tugas_dialog.cpp \
  absensi/surat_tugas_daftar_pegawai_dialog.cpp tukin/tukin_notebook.cpp \
- tukin/tukin_notebook.h tukin/tukin_panel.cpp BSettingDialog.cpp
+ tukin/tukin_notebook.h tukin/tukin_panel.cpp umak/umak_notebook.cpp \
+ umak/umak_notebook.h umak/umak_panel.cpp BSettingDialog.cpp
 
 d:/wxWidgets-3.0.2/include/wx/wxprec.h:
 
@@ -1032,6 +1033,14 @@ d:/wxWidgets-3.0.2/include/wx/printdlg.h:
 
 BSettingDialog.h:
 
+tukin/tukin_notebook.h:
+
+tukin/tukin_panel.h:
+
+umak/umak_notebook.h:
+
+umak/umak_panel.h:
+
 kepank/kepank_notebook.h:
 
 kepank/kelas_panel.h:
@@ -1071,10 +1080,6 @@ absensi/surat_tugas_panel.h:
 absensi/surat_tugas_dialog.h:
 
 absensi/surat_tugas_daftar_pegawai_dialog.h:
-
-tukin/tukin_notebook.h:
-
-tukin/tukin_panel.h:
 
 kepank/kepank_notebook.cpp:
 
@@ -1127,5 +1132,11 @@ tukin/tukin_notebook.cpp:
 tukin/tukin_notebook.h:
 
 tukin/tukin_panel.cpp:
+
+umak/umak_notebook.cpp:
+
+umak/umak_notebook.h:
+
+umak/umak_panel.cpp:
 
 BSettingDialog.cpp:
