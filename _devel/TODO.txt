@@ -3,11 +3,11 @@
 -Forget absence -> Seem don't have to
 -Photo
 -Delete pegawai -> Done
--Cuti
+-Cuti -> Kurang hapus
 -Hukuman disiplin
 -Refresh data
--Revise pengurangan keterlambatan tukin
+-Revise pengurangan keterlambatan tukin -> Done / Recheck
 -icon laporan tukin dan uang makan
--jam kerja terlambat diganti pulang terlambat 30 menit
--NIK to NIP !!!!!!!!!!!
+-jam kerja terlambat diganti pulang terlambat 30 menit -> Done / Recheck
+-NIK to NIP !!!!!!!!!!! -> Done / Recheck
 -Input cuti validate range

@@ -372,10 +372,18 @@ wxString TukinPanel::GenReport(){
                                     ret_html<<"<td colspan=\""<<wxString::Format(wxT("%i"), (tukin_num_col-3))<<"\">"
                                         <<"Cuti</td>";
                                         if(day_attendance_num==cuti_tgl_awal){
+                                            
+                                            double potongan_cuti;
+                                            cuti_pegawai[5].ToDouble(&potongan_cuti);
+                                            float potongan_cuti_float=static_cast<float>(potongan_cuti);
+                                            total_persentasi_potongan=total_persentasi_potongan+potongan_cuti_float;
+                                            
                                             ret_html<<"<td rowspan=\""<<cuti_pegawai[6]<<"\">"
                                                     <<"-"<<cuti_pegawai[3]<<" = "<<cuti_pegawai[5]<<"%"
                                                 <<"</td>"
-                                                <<"<td rowspan=\""<<cuti_pegawai[6]<<"\"></td>";
+                                                <<"<td rowspan=\""<<cuti_pegawai[6]<<"\">"
+                                                    <<cuti_pegawai[5]<<"%"
+                                                <<"</td>";
                                         }
                                     ret_html<<"</tr>"; //CLOSE <TR> tag (not default)
                                     continue;
