@@ -110,7 +110,7 @@ void SuratTugasPanel::InitDataView(){
     
     surat_tugas_dataViewListCtrl->AppendTextColumn("FID",wxDATAVIEW_CELL_ACTIVATABLE, 50, wxALIGN_LEFT, wxDATAVIEW_COL_HIDDEN);
     surat_tugas_dataViewListCtrl->AppendTextColumn("Nama",wxDATAVIEW_CELL_ACTIVATABLE, 150, wxALIGN_LEFT, wxDATAVIEW_COL_RESIZABLE);
-    surat_tugas_dataViewListCtrl->AppendTextColumn("NIK",wxDATAVIEW_CELL_ACTIVATABLE, 130, wxALIGN_CENTER, wxDATAVIEW_COL_RESIZABLE);
+    surat_tugas_dataViewListCtrl->AppendTextColumn("NIP",wxDATAVIEW_CELL_ACTIVATABLE, 130, wxALIGN_CENTER, wxDATAVIEW_COL_RESIZABLE);
     surat_tugas_dataViewListCtrl->AppendTextColumn("Tgl. Tugas",wxDATAVIEW_CELL_ACTIVATABLE, 100, wxALIGN_CENTER, wxDATAVIEW_COL_RESIZABLE);
     surat_tugas_dataViewListCtrl->AppendTextColumn("Keterangan",wxDATAVIEW_CELL_ACTIVATABLE, 250, wxALIGN_LEFT, wxDATAVIEW_COL_RESIZABLE);
     RefreshDataView();

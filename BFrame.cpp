@@ -11,6 +11,8 @@
 #include "absensi/absensi_notebook.cpp"
 #include "tukin/tukin_notebook.cpp"
 #include "umak/umak_notebook.cpp"
+#include "menu_panel.cpp"
+#include "menu_button.cpp"
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -87,31 +89,23 @@ BFrame::BFrame( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	wxBoxSizer* BodybSizer;
 	BodybSizer = new wxBoxSizer( wxHORIZONTAL );
 	
-	menu_panel = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxSize( -1,-1 ), wxTAB_TRAVERSAL );
+	menu_panel = new MenuPanel( this, wxID_ANY, wxDefaultPosition, wxSize( -1,-1 ), wxTAB_TRAVERSAL );
 	wxBoxSizer* menu_bSizer;
 	menu_bSizer = new wxBoxSizer( wxVERTICAL );
 	
-	menu_laporan_staticText = new wxStaticText( menu_panel, wxID_ANY, wxT("Laporan"), wxDefaultPosition, wxSize( 170,-1 ), 0 );
-	menu_laporan_staticText->Wrap( -1 );
-	menu_bSizer->Add( menu_laporan_staticText, 0, wxALL, 5 );
+	menu_tukin_button = new MenuButton( menu_panel, wxString("images/btn_tukin_active.png"), wxString("images/btn_tukin_inactive.png"), ID_menu_tukin_btn);
+	menu_bSizer->Add( menu_tukin_button, 0, wxEXPAND|wxTOP, 30 );
 	
-	menu_tukin_button = new wxButton( menu_panel, ID_menu_tukin_btn, wxT("Tunjagan Kinerja"), wxDefaultPosition, wxSize( -1,-1 ), 0 );
-	menu_bSizer->Add( menu_tukin_button, 0, wxEXPAND, 0 );
-	
-	menu_umak_button = new wxButton( menu_panel, ID_menu_umak_btn, wxT("Uang Makan"), wxDefaultPosition, wxDefaultSize, 0 );
+	menu_umak_button = new MenuButton( menu_panel, wxString("images/btn_umak_active.png"), wxString("images/btn_umak_inactive.png"), ID_menu_umak_btn);
 	menu_bSizer->Add( menu_umak_button, 0, wxEXPAND, 0 );
 	
-	menu_input_data_staticText = new wxStaticText( menu_panel, wxID_ANY, wxT("Data"), wxDefaultPosition, wxDefaultSize, 0 );
-	menu_input_data_staticText->Wrap( -1 );
-	menu_bSizer->Add( menu_input_data_staticText, 0, wxALL, 5 );
+	menu_absensi_button = new MenuButton( menu_panel, wxString("images/btn_absensi_active.png"), wxString("images/btn_absensi_inactive.png"), ID_menu_absensi_btn);
+	menu_bSizer->Add( menu_absensi_button, 0, wxEXPAND|wxTOP, 30 );
 	
-	menu_absensi_button = new wxButton( menu_panel, ID_menu_absensi_btn, wxT("Absensi"), wxDefaultPosition, wxDefaultSize, 0 );
-	menu_bSizer->Add( menu_absensi_button, 0, wxEXPAND, 0 );
-	
-	menu_pegawai_button = new wxButton( menu_panel, ID_menu_pegawai_btn, wxT("Pegawai"), wxDefaultPosition, wxDefaultSize, 0 );
+	menu_pegawai_button = new MenuButton( menu_panel, wxString("images/btn_pegawai_active.png"), wxString("images/btn_pegawai_inactive.png"), ID_menu_pegawai_btn);
 	menu_bSizer->Add( menu_pegawai_button, 0, wxEXPAND, 0 );
 	
-	menu_kepank_button = new wxButton( menu_panel, ID_menu_kepank_btn, wxT("Pangkat && Jabatan"), wxDefaultPosition, wxDefaultSize, 0 );
+	menu_kepank_button = new MenuButton( menu_panel, wxString("images/btn_jabatan_active.png"), wxString("images/btn_jabatan_inactive.png"), ID_menu_kepank_btn);
 	menu_bSizer->Add( menu_kepank_button, 0, wxEXPAND, 0 );
 	
 	
@@ -132,9 +126,11 @@ BFrame::BFrame( wxWindow* parent, wxWindowID id, const wxString& title, const wx
 	
 	this->Centre( wxBOTH );
         
-        this->SetIcon(wxIcon(logo_xpm));
-        
         //BEGIN BAYU============
+        this->SetTitle("SITKAS");
+        this->SetIcon(wxIcon(logo_xpm));
+        menu_tukin_button->SetActive();
+        menu_button_active=menu_tukin_button;
         tukin_notebook = new TukinNotebook(main_notebook);
         main_notebook->AddPage(tukin_notebook,"Tukin Notebook");
         
@@ -208,22 +204,42 @@ void BFrame::OnBSettingDialog(wxCommandEvent& event){
 void BFrame::OnMenuKepank(wxCommandEvent& event){
     int kepank_idx=main_notebook->FindPage(kepank_notebook);
     main_notebook->SetSelection(kepank_idx);
+    
+    menu_button_active->SetInactive();
+    menu_button_active=menu_kepank_button;
+    menu_button_active->SetActive();
 }
 void BFrame::OnMenuPegawai(wxCommandEvent& event){
     int pegawai_idx=main_notebook->FindPage(pegawai_notebook);
     main_notebook->SetSelection(pegawai_idx);
+    
+    menu_button_active->SetInactive();
+    menu_button_active=menu_pegawai_button;
+    menu_button_active->SetActive();
 }
 void BFrame::OnMenuAbsensi(wxCommandEvent& event){
     int absensi_idx=main_notebook->FindPage(absensi_notebook);
     main_notebook->SetSelection(absensi_idx);
+    
+    menu_button_active->SetInactive();
+    menu_button_active=menu_absensi_button;
+    menu_button_active->SetActive();
 }
 void BFrame::OnMenuTukin(wxCommandEvent& event){
     int tukin_idx=main_notebook->FindPage(tukin_notebook);
     main_notebook->SetSelection(tukin_idx);
+    
+    menu_button_active->SetInactive();
+    menu_button_active=menu_tukin_button;
+    menu_button_active->SetActive();
 }
 void BFrame::OnMenuUmak(wxCommandEvent& event){
     int umak_idx=main_notebook->FindPage(umak_notebook);
     main_notebook->SetSelection(umak_idx);
+    
+    menu_button_active->SetInactive();
+    menu_button_active=menu_umak_button;
+    menu_button_active->SetActive();
 }
 
 wxBEGIN_EVENT_TABLE(BFrame,wxFrame)

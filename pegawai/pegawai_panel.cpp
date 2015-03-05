@@ -90,7 +90,7 @@ void PegawaiPanel::InitDataView(){
     pegawai_dataViewListCtrl->AppendTextColumn("idpegawai",wxDATAVIEW_CELL_ACTIVATABLE,50,wxALIGN_LEFT,wxDATAVIEW_COL_HIDDEN);
     pegawai_dataViewListCtrl->AppendTextColumn("FID",wxDATAVIEW_CELL_ACTIVATABLE,70,wxALIGN_RIGHT,wxDATAVIEW_COL_RESIZABLE);
     pegawai_dataViewListCtrl->AppendTextColumn("Nama pegawai",wxDATAVIEW_CELL_ACTIVATABLE,250,wxALIGN_LEFT,wxDATAVIEW_COL_RESIZABLE);
-    pegawai_dataViewListCtrl->AppendTextColumn("NIK",wxDATAVIEW_CELL_ACTIVATABLE,200,wxALIGN_CENTER,wxDATAVIEW_COL_RESIZABLE);
+    pegawai_dataViewListCtrl->AppendTextColumn("NIP",wxDATAVIEW_CELL_ACTIVATABLE,200,wxALIGN_CENTER,wxDATAVIEW_COL_RESIZABLE);
     pegawai_dataViewListCtrl->AppendTextColumn("Kelas/Jabatan",wxDATAVIEW_CELL_ACTIVATABLE,90,wxALIGN_LEFT,wxDATAVIEW_COL_RESIZABLE);
     pegawai_dataViewListCtrl->AppendTextColumn("Pangkat/Golongan",wxDATAVIEW_CELL_ACTIVATABLE,150,wxALIGN_LEFT,wxDATAVIEW_COL_RESIZABLE);
     
@@ -138,7 +138,7 @@ void PegawaiPanel::InitDataLamaView(){
     
     pegawai_data_lama_dataViewListCtrl->AppendTextColumn("FID",wxDATAVIEW_CELL_ACTIVATABLE,70,wxALIGN_RIGHT,wxDATAVIEW_COL_RESIZABLE);
     pegawai_data_lama_dataViewListCtrl->AppendTextColumn("Nama",wxDATAVIEW_CELL_ACTIVATABLE,250,wxALIGN_LEFT,wxDATAVIEW_COL_RESIZABLE);
-    pegawai_data_lama_dataViewListCtrl->AppendTextColumn("NIK",wxDATAVIEW_CELL_ACTIVATABLE,200,wxALIGN_RIGHT,wxDATAVIEW_COL_RESIZABLE);
+    pegawai_data_lama_dataViewListCtrl->AppendTextColumn("NIP",wxDATAVIEW_CELL_ACTIVATABLE,200,wxALIGN_RIGHT,wxDATAVIEW_COL_RESIZABLE);
     RefreshDataLamaView();
 }
 void PegawaiPanel::RefreshDataLamaView(){

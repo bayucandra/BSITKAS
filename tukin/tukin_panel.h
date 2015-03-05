@@ -13,10 +13,12 @@ class TukinPanel : public wxPanel
 	private:
             //BEGIN BAYU======================
             wxString tukin_html;
+            int tukin_num_col;
             void InitYear();
             void InitMonth();
             void InitCurDateCombo();
             int TotalDaySelected();
+            wxString GenHtmlCutiPegawai(const wxString &p_FID, wxDateTime &p_date);
             wxString GetAlasan(wxDateTime p_date, wxString p_FID);
             wxString CheckHoliday(wxString p_date_str);
             wxString GenReport();
@@ -24,6 +26,7 @@ class TukinPanel : public wxPanel
             wxHtmlEasyPrinting *b_print;
             float GetPersenPengurangan(const wxString &p_int_str);
             wxString GetRangeKeterlambatan(const wxString &p_int_str);
+            wxArrayString GetCutiPegawai(const wxString &p_FID, const wxString &p_year, const wxString &p_month);
             
             //END BAYU*******************
 	protected:

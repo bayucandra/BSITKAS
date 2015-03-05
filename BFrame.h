@@ -23,6 +23,7 @@
 #include <wx/sizer.h>
 #include <wx/bmpbuttn.h>
 #include <wx/button.h>
+#include <wx/statline.h>
 #include <wx/tglbtn.h>
 #include <wx/statbox.h>
 #include <wx/scrolwin.h>
@@ -37,6 +38,7 @@
 #include "wx/dialog.h"
 #include <wx/html/htmlwin.h>
 #include <wx/html/htmprint.h>
+#include <wx/arrstr.h>
 
 //#include "event_enum.h"
 #include "BSettingDialog.h"
@@ -45,6 +47,8 @@
 #include "kepank/kepank_notebook.h"
 #include "pegawai/pegawai_notebook.h"
 #include "absensi/absensi_notebook.h"
+#include "menu_panel.h"
+#include "menu_button.h"
 
 enum{
     ID_Minimize, ID_Maximize, ID_Setting, 
@@ -88,16 +92,15 @@ class BFrame : public wxFrame
 		wxBitmapButton* Maximize_bpButton;
 		wxBitmapButton* Close_bpButton;
 		wxBitmapButton* Setting_bpButton;
-		wxPanel* menu_panel;
-		wxStaticText* menu_laporan_staticText;
-		wxButton* menu_tukin_button;
-		wxButton* menu_umak_button;
-		wxStaticText* menu_input_data_staticText;
-		wxButton* menu_absensi_button;
-		wxButton* menu_pegawai_button;
-		wxButton* menu_kepank_button;
+		MenuPanel* menu_panel;
+		MenuButton* menu_tukin_button;
+		MenuButton* menu_umak_button;
+		MenuButton* menu_absensi_button;
+		MenuButton* menu_pegawai_button;
+		MenuButton* menu_kepank_button;
 		wxSimplebook* main_notebook;
                 //BEGIN BAYU===========
+                MenuButton* menu_button_active;
                 TukinNotebook* tukin_notebook;
                 UmakNotebook* umak_notebook;
                 AbsensiNotebook* absensi_notebook;
@@ -107,7 +110,7 @@ class BFrame : public wxFrame
 	
 	public:
 		
-		BFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 900,450 ), long style = wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLIP_CHILDREN|wxSUNKEN_BORDER|wxTAB_TRAVERSAL );
+		BFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 900,550 ), long style = wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLIP_CHILDREN|wxSUNKEN_BORDER|wxTAB_TRAVERSAL );
 		
 		~BFrame();
         wxDECLARE_EVENT_TABLE();

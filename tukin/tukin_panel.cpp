@@ -48,6 +48,7 @@ TukinPanel::TukinPanel( wxWindow* parent, wxWindowID id, const wxPoint& pos, con
         
         //BEGIN BAYU=============
         tukin_html=wxEmptyString;
+        tukin_num_col=12;
         
         b_print = new wxHtmlEasyPrinting(wxT("Cetak Tukin"), this);
         b_print->SetFooter(wxString("halaman @PAGENUM@ dari @PAGESCNT@"),wxPAGE_ALL);
@@ -68,6 +69,9 @@ TukinPanel::TukinPanel( wxWindow* parent, wxWindowID id, const wxPoint& pos, con
         InitYear();
         InitMonth();
         InitCurDateCombo();
+//        wxString *tmp_str=GetCutiPegawai(wxString("5"), wxString("2014"), wxString("12"));
+//        wxString tmp=tmp_str[0];
+//        wxLogMessage(tmp);
 }
 
 TukinPanel::~TukinPanel()
@@ -125,7 +129,7 @@ wxString TukinPanel::GetAlasan(wxDateTime p_date, wxString p_FID){
                     is_izin=true;
                 }
             }else{
-                wxString err_msg(wxT("Error query bizin:"));
+                wxString err_msg(wxT("Error query tabel izin:"));
                 err_msg<<qry_izin.error();
                 wxLogError(err_msg);
             }
@@ -292,6 +296,8 @@ wxString TukinPanel::GenReport(){
                                 <<"</tr>"
                                 ;
 //                            ret_html.Append(report_header);
+                            //BEGIN GET CUTI FIRST===================
+                            wxArrayString cuti_pegawai=GetCutiPegawai(FID, year_comboBox->GetValue(), month_comboBox->GetValue());
                             //BEGIN LOOPING DAYS IN A SELECTED MONTH============================
                             float total_persentasi_potongan=0;
                             for(int i=0; i<TotalDaySelected(); i++){
@@ -313,6 +319,17 @@ wxString TukinPanel::GenReport(){
                                         <<day_attendance_str
                                     <<"</td>";
                                 //END TANGGAL********************
+                                //BEGIN CUTI CHECK FIRST (DETAIL AFTER HOLIDAY)=======================
+                                bool is_cuti=false;
+                                int cuti_tgl_awal,cuti_tgl_akhir;
+                                if(cuti_pegawai[0] != wxString("-1")){
+                                    cuti_tgl_awal = wxAtoi(wxString(cuti_pegawai[0]));
+                                    cuti_tgl_akhir = wxAtoi(wxString(cuti_pegawai[1]));
+                                    if((day_attendance_num>=cuti_tgl_awal) && (day_attendance_num<=cuti_tgl_akhir)){
+                                        is_cuti=true;
+                                    }
+                                }
+                                //END CUTI CHECK FIRST (DETAIL AFTER HOLIDAY)************************
                                 //BEGIN SKIPPING IF HOLIDAY===========================
                                     wxString day_name=date_attendance.Format(wxT("%A"));
                                     wxString nama_hari;
@@ -323,22 +340,47 @@ wxString TukinPanel::GenReport(){
                                     }
                                     //BEGIN WEEKEND HOLIDAY==============
                                     if(nama_hari != wxEmptyString){
-                                        ret_html<<"<td colspan=\"11\" align=\"center\"><font color=\"#444444\">"
+                                        int weekend_colspan=tukin_num_col-1;
+                                        if(is_cuti){
+                                            weekend_colspan=weekend_colspan-2;
+                                        }
+                                        ret_html<<"<td colspan=\""<<wxString::Format(wxT("%i"), weekend_colspan)<<"\" align=\"center\">"
+                                            <<"<font color=\"#444444\">"
                                                 <<nama_hari
                                             <<"</font></td>";
+                                        ret_html<<"</tr>"; //CLOSE <TR> tag (not default)
                                         continue;
                                     }
                                     //END WEEKEND HOLIDAY************
                                     //BEGIN CUSTOM/NATIONAL HOLIDAY==================
                                     wxString check_holiday=CheckHoliday(date_attendance_str);
                                     if(check_holiday!=wxEmptyString){
-                                        ret_html<<"<td colspan=\"11\" align=\"center\"><font color=\"#444444\">"
+                                        int holiday_colspan=tukin_num_col-1;
+                                        if(is_cuti){
+                                            holiday_colspan=holiday_colspan-2;
+                                        }
+                                        ret_html<<"<td colspan=\""<<wxString::Format(wxT("%i"), holiday_colspan)<<"\" align=\"center\"><font color=\"#444444\">"
                                                 <<check_holiday
                                             <<"</font></td>";
+                                        ret_html<<"</tr>"; //CLOSE <TR> tag (not default)
                                         continue;
                                     }
                                     //BEGIN CUSTOM/NATIONAL HOLIDAY************
                                 //END SKIPPING IF HOLIDAY***************
+                                //BEGIN FINAL CUTI HTML==============
+                                if(is_cuti){
+                                    ret_html<<"<td colspan=\""<<wxString::Format(wxT("%i"), (tukin_num_col-3))<<"\">"
+                                        <<"Cuti</td>";
+                                        if(day_attendance_num==cuti_tgl_awal){
+                                            ret_html<<"<td rowspan=\""<<cuti_pegawai[6]<<"\">"
+                                                    <<"-"<<cuti_pegawai[3]<<" = "<<cuti_pegawai[5]<<"%"
+                                                <<"</td>"
+                                                <<"<td rowspan=\""<<cuti_pegawai[6]<<"\"></td>";
+                                        }
+                                    ret_html<<"</tr>"; //CLOSE <TR> tag (not default)
+                                    continue;
+                                }
+                                //END FINAL CUTI HTML***************
                                 //BEGIN JAM MASUK=================
                                 mysqlpp::Query qry_jam_masuk=conn.query();
                                 qry_jam_masuk<<"SELECT tl.Jam_Log AS jam_masuk"
@@ -560,16 +602,18 @@ wxString TukinPanel::GenReport(){
                             float total_rupiah_potongan = tunjangan_perbulan*total_persentasi_potongan/100;
                             float total_tunjangan_diterima = tunjangan_perbulan - total_rupiah_potongan;
                             ret_html
-                                <<"<tr height=\"3\" bgcolor=\"#000000\" border=\"0\"><td colspan=\"12\"></td></tr>"
+                                <<"<tr height=\"3\" bgcolor=\"#000000\" border=\"0\">"
+                                    <<"<td colspan=\""<<wxString::Format(wxT("%i"), tukin_num_col)<<"\"></td>"
+                                <<"</tr>"
                                 <<"<tr>"
                                     <<"<td colspan=\"9\" align=\"right\"><font size=\"+1\"><b>Total persentasi potongan</b></font></td>"
-                                    <<"<td colspan=\"3\" align=\"left\"><font size=\"+1\"><b>"
+                                    <<"<td colspan=\""<<wxString::Format(wxT("%i"), (tukin_num_col-9))<<"\" align=\"left\"><font size=\"+1\"><b>"
                                         <<BFloatToWxString(total_persentasi_potongan)
                                     <<"%</b></font></td>"
                                 <<"</tr>"
                                 <<"<tr>"
                                     <<"<td colspan=\"9\" align=\"right\"><font size=\"+1\"><b>Total rupiah potongan</b></font></td>"
-                                    <<"<td colspan=\"3\" align=\"left\">"
+                                    <<"<td colspan=\""<<wxString::Format(wxT("%i"), (tukin_num_col-9))<<"\" align=\"left\">"
                                         <<BCurrencyFormat(BFloatToWxString(tunjangan_perbulan),wxString("Rp"))
                                             <<" x "<<BFloatToWxString(total_persentasi_potongan)
                                         <<"% <br><b><font size=\"+1\">= "<<BCurrencyFormat(BFloatToWxString(total_rupiah_potongan),wxString("Rp"))
@@ -577,7 +621,7 @@ wxString TukinPanel::GenReport(){
                                 <<"</tr>"
                                 <<"<tr>"
                                     <<"<td colspan=\"9\" align=\"right\"><font size=\"+1\"><b>Total Tunjangan diterima</b></font></td>"
-                                    <<"<td colspan=\"3\" align=\"left\">"
+                                    <<"<td colspan=\""<<wxString::Format(wxT("%i"), (tukin_num_col-9))<<"\" align=\"left\">"
                                         <<BCurrencyFormat(BFloatToWxString(tunjangan_perbulan),wxString("Rp"))
                                             <<" - "<<BCurrencyFormat(BFloatToWxString(total_rupiah_potongan),wxString("Rp"))
                                         <<" <br><font size=\"+1\"><b>= "<<BCurrencyFormat(BFloatToWxString(total_tunjangan_diterima),wxString("Rp"))
@@ -686,4 +730,86 @@ wxString TukinPanel::GetRangeKeterlambatan(const wxString &p_int_str){
         ret_range=wxString(">90mnt");
     }
     return ret_range;
+}
+wxString TukinPanel::GenHtmlCutiPegawai(const wxString &p_FID, wxDateTime &p_date){
+    wxString ret_str;
+    wxString year = p_date.Format("%Y");
+    wxString month = p_date.Format("%m");
+    if(conn.connected()){
+        try{
+            mysqlpp::Query qry=conn.query();
+            qry<<"SELECT bcj.jenis, bcp.keterangan FROM bcuti_pegawai bcp"
+                    <<" LEFT JOIN bcuti_jenis bcj ON(bcp.idbcuti_jenis = bcj.idbcuti_jenis)"
+                <<" WHERE FID="<<(const_cast<char*>((const char*)p_FID.mb_str()))
+                    <<" AND tahun="<<(const_cast<char*>((const char*)year.mb_str()))
+                    <<" AND bulan="<<(const_cast<char*>((const char*)month.mb_str()))
+                <<" LIMIT 1";
+            mysqlpp::StoreQueryResult res=qry.store();
+            if(res){
+                if(res.num_rows()==1){
+                    ret_str<<"<tr><td colspan=\""<<wxString::Format(wxT("%i"),tukin_num_col)
+                            <<"\"><font color=\"#444444\"><b>Pengurangan Cuti</b></font>"
+                            <<"</td></tr>";
+                    int col_span_keterangan=tukin_num_col-2;
+                    ret_str<<"<tr>"
+                            <<"<td colspan=\""<<wxString::Format(wxT("%i"),col_span_keterangan)<<"\">"
+                                <<"<b>Cuti</b>, keterangan:"
+                                <<wxString::FromUTF8(res[0]["keterangan"])
+                            <<" </td>"
+                            <<"<td>"
+                                <<"-"<<wxString::FromUTF8(res[0]["jenis"])
+                            <<"</td>"
+                        <<"</tr>";
+                }
+            }else{
+                wxString err_msg("Error saat query tabel cuti pegawai:");
+                err_msg<<qry.error();
+                wxLogError(err_msg);
+            }
+        }catch(mysqlpp::Exception &e){
+            wxLogError(e.what());
+        }
+    }else{
+        wxLogError("Error, database tidak terkoneksi.");
+    }
+    return ret_str;
+}
+
+wxArrayString TukinPanel::GetCutiPegawai(const wxString &p_FID, const wxString &p_year, const wxString &p_month){
+    wxArrayString ret_arr_str;
+    if(conn.connected()){
+        try{
+            mysqlpp::Query qry=conn.query();
+            qry<<"SELECT DAY(bcp.tgl_awal) AS day_tgl_awal, DAY(bcp.tgl_akhir) AS day_tgl_akhir, bcp.keterangan, bcj.jenis, bcj.persentasi_tunjangan"
+                <<" FROM bcuti_pegawai bcp"
+                    <<" LEFT JOIN bcuti_jenis bcj ON(bcp.idbcuti_jenis = bcj.idbcuti_jenis)"
+                <<" WHERE bcp.FID="<<(const_cast<char*>((const char*)p_FID.mb_str()))
+                    <<" AND YEAR(bcp.tgl_awal)="<<mysqlpp::quote<<(const_cast<char*>((const char*)p_year.mb_str()))
+                    <<" AND MONTH(bcp.tgl_awal)="<<mysqlpp::quote<<(const_cast<char*>((const char*)p_month.mb_str()))
+                <<" LIMIT 1";
+            mysqlpp::StoreQueryResult res=qry.store();
+            if(res.num_rows()==1){
+                ret_arr_str.Add(wxString::FromUTF8(res[0]["day_tgl_awal"]));//0
+                ret_arr_str.Add(wxString::FromUTF8(res[0]["day_tgl_akhir"]));//1
+                ret_arr_str.Add(wxString::FromUTF8(res[0]["keterangan"]));//2
+                ret_arr_str.Add(wxString::FromUTF8(res[0]["jenis"]));//3
+                ret_arr_str.Add(wxString::FromUTF8(res[0]["persentasi_tunjangan"]));//4
+                int persentasi_tunjangan=wxAtoi(ret_arr_str[4]);
+                int pengurangan_tunjangan=100-persentasi_tunjangan;
+                ret_arr_str.Add(wxString::Format("%i",pengurangan_tunjangan));//5
+                int day_tgl_awal=wxAtoi(ret_arr_str[0]);
+                int day_tgl_akhir=wxAtoi(ret_arr_str[1]);
+                int total_hari_cuti=day_tgl_akhir-day_tgl_awal+1;
+                ret_arr_str.Add(wxString::Format("%i",total_hari_cuti));//6
+            }else{
+                ret_arr_str.Add(wxString("-1"));
+            }
+        }catch(mysqlpp::Exception &e){
+            wxLogError(e.what());
+        }
+    }else{
+        wxLogError("Error, database tidak terkoneksi.");
+    }
+//    wxLogMessage(res_arr_str[0]);
+    return ret_arr_str;
 }

@@ -9,3 +9,5 @@
 -Revise pengurangan keterlambatan tukin
 -icon laporan tukin dan uang makan
 -jam kerja terlambat diganti pulang terlambat 30 menit
+-NIK to NIP !!!!!!!!!!!
+-Input cuti validate range

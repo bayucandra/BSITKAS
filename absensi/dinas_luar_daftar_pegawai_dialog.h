@@ -13,6 +13,7 @@ class DinasLuarDaftarPegawaiDialog : public wxDialog
 	private:
             //BEGIN BAYU==================
             void InitDataView();
+            void Pilih();
             //END BAYU******************
 	protected:
 		wxTextCtrl* cari_textCtrl;
@@ -22,7 +23,6 @@ class DinasLuarDaftarPegawaiDialog : public wxDialog
 		// Virtual event handlers, overide them in your derived class
 		void OnCari( wxCommandEvent& event );
 		void OnPilih( wxDataViewEvent& event );
-                void Pilih();
 		
 	
 	public:

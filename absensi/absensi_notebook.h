@@ -13,6 +13,7 @@
 #include "izin_panel.h"
 #include "dinas_luar_panel.h"
 #include "surat_tugas_panel.h"
+#include "cuti_panel.h"
 
 class AbsensiNotebook : public wxNotebook
 {
@@ -22,6 +23,7 @@ class AbsensiNotebook : public wxNotebook
         IzinPanel *izin_panel;
         DinasLuarPanel *dinas_luar_panel;
         SuratTugasPanel *surat_tugas_panel;
+        CutiPanel *cuti_panel;
         
     public:
         AbsensiNotebook(wxWindow *parent, wxWindowID id=wxID_ANY, const wxPoint &pos=wxDefaultPosition, const wxSize &size=wxDefaultSize, long style=wxTAB_TRAVERSAL, const wxString &name=wxPanelNameStr);

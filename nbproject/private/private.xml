@@ -7,15 +7,16 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Projects/BSITKAS/pegawai/pegawai_salin_dialog.h</file>
-            <file>file:/D:/Projects/BSITKAS/absensi/izin_panel.cpp</file>
-            <file>file:/D:/Projects/BSITKAS/absensi/izin_dialog.h</file>
-            <file>file:/D:/Projects/BSITKAS/absensi/izin_dialog.cpp</file>
-            <file>file:/D:/Projects/BSITKAS/pegawai/pegawai_salin_dialog.cpp</file>
+            <file>file:/D:/Projects/BSITKAS/absensi/cuti_dialog.cpp</file>
+            <file>file:/D:/Projects/BSITKAS/absensi/cuti_dialog.h</file>
+            <file>file:/D:/Projects/BSITKAS/absensi/cuti_panel.cpp</file>
+            <file>file:/D:/Projects/BSITKAS/absensi/dinas_luar_panel.cpp</file>
+            <file>file:/D:/Projects/BSITKAS/absensi/dinas_luar_dialog.cpp</file>
+            <file>file:/D:/Projects/BSITKAS/absensi/dinas_luar_panel.h</file>
             <file>file:/D:/Projects/BSITKAS/tukin/tukin_panel.cpp</file>
             <file>file:/D:/Projects/BSITKAS/tukin/tukin_panel.h</file>
-            <file>file:/D:/Projects/BSITKAS/pegawai/pegawai_panel.cpp</file>
-            <file>file:/D:/Projects/BSITKAS/pegawai/pegawai_panel.h</file>
+            <file>file:/D:/Projects/BSITKAS/absensi/dinas_luar_dialog.h</file>
+            <file>file:/D:/Projects/BSITKAS/absensi/cuti_panel.h</file>
         </group>
     </open-files>
 </project-private>

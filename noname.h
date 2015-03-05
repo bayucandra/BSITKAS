@@ -10,6 +10,8 @@
 
 #include <wx/artprov.h>
 #include <wx/xrc/xmlres.h>
+class MenuButton;
+
 #include <wx/bitmap.h>
 #include <wx/image.h>
 #include <wx/icon.h>
@@ -70,18 +72,16 @@ class BFrame : public wxFrame
 		wxBitmapButton* Close_bpButton;
 		wxBitmapButton* Setting_bpButton;
 		wxPanel* menu_panel;
-		wxStaticText* menu_laporan_staticText;
-		wxButton* menu_tukin_button;
-		wxButton* menu_umak_button;
-		wxStaticText* menu_input_data_staticText;
-		wxButton* menu_absensi_button;
-		wxButton* menu_pegawai_button;
-		wxButton* menu_kepank_button;
+		MenuButton* menu_tukin_button;
+		MenuButton* menu_umak_button;
+		MenuButton* menu_absensi_button;
+		MenuButton* menu_pegawai_button;
+		MenuButton* menu_kepank_button;
 		wxNotebook* main_notebook;
 	
 	public:
 		
-		BFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 900,450 ), long style = wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLIP_CHILDREN|wxSUNKEN_BORDER|wxTAB_TRAVERSAL );
+		BFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("SITKAS"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 900,550 ), long style = wxRESIZE_BORDER|wxSYSTEM_MENU|wxCLIP_CHILDREN|wxSUNKEN_BORDER|wxTAB_TRAVERSAL );
 		
 		~BFrame();
 	
@@ -270,7 +270,7 @@ class PegawaiSalinDialog : public wxDialog
 		wxComboBox* kelas_comboBox;
 		wxStaticText* m_staticText19;
 		wxComboBox* pangkat_comboBox;
-		wxButton* salin_button;
+		wxButton* simpan_button;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnSalin( wxCommandEvent& event ) { event.Skip(); }
@@ -315,6 +315,127 @@ class AbsensiPanel : public wxPanel
 		
 		AbsensiPanel( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL ); 
 		~AbsensiPanel();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class LupaAbsenPanel
+///////////////////////////////////////////////////////////////////////////////
+class LupaAbsenPanel : public wxPanel 
+{
+	private:
+	
+	protected:
+		wxButton* tambah_button;
+		wxButton* ubah_button;
+		wxButton* hapus_button;
+		wxDataViewListCtrl* dinas_luar_dataViewListCtrl;
+		wxPanel* footer_panel;
+		wxStaticText* m_staticText20;
+		wxDatePickerCtrl* start_datePicker;
+		wxStaticText* m_staticText21;
+		wxDatePickerCtrl* end_datePicker;
+		wxStaticText* m_staticText22;
+		wxTextCtrl* filter_nama_textCtrl;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnTambah( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnUbah( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnHapus( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnFilterData( wxDateEvent& event ) { event.Skip(); }
+		virtual void OnFilterData( wxCommandEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		
+		LupaAbsenPanel( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL ); 
+		~LupaAbsenPanel();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class LupaAbsenDialog
+///////////////////////////////////////////////////////////////////////////////
+class LupaAbsenDialog : public wxDialog 
+{
+	private:
+	
+	protected:
+		wxStaticText* m_staticText26;
+		wxTextCtrl* FID_textCtrl;
+		wxTextCtrl* nama_textCtrl;
+		wxStaticText* m_staticText27;
+		wxDatePickerCtrl* tgl_datePicker;
+		wxStaticText* m_staticText28;
+		wxTextCtrl* keterangan_textCtrl;
+		wxButton* simpan_button;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnDaftarPegawaiDialog( wxMouseEvent& event ) { event.Skip(); }
+		virtual void OnSimpan( wxCommandEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		
+		LupaAbsenDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 450,180 ), long style = wxDEFAULT_DIALOG_STYLE ); 
+		~LupaAbsenDialog();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class HariLiburPanel
+///////////////////////////////////////////////////////////////////////////////
+class HariLiburPanel : public wxPanel 
+{
+	private:
+	
+	protected:
+		wxButton* tambah_button;
+		wxButton* ubah_button;
+		wxButton* hapus_button;
+		wxDataViewListCtrl* hari_libur_dataViewListCtrl;
+		wxPanel* footer_panel;
+		wxStaticText* m_staticText20;
+		wxDatePickerCtrl* start_datePicker;
+		wxStaticText* m_staticText21;
+		wxDatePickerCtrl* end_datePicker;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnTambah( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnUbah( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnHapus( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnFilterData( wxDateEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		
+		HariLiburPanel( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,300 ), long style = wxTAB_TRAVERSAL ); 
+		~HariLiburPanel();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class HariLiburDialog
+///////////////////////////////////////////////////////////////////////////////
+class HariLiburDialog : public wxDialog 
+{
+	private:
+	
+	protected:
+		wxStaticText* m_staticText27;
+		wxDatePickerCtrl* tgl_datePicker;
+		wxStaticText* m_staticText28;
+		wxTextCtrl* keterangan_textCtrl;
+		wxButton* simpan_button;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnSimpan( wxCommandEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		
+		HariLiburDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 450,180 ), long style = wxDEFAULT_DIALOG_STYLE ); 
+		~HariLiburDialog();
 	
 };
 
@@ -583,36 +704,9 @@ class SuratTugasDaftarPegawaiDialog : public wxDialog
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-/// Class TukinPanel
+/// Class CutiPanel
 ///////////////////////////////////////////////////////////////////////////////
-class TukinPanel : public wxPanel 
-{
-	private:
-	
-	protected:
-		wxStaticText* m_staticText41;
-		wxComboBox* year_comboBox;
-		wxStaticText* m_staticText42;
-		wxComboBox* month_comboBox;
-		wxButton* tampilkan_button;
-		wxButton* cetak_button;
-		wxHtmlWindow* tukin_htmlWin;
-		
-		// Virtual event handlers, overide them in your derived class
-		virtual void OnTampilTukin( wxCommandEvent& event ) { event.Skip(); }
-		
-	
-	public:
-		
-		TukinPanel( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL ); 
-		~TukinPanel();
-	
-};
-
-///////////////////////////////////////////////////////////////////////////////
-/// Class HariLiburPanel
-///////////////////////////////////////////////////////////////////////////////
-class HariLiburPanel : public wxPanel 
+class CutiPanel : public wxPanel 
 {
 	private:
 	
@@ -620,64 +714,6 @@ class HariLiburPanel : public wxPanel
 		wxButton* tambah_button;
 		wxButton* ubah_button;
 		wxButton* hapus_button;
-		wxDataViewListCtrl* hari_libur_dataViewListCtrl;
-		wxPanel* footer_panel;
-		wxStaticText* m_staticText20;
-		wxDatePickerCtrl* start_datePicker;
-		wxStaticText* m_staticText21;
-		wxDatePickerCtrl* end_datePicker;
-		
-		// Virtual event handlers, overide them in your derived class
-		virtual void OnTambah( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnUbah( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnHapus( wxCommandEvent& event ) { event.Skip(); }
-		virtual void OnFilterData( wxDateEvent& event ) { event.Skip(); }
-		
-	
-	public:
-		
-		HariLiburPanel( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,300 ), long style = wxTAB_TRAVERSAL ); 
-		~HariLiburPanel();
-	
-};
-
-///////////////////////////////////////////////////////////////////////////////
-/// Class HariLiburDialog
-///////////////////////////////////////////////////////////////////////////////
-class HariLiburDialog : public wxDialog 
-{
-	private:
-	
-	protected:
-		wxStaticText* m_staticText27;
-		wxDatePickerCtrl* tgl_datePicker;
-		wxStaticText* m_staticText28;
-		wxTextCtrl* keterangan_textCtrl;
-		wxButton* simpan_button;
-		
-		// Virtual event handlers, overide them in your derived class
-		virtual void OnSimpan( wxCommandEvent& event ) { event.Skip(); }
-		
-	
-	public:
-		
-		HariLiburDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 450,180 ), long style = wxDEFAULT_DIALOG_STYLE ); 
-		~HariLiburDialog();
-	
-};
-
-///////////////////////////////////////////////////////////////////////////////
-/// Class LupaAbsenPanel
-///////////////////////////////////////////////////////////////////////////////
-class LupaAbsenPanel : public wxPanel 
-{
-	private:
-	
-	protected:
-		wxButton* tambah_button;
-		wxButton* ubah_button;
-		wxButton* hapus_button;
-		wxDataViewListCtrl* dinas_luar_dataViewListCtrl;
 		wxPanel* footer_panel;
 		wxStaticText* m_staticText20;
 		wxDatePickerCtrl* start_datePicker;
@@ -695,16 +731,17 @@ class LupaAbsenPanel : public wxPanel
 		
 	
 	public:
+		wxDataViewListCtrl* cuti_dataViewListCtrl;
 		
-		LupaAbsenPanel( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL ); 
-		~LupaAbsenPanel();
+		CutiPanel( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL ); 
+		~CutiPanel();
 	
 };
 
 ///////////////////////////////////////////////////////////////////////////////
-/// Class LupaAbsenDialog
+/// Class CutiDialog
 ///////////////////////////////////////////////////////////////////////////////
-class LupaAbsenDialog : public wxDialog 
+class CutiDialog : public wxDialog 
 {
 	private:
 	
@@ -713,20 +750,132 @@ class LupaAbsenDialog : public wxDialog
 		wxTextCtrl* FID_textCtrl;
 		wxTextCtrl* nama_textCtrl;
 		wxStaticText* m_staticText27;
-		wxDatePickerCtrl* tgl_datePicker;
+		wxDatePickerCtrl* tgl_awal_datePicker;
+		wxStaticText* m_staticText67;
+		wxDatePickerCtrl* tgl_akhir_datePicker;
+		wxStaticText* m_staticText69;
+		wxTextCtrl* idbcuti_jenis_textCtrl;
+		wxTextCtrl* jenis_cuti_textCtrl;
 		wxStaticText* m_staticText28;
 		wxTextCtrl* keterangan_textCtrl;
 		wxButton* simpan_button;
 		
 		// Virtual event handlers, overide them in your derived class
 		virtual void OnDaftarPegawaiDialog( wxMouseEvent& event ) { event.Skip(); }
+		virtual void OnDaftarJenisCutiDialog( wxMouseEvent& event ) { event.Skip(); }
 		virtual void OnSimpan( wxCommandEvent& event ) { event.Skip(); }
 		
 	
 	public:
 		
-		LupaAbsenDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 450,180 ), long style = wxDEFAULT_DIALOG_STYLE ); 
-		~LupaAbsenDialog();
+		CutiDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 450,260 ), long style = wxDEFAULT_DIALOG_STYLE ); 
+		~CutiDialog();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class CutiDaftarPegawaiDialog
+///////////////////////////////////////////////////////////////////////////////
+class CutiDaftarPegawaiDialog : public wxDialog 
+{
+	private:
+	
+	protected:
+		wxTextCtrl* cari_textCtrl;
+		wxButton* cari_button;
+		wxDataViewListCtrl* pegawai_dataViewListCtrl;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnCari( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnPilih( wxDataViewEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		
+		CutiDaftarPegawaiDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Daftar pegawai"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 450,350 ), long style = wxDEFAULT_DIALOG_STYLE ); 
+		~CutiDaftarPegawaiDialog();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class CutiJenisDialog
+///////////////////////////////////////////////////////////////////////////////
+class CutiJenisDialog : public wxDialog 
+{
+	private:
+	
+	protected:
+		wxTextCtrl* cari_textCtrl;
+		wxButton* cari_button;
+		wxDataViewListCtrl* pegawai_dataViewListCtrl;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnCari( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnPilih( wxDataViewEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		
+		CutiJenisDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Jenis cuti"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 450,350 ), long style = wxDEFAULT_DIALOG_STYLE ); 
+		~CutiJenisDialog();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class TukinPanel
+///////////////////////////////////////////////////////////////////////////////
+class TukinPanel : public wxPanel 
+{
+	private:
+	
+	protected:
+		wxStaticText* m_staticText41;
+		wxComboBox* year_comboBox;
+		wxStaticText* m_staticText42;
+		wxComboBox* month_comboBox;
+		wxButton* tampilkan_button;
+		wxButton* cetak_button;
+		wxButton* print_seting_button;
+		wxHtmlWindow* tukin_htmlWin;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnTampilTukin( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnCetak( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnPrintSeting( wxCommandEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		
+		TukinPanel( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL ); 
+		~TukinPanel();
+	
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class UmakPanel
+///////////////////////////////////////////////////////////////////////////////
+class UmakPanel : public wxPanel 
+{
+	private:
+	
+	protected:
+		wxStaticText* m_staticText41;
+		wxComboBox* year_comboBox;
+		wxStaticText* m_staticText42;
+		wxComboBox* month_comboBox;
+		wxButton* tampilkan_button;
+		wxButton* cetak_button;
+		wxHtmlWindow* umak_htmlWin;
+		
+		// Virtual event handlers, overide them in your derived class
+		virtual void OnTampil( wxCommandEvent& event ) { event.Skip(); }
+		virtual void OnCetak( wxCommandEvent& event ) { event.Skip(); }
+		
+	
+	public:
+		
+		UmakPanel( wxWindow* parent, wxWindowID id = wxID_ANY, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( -1,-1 ), long style = wxTAB_TRAVERSAL ); 
+		~UmakPanel();
 	
 };
 

@@ -37,6 +37,10 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/absensi/absensi_notebook.o \
 	${OBJECTDIR}/absensi/absensi_panel.o \
+	${OBJECTDIR}/absensi/cuti_daftar_pegawai_dialog.o \
+	${OBJECTDIR}/absensi/cuti_dialog.o \
+	${OBJECTDIR}/absensi/cuti_jenis_dialog.o \
+	${OBJECTDIR}/absensi/cuti_panel.o \
 	${OBJECTDIR}/absensi/dinas_luar_daftar_pegawai_dialog.o \
 	${OBJECTDIR}/absensi/dinas_luar_dialog.o \
 	${OBJECTDIR}/absensi/dinas_luar_panel.o \
@@ -54,6 +58,8 @@ OBJECTFILES= \
 	${OBJECTDIR}/kepank/pangkat_input_dialog.o \
 	${OBJECTDIR}/kepank/pangkat_panel.o \
 	${OBJECTDIR}/main.o \
+	${OBJECTDIR}/menu_button.o \
+	${OBJECTDIR}/menu_panel.o \
 	${OBJECTDIR}/pegawai/pegawai_notebook.o \
 	${OBJECTDIR}/pegawai/pegawai_panel.o \
 	${OBJECTDIR}/pegawai/pegawai_salin_dialog.o \
@@ -96,6 +102,26 @@ ${OBJECTDIR}/absensi/absensi_panel.o: absensi/absensi_panel.cpp
 	${MKDIR} -p ${OBJECTDIR}/absensi
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -D_UNICODE -D__WXMSW__ -I/D/wxWidgets-3.0.2/include -I../../../wxWidgets-3.0.2/lib/gcc_lib/mswud -I/D/IDE/mysql-connector-c++-noinstall-1.1.5-win32/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/absensi/absensi_panel.o absensi/absensi_panel.cpp
+
+${OBJECTDIR}/absensi/cuti_daftar_pegawai_dialog.o: absensi/cuti_daftar_pegawai_dialog.cpp 
+	${MKDIR} -p ${OBJECTDIR}/absensi
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -D_UNICODE -D__WXMSW__ -I/D/wxWidgets-3.0.2/include -I../../../wxWidgets-3.0.2/lib/gcc_lib/mswud -I/D/IDE/mysql-connector-c++-noinstall-1.1.5-win32/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/absensi/cuti_daftar_pegawai_dialog.o absensi/cuti_daftar_pegawai_dialog.cpp
+
+${OBJECTDIR}/absensi/cuti_dialog.o: absensi/cuti_dialog.cpp 
+	${MKDIR} -p ${OBJECTDIR}/absensi
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -D_UNICODE -D__WXMSW__ -I/D/wxWidgets-3.0.2/include -I../../../wxWidgets-3.0.2/lib/gcc_lib/mswud -I/D/IDE/mysql-connector-c++-noinstall-1.1.5-win32/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/absensi/cuti_dialog.o absensi/cuti_dialog.cpp
+
+${OBJECTDIR}/absensi/cuti_jenis_dialog.o: absensi/cuti_jenis_dialog.cpp 
+	${MKDIR} -p ${OBJECTDIR}/absensi
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -D_UNICODE -D__WXMSW__ -I/D/wxWidgets-3.0.2/include -I../../../wxWidgets-3.0.2/lib/gcc_lib/mswud -I/D/IDE/mysql-connector-c++-noinstall-1.1.5-win32/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/absensi/cuti_jenis_dialog.o absensi/cuti_jenis_dialog.cpp
+
+${OBJECTDIR}/absensi/cuti_panel.o: absensi/cuti_panel.cpp 
+	${MKDIR} -p ${OBJECTDIR}/absensi
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -D_UNICODE -D__WXMSW__ -I/D/wxWidgets-3.0.2/include -I../../../wxWidgets-3.0.2/lib/gcc_lib/mswud -I/D/IDE/mysql-connector-c++-noinstall-1.1.5-win32/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/absensi/cuti_panel.o absensi/cuti_panel.cpp
 
 ${OBJECTDIR}/absensi/dinas_luar_daftar_pegawai_dialog.o: absensi/dinas_luar_daftar_pegawai_dialog.cpp 
 	${MKDIR} -p ${OBJECTDIR}/absensi
@@ -181,6 +207,16 @@ ${OBJECTDIR}/main.o: main.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -D_UNICODE -D__WXMSW__ -I/D/wxWidgets-3.0.2/include -I../../../wxWidgets-3.0.2/lib/gcc_lib/mswud -I/D/IDE/mysql-connector-c++-noinstall-1.1.5-win32/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/main.o main.cpp
+
+${OBJECTDIR}/menu_button.o: menu_button.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -D_UNICODE -D__WXMSW__ -I/D/wxWidgets-3.0.2/include -I../../../wxWidgets-3.0.2/lib/gcc_lib/mswud -I/D/IDE/mysql-connector-c++-noinstall-1.1.5-win32/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/menu_button.o menu_button.cpp
+
+${OBJECTDIR}/menu_panel.o: menu_panel.cpp 
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -D_UNICODE -D__WXMSW__ -I/D/wxWidgets-3.0.2/include -I../../../wxWidgets-3.0.2/lib/gcc_lib/mswud -I/D/IDE/mysql-connector-c++-noinstall-1.1.5-win32/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/menu_panel.o menu_panel.cpp
 
 ${OBJECTDIR}/pegawai/pegawai_notebook.o: pegawai/pegawai_notebook.cpp 
 	${MKDIR} -p ${OBJECTDIR}/pegawai

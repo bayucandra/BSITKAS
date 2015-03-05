@@ -9,6 +9,14 @@
         <itemPath>absensi/absensi_notebook.h</itemPath>
         <itemPath>absensi/absensi_panel.cpp</itemPath>
         <itemPath>absensi/absensi_panel.h</itemPath>
+        <itemPath>absensi/cuti_daftar_pegawai_dialog.cpp</itemPath>
+        <itemPath>absensi/cuti_daftar_pegawai_dialog.h</itemPath>
+        <itemPath>absensi/cuti_dialog.cpp</itemPath>
+        <itemPath>absensi/cuti_dialog.h</itemPath>
+        <itemPath>absensi/cuti_jenis_dialog.cpp</itemPath>
+        <itemPath>absensi/cuti_jenis_dialog.h</itemPath>
+        <itemPath>absensi/cuti_panel.cpp</itemPath>
+        <itemPath>absensi/cuti_panel.h</itemPath>
         <itemPath>absensi/dinas_luar_daftar_pegawai_dialog.cpp</itemPath>
         <itemPath>absensi/dinas_luar_daftar_pegawai_dialog.h</itemPath>
         <itemPath>absensi/dinas_luar_dialog.cpp</itemPath>
@@ -68,8 +76,9 @@
       </logicalFolder>
       <itemPath>BFrame.h</itemPath>
       <itemPath>BSettingDialog.h</itemPath>
-      <itemPath>event_enum.h</itemPath>
       <itemPath>functions/general.h</itemPath>
+      <itemPath>menu_button.h</itemPath>
+      <itemPath>menu_panel.h</itemPath>
       <itemPath>ssql_tpl.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
@@ -83,6 +92,8 @@
       <itemPath>BFrame.cpp</itemPath>
       <itemPath>BSettingDialog.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
+      <itemPath>menu_button.cpp</itemPath>
+      <itemPath>menu_panel.cpp</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -167,6 +178,28 @@
       </item>
       <item path="absensi/absensi_panel.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="absensi/cuti_daftar_pegawai_dialog.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="absensi/cuti_daftar_pegawai_dialog.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="absensi/cuti_dialog.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="absensi/cuti_dialog.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="absensi/cuti_jenis_dialog.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="absensi/cuti_jenis_dialog.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="absensi/cuti_panel.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="absensi/cuti_panel.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="absensi/dinas_luar_daftar_pegawai_dialog.cpp"
             ex="false"
             tool="1"
@@ -229,8 +262,6 @@
       </item>
       <item path="absensi/surat_tugas_panel.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="event_enum.h" ex="false" tool="3" flavor2="0">
-      </item>
       <item path="functions/general.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="kepank/kelas_input_dialog.cpp" ex="false" tool="1" flavor2="0">
@@ -252,6 +283,14 @@
       <item path="kepank/pangkat_panel.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="menu_button.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="menu_button.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="menu_panel.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="menu_panel.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="pegawai/pegawai_notebook.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -359,8 +398,6 @@
       <item path="BSettingDialog.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="README.md" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="event_enum.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="functions/general.h" ex="false" tool="3" flavor2="0">
       </item>
